@@ -69,7 +69,11 @@ nav{height:80px;border-top:0;box-shadow:0 -6px 22px rgba(16,24,40,.07)}
 .compact-month .range-btn{white-space:nowrap}
 .compact-month .range-btn.active{background:#2563eb;color:#fff}
 .range-summary{font-size:11px;color:#667085;margin-top:7px;min-height:15px}
-</style>
+<style>
+.income-compare{display:flex;align-items:center;justify-content:center;gap:5px;margin-top:5px;font-size:12px;font-weight:600}
+.income-compare.up{color:#12b76a}.income-compare.down{color:#f04438}.income-compare.flat{color:#667085}
+.income-compare .compare-icon{font-size:13px;line-height:1}
+</style></style>
 </style>
 </head>
 <body>
@@ -77,7 +81,7 @@ nav{height:80px;border-top:0;box-shadow:0 -6px 22px rgba(16,24,40,.07)}
 <section id="home" class="page active">
 <div class="top"><div><div class="title">Tổng quan</div><div class="sub" id="homePeriod"></div></div><div class="badge" id="homeDays">0 ngày</div></div>
 <div class="card" style="padding:11px 12px"><div class="label">KỲ XEM</div><div class="compact-month"><button class="btn secondary" id="homePrev">‹</button><select class="month-select" id="homeMonthSelect"></select><button class="btn secondary" id="homeNext">›</button><button class="btn secondary range-btn" id="homeRangeBtn">Khoảng</button></div><div class="range-summary" id="homeRangeSummary"></div></div>
-<div class="card hero"><div class="label">TỔNG INCOME</div><div class="big" id="homeIncome">0đ</div></div>
+<div class="card hero"><div class="label">TỔNG INCOME</div><div class="big" id="homeIncome">0đ</div><div id="homeIncomeCompare" class="income-compare flat"></div></div>
 <div class="card"><div class="label">INCOME THÊM</div><div class="big" id="homeExtraIncome">0đ</div></div>
 <div class="stats"><div class="stat"><div class="label">Lương</div><div class="big" id="homeBase">0đ</div></div><div class="stat"><div class="label">OT</div><div class="big" id="homeOT">0đ</div></div><div class="stat"><div class="label">Công tác phí</div><div class="big" id="homeCTP">0đ</div></div><div class="stat"><div class="label">Đi lại</div><div class="big" id="homeTravel">0đ</div></div></div><div class="card"><div class="section-head"><b>Cơ cấu Income</b><span id="incomeChange"></span></div><div class="pie-wrap"><div class="pie"><div class="pie-center">Income</div></div><div class="legend" id="incomeLegend"></div></div></div>
 <div class="card"><div class="section-head"><b>Quỹ</b></div><div id="homeFunds"></div></div>
@@ -85,18 +89,23 @@ nav{height:80px;border-top:0;box-shadow:0 -6px 22px rgba(16,24,40,.07)}
 
 <section id="work" class="page">
 <div class="top"><div><div class="title">Chấm công</div><div class="sub">Chọn ngày để ghi nhận</div></div></div>
-<div class="card"><div class="grid"><div><label>Lương tháng (đ)</label><input id="salary" type="text" inputmode="numeric" placeholder="10000000" data-money-input></div><div><label>Giờ/ngày</label><input id="hoursDay" type="number" min="1" step=".5" value="8"></div></div>
+<div class="card"><div class="grid"><div><label>Lương tháng (đ)</label><input id="salary" type="text" inputmode="numeric" data-money-input placeholder="10000000" data-money-input><div id="salaryScope" class="muted" style="margin-top:5px">Đang dùng lương mặc định</div><button type="button" class="btn secondary" id="resetMonthSalary" style="margin-top:6px">Dùng lương mặc định</button></div><div style="margin-top:12px;padding-top:10px;border-top:1px solid #eaecf0">
+<label>Lương mặc định</label>
+<input id="defaultSalary" type="text" inputmode="numeric" data-money-input placeholder="10000000">
+<div class="muted" style="margin-top:5px">Áp dụng cho mọi tháng chưa có lương riêng.</div>
+<button type="button" class="btn secondary" id="saveDefaultSalary" style="margin-top:6px">Lưu lương mặc định</button>
+</div><div><label>Giờ/ngày</label><input id="hoursDay" type="number" min="1" step=".5" value="8"></div></div>
 <div class="card" style="margin:10px 0;padding:11px 13px;background:#f8fafc"><div class="label">ĐƠN GIÁ OT / GIỜ</div><div class="big" id="hourlyRate" style="font-size:18px">0đ</div><div class="muted">Lương tháng ÷ 25 ÷ 8 giờ</div></div><div class="monthbar" style="margin-top:14px"><button class="btn secondary" id="prev">‹</button><b id="monthTitle"></b><button class="btn secondary" id="next">›</button></div><div class="calendar" id="calendar"></div></div>
 <div class="card"><div class="section-head"><b id="selectedTitle">Chọn ngày</b></div>
-<div class="grid"><div><label>OT 1.5 (giờ)</label><input id="ot15" type="number" min="0" step=".5"></div><div><label>OT 2 (giờ)</label><input id="ot2" type="number" min="0" step=".5"></div><div><label>Công tác phí (đ)</label><input id="ctp" type="text" inputmode="numeric" placeholder="100000" data-money-input></div><div><label>Đi lại (Km)</label><input id="travel" type="number" min="0" step="1" placeholder="10"></div></div>
-<div class="muted" style="margin-top:7px">Đi lại: 2.000đ/km</div><div class="muted" style="margin-top:7px">Không bấm = nghỉ. Bấm "Đánh dấu đi làm" để ghi nhận ngày đi làm.</div><div class="actions" style="margin-top:10px"><button class="btn primary" id="saveDay">Đánh dấu đi làm</button><button class="btn secondary" id="clearDay">Bỏ đánh dấu</button></div></div>
+<div class="grid"><div><label>OT 1.5 (giờ)</label><input id="ot15" type="number" min="0" step=".5"></div><div><label>OT 2 (giờ)</label><input id="ot2" type="number" min="0" step=".5"></div><div><label>Công tác phí (đ)</label><input id="ctp" type="text" inputmode="numeric" data-money-input placeholder="100000" data-money-input></div><div><label>Đi lại (Km)</label><input id="travel" type="number" min="0" step="1" placeholder="10"></div></div>
+<div id="dayNoteStatus" class="badge" style="margin:8px 0">Chưa có khoản ngày</div><div class="muted" style="margin-top:7px">Đi lại: 2.000đ/km</div><div class="actions" style="margin-top:10px"><button class="btn primary" id="saveDay">Lưu ngày</button></div></div>
 </section>
 
 <section id="income" class="page">
 <div class="top"><div><div class="title">Income</div><div class="sub">Chọn 1 tháng hoặc một khoảng tháng</div></div></div>
 <div class="card"><div class="label">KỲ XEM</div><div class="compact-month"><button class="btn secondary" id="incomePrev">‹</button><select class="month-select" id="incomeMonthSelect"></select><button class="btn secondary" id="incomeNext">›</button><button class="btn secondary range-btn" id="incomeRangeBtn">Khoảng</button></div><div class="range-summary" id="incomeSelection"></div><div class="actions" style="margin-top:9px"><button class="btn primary" id="applyMonths">Xem Income</button><button class="btn secondary" id="clearMonths">Bỏ chọn</button></div></div>
-<div class="card"><div class="section-head"><b>Income thêm</b></div><div class="grid"><div><label>Tên khoản</label><input id="extraName" placeholder="Ví dụ: Thưởng"></div><div><label>Số tiền (đ)</label><input id="extraAmount" type="text" inputmode="numeric" placeholder="100000" data-money-input></div></div><div class="actions" style="margin-top:9px"><button class="btn secondary" id="addExtra">＋ Thêm khoản</button></div><div id="extraList"></div></div>
-<div class="card hero"><div class="label">TỔNG INCOME</div><div class="big" id="incomeTotal">0đ</div></div>
+<div class="card"><div class="section-head"><b>Income thêm</b></div><div class="grid"><div><label>Tên khoản</label><input id="extraName" placeholder="Ví dụ: Thưởng"></div><div><label>Số tiền (đ)</label><input id="extraAmount" type="text" inputmode="numeric" data-money-input placeholder="100000" data-money-input></div></div><div class="actions" style="margin-top:9px"><button class="btn secondary" id="addExtra">＋ Thêm khoản</button></div><div id="extraList"></div></div>
+<div class="card hero"><div class="label">TỔNG INCOME</div><div class="big" id="incomeTotal">0đ</div><div id="incomeTotalCompare" class="income-compare flat"></div></div>
 <div class="stats"><div class="stat"><div class="label">Lương</div><div class="big" id="incomeBase">0đ</div></div><div class="stat"><div class="label">OT</div><div class="big" id="incomeOT">0đ</div></div><div class="stat"><div class="label">CTP</div><div class="big" id="incomeCTP">0đ</div></div><div class="stat"><div class="label">Đi lại</div><div class="big" id="incomeTravel">0đ</div></div></div>
 </section>
 
@@ -107,117 +116,277 @@ nav{height:80px;border-top:0;box-shadow:0 -6px 22px rgba(16,24,40,.07)}
 <div class="card"><div class="section-head"><b>Số dư quỹ</b></div><div id="fundBalances"></div></div>
 </section>
 </div>
+
+<div class="card" style="margin-top:12px">
+  <div class="section-head"><b>Sao lưu dữ liệu</b></div>
+  <div class="muted" style="margin-bottom:9px">Xuất dữ liệu để chuyển sang máy khác hoặc khôi phục khi cần.</div>
+  <div class="actions">
+    <button class="btn primary" id="backupData">Sao lưu</button>
+    <label class="btn secondary" for="restoreData">Khôi phục</label>
+    <input id="restoreData" type="file" accept=".json,application/json" style="display:none">
+  </div>
+</div>
 <nav><button class="active" data-page="home">📊<br>Tổng quan</button><button data-page="work">🕐<br>Chấm công</button><button data-page="income">💰<br>Income</button><button data-page="fund">🏦<br>Quỹ</button></nav>
 <script>
-function parseMoney(v){return Number(String(v??"").replace(/[^\d-]/g,""))||0}
-function setMoneyInput(el,n){if(el)el.value=n?new Intl.NumberFormat("vi-VN").format(Math.round(n)):""}
-function moneyInputs(){
- document.querySelectorAll("[data-money-input]").forEach(el=>{
-  el.addEventListener("focus",()=>{let n=parseMoney(el.value);el.value=n||""});
-  el.addEventListener("blur",()=>{let n=parseMoney(el.value);setMoneyInput(el,n)});
- });
-}
-const KEY="cham_cong_finance_v1", $=id=>document.getElementById(id);
+const KEY="cham_cong_finance_v3";
+const $=id=>document.getElementById(id);
 const money=n=>new Intl.NumberFormat("vi-VN").format(Math.round(Number(n)||0))+"đ";
-const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
-const pad=n=>String(n).padStart(2,"0"), mkey=(y,m)=>y+"-"+pad(m+1), dkey=(y,m,d)=>y+"-"+pad(m+1)+"-"+pad(d);
+const parseMoney=v=>Number(String(v??"").replace(/[^\d-]/g,""))||0;
+const pad=n=>String(n).padStart(2,"0"),mkey=(y,m)=>y+"-"+pad(m+1),dkey=(y,m,d)=>y+"-"+pad(m+1)+"-"+pad(d);
 const dim=(y,m)=>new Date(y,m+1,0).getDate();
-let data=JSON.parse(localStorage.getItem(KEY)||"null")||{salary:0,hoursDay:8,days:{},funds:[{name:"Sinh hoạt",percent:40,amount:0,balance:0},{name:"Tiết kiệm",percent:30,amount:0,balance:0},{name:"Đầu tư",percent:30,amount:0,balance:0}],extras:{}};
-data.extras=data.extras||{};
-let current=new Date();current.setDate(1),selectedKey=null,selectedMonths=[mkey(current.getFullYear(),current.getMonth())],fundMode="percent";
+let data=JSON.parse(localStorage.getItem(KEY)||"null")||{salary:0,hoursDay:8,days:{},extras:{},funds:[{name:"Sinh hoạt",percent:40,amount:0,balance:0},{name:"Tiết kiệm",percent:30,amount:0,balance:0},{name:"Đầu tư",percent:30,amount:0,balance:0}]};
+data.extras=data.extras||{}; data.funds=data.funds||[]; data.monthSalary=data.monthSalary||{};
+let current=new Date();current.setDate(1),selectedKey=null,selectedMonths=[mkey(current.getFullYear(),current.getMonth())],rangeMode=false,fundMode="percent";
 function save(){localStorage.setItem(KEY,JSON.stringify(data))}
-function hourly(){return (Number(data.salary)||0)/(25*(Number(data.hoursDay)||8))}
+function formatMoneyInput(el){
+  if(!el)return;
+  const n=parseMoney(el.value);
+  el.value=n?new Intl.NumberFormat("vi-VN").format(n)+"đ":"";
+}
+function bindMoneyInput(el){
+  el.addEventListener("input",()=>liveMoneyInput(el));
+  if(!el||el.dataset.moneyBound==="1")return;
+  el.dataset.moneyBound="1";
+  el.addEventListener("focus",()=>{el.value=parseMoney(el.value)||""});
+  el.addEventListener("blur",()=>formatMoneyInput(el));
+}
 
-// Work schedule:
-// Mon-Fri = regular paid work days.
-// Saturday alternates: the week containing 21/08/2026 is a working Saturday.
-// Other Saturdays + every Sunday = default OT x2.
-// Regular salary is always based on 25 days, regardless of actual calendar count.
-function isRegularWorkDay(y,m,d){
- const dt=new Date(y,m,d), dow=dt.getDay();
- if(dow>=1 && dow<=5)return true;
- if(dow===6){
-   // 21/08/2026 is Friday; the Saturday of that week is 22/08/2026.
-   const anchor=new Date(2026,7,22);
-   const diff=Math.round((new Date(y,m,d)-anchor)/86400000);
-   return diff%14===0;
- }
- return false;
+function liveMoneyInput(el){
+  if(!el)return;
+  const raw=String(el.value||"").replace(/[^\d]/g,"");
+  const n=Number(raw)||0;
+  const formatted=n?new Intl.NumberFormat("vi-VN").format(n)+"đ":"";
+  const pos=el.selectionStart||el.value.length;
+  const digitsBefore=String(el.value).slice(0,pos).replace(/[^\d]/g,"").length;
+  el.value=formatted;
+  let p=0,c=0;
+  while(p<formatted.length && c<digitsBefore){if(/\d/.test(formatted[p]))c++;p++}
+  try{el.setSelectionRange(p,p)}catch(e){}
 }
-function isDefaultOT2Day(y,m,d){
- const dt=new Date(y,m,d), dow=dt.getDay();
- return dow===0 || (dow===6 && !isRegularWorkDay(y,m,d));
+function bindAllMoneyInputs(){
+  document.querySelectorAll("#salary,#ctp,#extraAmount,[data-money-input]").forEach(bindMoneyInput);
 }
-function scheduleForDay(y,m,d){
- if(isRegularWorkDay(y,m,d))return "regular";
- if(isDefaultOT2Day(y,m,d))return "ot2";
- return "off";
+
+function setMoneyInput(el,n){if(el)el.value=n?new Intl.NumberFormat("vi-VN").format(Math.round(n)):""}
+function hourly(){return (Number(data.salary)||0)/(25*(Number(data.hoursDay)||8))}
+function salaryForMonth(k){
+  return Object.prototype.hasOwnProperty.call(data.monthSalary||{},k)
+    ? (Number(data.monthSalary[k])||0)
+    : (Number(data.salary)||0);
 }
-function monthRegularDays(y,m){
- let n=dim(y,m),c=0;for(let d=1;d<=n;d++)if(isRegularWorkDay(y,m,d))c++;return c;
-}
+function hourlyForMonth(k){return salaryForMonth(k)/(25*(Number(data.hoursDay)||8))}
+
+function isWorkingSaturday(y,m,d){if(new Date(y,m,d).getDay()!==6)return false;const a=new Date(2026,7,22),dt=new Date(y,m,d);return Math.round((dt-a)/86400000)%14===0}
+function isRegularWorkDay(y,m,d){const w=new Date(y,m,d).getDay();return (w>=1&&w<=5)||isWorkingSaturday(y,m,d)}
+function isDefaultOT2Day(y,m,d){const w=new Date(y,m,d).getDay();return w===0||(w===6&&!isWorkingSaturday(y,m,d))}
+function keysRange(a,b){const o=[],d=new Date(a+"-01T00:00:00"),z=new Date(b+"-01T00:00:00");while(d<=z){o.push(mkey(d.getFullYear(),d.getMonth()));d.setMonth(d.getMonth()+1)}return o}
 function monthIncome(k){
- let [y,mm]=k.split("-").map(Number),m=mm-1,n=dim(y,m),base=0,ot=0,ctp=0,travel=0,worked=0;
- for(let d=1;d<=n;d++){
-  let x=data.days[dkey(y,m,d)]||{}, sched=scheduleForDay(y,m,d);
-  // Regular salary is earned for scheduled Mon-Fri + alternating Saturday unless user explicitly marks absent.
-  if(sched==="regular"){
-    if(x.absent){ }
-    else {worked++;base+=(Number(data.salary)||0)/25}
-  }
-  // Default weekend OT x2 is available, but hours are only counted when entered.
-  ot+=Number(x.ot15||0)*hourly()*1.5+Number(x.ot2||0)*hourly()*2;
-  ctp+=Number(x.ctp||0);travel+=Number(x.travel||0)*2000;
- }
- const scheduled=monthRegularDays(y,m);
- const absentCount=Array.from({length:n},(_,ii)=>ii+1).filter(d=>isRegularWorkDay(y,m,d)&&!(data.days[dkey(y,m,d)]||{}).worked).length;
- const dailySalary=(Number(data.salary)||0)/25;
- // Monthly salary is fixed. Whether the month has 23, 25 or 27 scheduled workdays,
- // completing all scheduled days earns the full fixed salary. Each absent day deducts 1/25.
- base=Math.max(0,(Number(data.salary)||0)-absentCount*dailySalary);
- const extra=(data.extras[k]||[]).reduce((s,e)=>s+(Number(e.amount)||0),0);
- return{sum:base+ot+ctp+travel+extra,base,ot,ctp,travel,extra,worked:scheduled-absentCount};
+ const [y,mm]=k.split("-").map(Number),m=mm-1,n=dim(y,m),salary=salaryForMonth(k);
+ let absent=0,worked=0,ot=0,ctp=0,travel=0;
+ for(let d=1;d<=n;d++){const x=data.days[dkey(y,m,d)]||{};if(isRegularWorkDay(y,m,d)){if(x.worked)worked++;else absent++}ot+=(+x.ot15||0)*hourlyForMonth(k)*1.5+(+x.ot2||0)*hourlyForMonth(k)*2;ctp+=parseMoney(x.ctp);travel+=(+x.travel||0)*2000}
+ const base=Math.max(0,salary-absent*(salary/25)),extra=(data.extras[k]||[]).reduce((s,e)=>s+parseMoney(e.amount),0);
+ return{sum:base+ot+ctp+travel+extra,base,ot,ctp,travel,extra,worked,absent}
 }
-function keysRange(a,b){let out=[],d=new Date(a+"-01T00:00:00"),z=new Date(b+"-01T00:00:00");while(d<=z){out.push(mkey(d.getFullYear(),d.getMonth()));d.setMonth(d.getMonth()+1)}return out}
-function selectedData(){let ks=selectedMonths.length?selectedMonths:[mkey(current.getFullYear(),current.getMonth())];return ks.map(monthIncome).reduce((a,b)=>({sum:a.sum+ b.sum,base:a.base+b.base,ot:a.ot+b.ot,ctp:a.ctp+b.ctp,travel:a.travel+b.travel,worked:a.worked+b.worked}),{sum:0,base:0,ot:0,ctp:0,travel:0,worked:0})}
+function selectedData(){const ks=selectedMonths.length?selectedMonths:[mkey(current.getFullYear(),current.getMonth())];return ks.map(monthIncome).reduce((a,b)=>({sum:a.sum+b.sum,base:a.base+b.base,ot:a.ot+b.ot,ctp:a.ctp+b.ctp,travel:a.travel+b.travel,extra:a.extra+b.extra,worked:a.worked+b.worked,absent:a.absent+b.absent}),{sum:0,base:0,ot:0,ctp:0,travel:0,extra:0,worked:0,absent:0})}
 function workRender(){
- $("monthTitle").textContent="Tháng "+(current.getMonth()+1)+"/"+current.getFullYear();
- setMoneyInput($("salary"),data.salary);$("hoursDay").value=data.hoursDay||8;$("hourlyRate").textContent=money(hourly());
- let y=current.getFullYear(),m=current.getMonth(),first=(new Date(y,m,1).getDay()+6)%7,n=dim(y,m);
- let h=["T2","T3","T4","T5","T6","T7","CN"].map(x=>`<div class="week">${x}</div>`).join("");
- for(let i=0;i<first;i++)h+="<div></div>";
- for(let d=1;d<=n;d++){
-  let k=dkey(y,m,d),x=data.days[k]||{},sched=scheduleForDay(y,m,d);
-  let worked=!!x.worked, note=worked || Number(x.ot15||0)||Number(x.ot2||0)||Number(x.ctp||0)||Number(x.travel||0);
-  h+=`<button class="day ${worked?"worked":""} ${note?"note":""}" data-day="${k}">
-    <b>${d}</b>
-    ${worked?'<div class="tick">✓</div>':""}
-    ${!worked && sched==="ot2"?'<div class="tags"><span class="tag">OT×2</span></div>':""}
-    ${worked && (x.ot15||x.ot2||x.ctp||x.travel)?'<div class="tags">'+(x.ot15?'<span class="tag">OT1.5</span>':"")+(x.ot2?'<span class="tag">OT2</span>':"")+(x.ctp?'<span class="tag">CTP</span>':"")+(x.travel?'<span class="tag">KM</span>':"")+"</div>":""}
-  </button>`;
- }
- $("calendar").innerHTML=h;
- document.querySelectorAll("[data-day]").forEach(b=>b.onclick=()=>selectDay(b.dataset.day));
+ $("monthTitle").textContent="Tháng "+(current.getMonth()+1)+"/"+current.getFullYear();setMoneyInput($("salary"),salaryForMonth(mkey(current.getFullYear(),current.getMonth())));if($("defaultSalary")){setMoneyInput($("defaultSalary"),data.salary);formatMoneyInput($("defaultSalary"));}$("hoursDay").value=data.hoursDay||8;if($("hourlyRate"))$("hourlyRate").textContent=money(hourly());
+ const y=current.getFullYear(),m=current.getMonth(),first=(new Date(y,m,1).getDay()+6)%7,n=dim(y,m);
+ let h=["T2","T3","T4","T5","T6","T7","CN"].map(x=>`<div class="week">${x}</div>`).join("");for(let i=0;i<first;i++)h+="<div></div>";
+ for(let d=1;d<=n;d++){const k=dkey(y,m,d),x=data.days[k]||{},worked=!!x.worked,ot2=isDefaultOT2Day(y,m,d),tags=(x.ot15?'<span class="tag">OT1.5</span>':"")+(x.ot2?'<span class="tag">OT2</span>':"")+(x.ctp?'<span class="tag">CTP</span>':"")+(x.travel?'<span class="tag">KM</span>':"");h+=`<button class="day ${worked?"worked":""} ${tags?"note":""}" data-day="${k}"><b>${d}</b>${worked?'<div class="tick">✓</div>':""}${!worked&&ot2?'<div class="tags"><span class="tag">OT×2</span></div>':""}${worked&&tags?`<div class="tags">${tags}</div>`:""}</button>`}
+ $("calendar").innerHTML=h;document.querySelectorAll("[data-day]").forEach(b=>{
+  b.onclick=()=>{
+    const k=b.dataset.day;
+    const x=data.days[k]||{};
+    data.days[k]={...x,worked:!x.worked};
+    save();
+    workRender();
+    selectDay(k);
+  };
+});
 }
+
 function selectDay(k){
- selectedKey=k;
- let x=data.days[k]||{},[y,mm,dd]=k.split("-").map(Number),sched=scheduleForDay(y,mm,dd);
- $("selectedTitle").textContent="Ngày "+k.split("-").reverse().join("/");
- $("ot15").value=x.ot15||"";$("ot2").value=x.ot2||"";setMoneyInput($("ctp"),x.ctp);$("travel").value=x.travel||"";
- $("saveDay").textContent=x.worked?"Đã đi làm ✓":"Đánh dấu đi làm";
+  selectedKey=k;
+  const x=data.days[k]||{};
+  $("selectedTitle").textContent="Ngày "+k.split("-").reverse().join("/");
+  $("ot15").value=x.ot15||"";
+  $("ot2").value=x.ot2||"";
+  setMoneyInput($("ctp"),x.ctp);
+  formatMoneyInput($("ctp"));
+  $("travel").value=x.travel||"";
+  $("saveDay").textContent=x.worked?"Đã chấm công ✓":"Chưa chấm công";
+  if(typeof updateDayNoteStatus==="function")updateDayNoteStatus();
+
+  const autoSave=()=>{
+    const old=data.days[k]||{};
+    data.days[k]={
+      ...old,
+      worked:!!old.worked,
+      ot15:+$("ot15").value||0,
+      ot2:+$("ot2").value||0,
+      ctp:parseMoney($("ctp").value),
+      travel:+$("travel").value||0
+    };
+    save();
+    if(typeof updateDayNoteStatus==="function")updateDayNoteStatus();
+  };
+  $("ctp").onchange=autoSave;
+  $("travel").onchange=autoSave;
+  $("ot15").onchange=autoSave;
+  $("ot2").onchange=autoSave;
 }
+function fillSelect(id){const s=$(id);if(!s)return;const y=current.getFullYear();s.innerHTML=Array.from({length:12},(_,m)=>`<option value="${mkey(y,m)}">${m+1}/${y}</option>`).join("");s.value=selectedMonths[0]||mkey(y,current.getMonth())}
+function updateSelectors(){fillSelect("homeMonthSelect");fillSelect("incomeMonthSelect");const t=selectedMonths.length>1?selectedMonths[0]+" → "+selectedMonths[selectedMonths.length-1]:(selectedMonths[0]||mkey(current.getFullYear(),current.getMonth()));if($("homeRangeSummary"))$("homeRangeSummary").textContent=selectedMonths.length>1?"Khoảng đang xem: "+t:"Đang xem: "+t;if($("incomeSelection"))$("incomeSelection").textContent=selectedMonths.length>1?"Khoảng: "+t:"Tháng: "+t;if($("homeRangeBtn"))$("homeRangeBtn").classList.toggle("active",rangeMode);if($("incomeRangeBtn"))$("incomeRangeBtn").classList.toggle("active",rangeMode)}
+function chooseMonth(k){if(!rangeMode){selectedMonths=[k];return}if(selectedMonths.length===1&&selectedMonths[0]!==k){const a=selectedMonths[0],lo=a<k?a:k,hi=a<k?k:a;selectedMonths=keysRange(lo,hi)}else selectedMonths=[k]}
+function previousPeriodKeys(){
+  const ks=selectedMonths.length?selectedMonths:[mkey(current.getFullYear(),current.getMonth())];
+  const first=new Date(ks[0]+"-01T00:00:00");
+  const last=new Date(ks[ks.length-1]+"-01T00:00:00");
+  const count=ks.length;
+  const prevLast=new Date(first);
+  prevLast.setMonth(prevLast.getMonth()-1);
+  const prevFirst=new Date(prevLast);
+  prevFirst.setMonth(prevFirst.getMonth()-(count-1));
+  return keysRange(mkey(prevFirst.getFullYear(),prevFirst.getMonth()),mkey(prevLast.getFullYear(),prevLast.getMonth()));
+}
+function periodIncome(keys){
+  return keys.reduce((s,k)=>s+monthIncome(k).sum,0);
+}
+function renderIncomeComparison(id){
+  const el=$(id); if(!el)return;
+  const currentTotal=selectedData().sum;
+  const prevTotal=periodIncome(previousPeriodKeys());
+  if(prevTotal===0){
+    el.className="income-compare flat";
+    el.innerHTML=`<span class="compare-icon">—</span><span>Không có dữ liệu tháng trước</span>`;
+    return;
+  }
+  const pct=((currentTotal-prevTotal)/Math.abs(prevTotal))*100;
+  if(Math.abs(pct)<0.05){
+    el.className="income-compare flat";
+    el.innerHTML=`<span class="compare-icon">→</span><span>0,0% so với kỳ trước</span>`;
+  }else if(pct>0){
+    el.className="income-compare up";
+    el.innerHTML=`<span class="compare-icon">↑</span><span>+${pct.toFixed(1).replace(".",",")}% so với kỳ trước</span>`;
+  }else{
+    el.className="income-compare down";
+    el.innerHTML=`<span class="compare-icon">↓</span><span>${pct.toFixed(1).replace(".",",")}% so với kỳ trước</span>`;
+  }
+}
+function incomeRender(){const r=selectedData();$("incomeTotal").textContent=money(r.sum);$("incomeBase").textContent=money(r.base);$("incomeOT").textContent=money(r.ot);$("incomeCTP").textContent=money(r.ctp);$("incomeTravel").textContent=money(r.travel);renderIncomeComparison("incomeTotalCompare");renderExtraList();updateSelectors()}
+function renderExtraList(){const k=selectedMonths.length===1?selectedMonths[0]:mkey(current.getFullYear(),current.getMonth()),a=data.extras[k]||[];if($("extraList"))$("extraList").innerHTML=a.map(e=>`<div class="rowline"><span>${esc(e.name)}</span><b>${money(e.amount)}</b></div>`).join("")}
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function renderChart(r){const vals=[r.base,r.ot,r.ctp,r.travel].map(Number),names=["Lương","OT","Công tác phí","Đi lại"],colors=["#2563eb","#7c3aed","#12b76a","#f79009"],tot=vals.reduce((a,b)=>a+b,0)||0,pie=document.querySelector(".pie");if(pie){if(!tot)pie.style.background="#e5e7eb";else{let a=0;pie.style.background="conic-gradient("+vals.map((v,i)=>{let s=a,e=a+v/tot*100;a=e;return colors[i]+" "+s+"% "+e+"%"}).join(",")+")"}}if($("incomeLegend"))$("incomeLegend").innerHTML=names.map((n,i)=>`<div class="legend-row"><span><span class="dot" style="background:${colors[i]}"></span>${n}</span><b>${tot?(vals[i]/tot*100).toFixed(1):"0.0"}%</b></div>`).join("")}
+function homeRender(){const r=selectedData();$("homeIncome").textContent=money(r.sum);renderIncomeComparison("homeIncomeCompare");if($("homeExtraIncome"))$("homeExtraIncome").textContent=money(r.extra);$("homeBase").textContent=money(r.base);$("homeOT").textContent=money(r.ot);$("homeCTP").textContent=money(r.ctp);$("homeTravel").textContent=money(r.travel);$("homeDays").textContent=r.worked+" ngày";const t=selectedMonths.length>1?selectedMonths[0]+" → "+selectedMonths[selectedMonths.length-1]:selectedMonths[0];$("homePeriod").textContent=t;if($("homePeriod2"))$("homePeriod2").textContent=t;$("homeFunds").innerHTML=data.funds.map(f=>`<div class="rowline"><span>${esc(f.name)}</span><b>${money(f.balance)}</b></div>`).join("");updateSelectors();renderChart(r)}
+function fundsRender(){const r=selectedData();$("fundIncome").textContent=money(r.sum);let h="";data.funds.forEach((f,i)=>{const v=fundMode==="percent"?f.percent:f.amount;h+=`<div class="rowline"><div style="flex:1"><input data-name="${i}" value="${esc(f.name)}"></div><div style="width:105px;margin-left:8px"><input data-val="${i}" type="number" min="0" value="${v||0}" placeholder="${fundMode==="percent"?"%":"đ"}"></div><button class="btn danger" data-del="${i}" style="margin-left:6px">×</button></div>`});$("fundEditor").innerHTML=h;document.querySelectorAll("[data-name]").forEach(x=>x.onchange=()=>{data.funds[+x.dataset.name].name=x.value||"Quỹ";save();renderAll()});document.querySelectorAll("[data-val]").forEach(x=>x.onchange=()=>{const f=data.funds[+x.dataset.val];if(fundMode==="percent")f.percent=+x.value||0;else f.amount=parseMoney(x.value);save();renderAll()});document.querySelectorAll("[data-del]").forEach(x=>x.onclick=()=>{if(data.funds.length<=1)return alert("Phải giữ ít nhất 1 quỹ.");data.funds.splice(+x.dataset.del,1);save();renderAll()});$("fundBalances").innerHTML=data.funds.map(f=>`<div class="rowline"><span>${esc(f.name)}</span><b>${money(f.balance)}</b></div>`).join("")}
+function setMode(m){fundMode=m;$("modePercent").classList.toggle("active",m==="percent");$("modeAmount").classList.toggle("active",m==="amount");fundsRender()}
+
+function updateDayNoteStatus(){
+  const el=$("dayNoteStatus"); if(!el||!selectedKey)return;
+  const x=data.days[selectedKey]||{};
+  const has=!!(parseMoney(x.ctp)||(Number(x.travel)||0)||(Number(x.ot15)||0)||(Number(x.ot2)||0));
+  el.textContent=has?"Đã lưu khoản trong ngày":"Chưa có khoản ngày";
+}
+function downloadBackup(){
+  const payload={
+    app:"ChamCongFinance",
+    version:1,
+    exportedAt:new Date().toISOString(),
+    data:data
+  };
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="cham-cong-backup-"+new Date().toISOString().slice(0,10)+".json";
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+function restoreBackup(file){
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const obj=JSON.parse(reader.result);
+      const incoming=obj&&obj.data?obj.data:obj;
+      if(!incoming||typeof incoming!=="object"||!incoming.days||!incoming.funds)throw new Error("invalid");
+      if(!confirm("Khôi phục sẽ thay dữ liệu hiện tại bằng bản sao lưu. Tiếp tục?"))return;
+      data={
+        salary:Number(incoming.salary)||0,
+        hoursDay:Number(incoming.hoursDay)||8,
+        days:incoming.days||{},
+        extras:incoming.extras||{},
+        funds:incoming.funds||[]
+      };
+      save();selectedKey=null;renderAll();
+      alert("Đã khôi phục dữ liệu thành công.");
+    }catch(e){alert("File sao lưu không hợp lệ.");}
+  };
+  reader.readAsText(file);
+}
+function updateSalaryScope(){
+  const k=mkey(current.getFullYear(),current.getMonth());
+  if($("salaryScope"))$("salaryScope").textContent=
+    Object.prototype.hasOwnProperty.call(data.monthSalary||{},k)
+    ?"Đang dùng lương riêng tháng "+(current.getMonth()+1)+"/"+current.getFullYear()
+    :"Đang dùng lương mặc định";
+}
+function renderAll(){workRender();incomeRender();fundsRender();homeRender();updateSalaryScope();save();bindAllMoneyInputs()}
+
 $("prev").onclick=()=>{current.setMonth(current.getMonth()-1);workRender()};$("next").onclick=()=>{current.setMonth(current.getMonth()+1);workRender()};
-$("salary").onchange=e=>{data.salary=parseMoney(e.target.value);save();renderAll()};$("hoursDay").onchange=e=>{data.hoursDay=+e.target.value||8;save();renderAll()};
+$("salary").onchange=e=>{
+  const k=mkey(current.getFullYear(),current.getMonth());
+  data.monthSalary[k]=parseMoney(e.target.value);
+  save();renderAll();
+};$("hoursDay").onchange=e=>{data.hoursDay=+e.target.value||8;save();renderAll()};
 $("saveDay").onclick=()=>{
  if(!selectedKey)return alert("Chọn ngày trước.");
- let old=data.days[selectedKey]||{};
- data.days[selectedKey]={...old,worked:!old.worked,absent:!old.worked,ot15:+$("ot15").value||0,ot2:+$("ot2").value||0,ctp:parseMoney($("ctp").value),travel:+$("travel").value||0};
- if(data.days[selectedKey].worked)data.days[selectedKey].absent=false;
+ const old=data.days[selectedKey]||{};
+ data.days[selectedKey]={...old,worked:!!old.worked,ot15:+$("ot15").value||0,ot2:+$("ot2").value||0,ctp:parseMoney($("ctp").value),travel:+$("travel").value||0};
  save();renderAll();selectDay(selectedKey);
 };
-$("clearDay").onclick=()=>{
- if(!selectedKey)return;
- delete data.days[selectedKey];
- save();renderAll();selectDay(selectedKey);
+
+$("homePrev").onclick=()=>{current.setMonth(current.getMonth()-1);selectedMonths=[mkey(current.getFullYear(),current.getMonth())];rangeMode=false;renderAll()};
+$("homeNext").onclick=()=>{current.setMonth(current.getMonth()+1);selectedMonths=[mkey(current.getFullYear(),current.getMonth())];rangeMode=false;renderAll()};
+$("incomePrev").onclick=()=>{current.setMonth(current.getMonth()-1);selectedMonths=[mkey(current.getFullYear(),current.getMonth())];rangeMode=false;renderAll()};
+$("incomeNext").onclick=()=>{current.setMonth(current.getMonth()+1);selectedMonths=[mkey(current.getFullYear(),current.getMonth())];rangeMode=false;renderAll()};
+$("homeMonthSelect").onchange=e=>{chooseMonth(e.target.value);renderAll()};$("incomeMonthSelect").onchange=e=>{chooseMonth(e.target.value);renderAll()};
+$("homeRangeBtn").onclick=()=>{rangeMode=!rangeMode;updateSelectors()};$("incomeRangeBtn").onclick=()=>{rangeMode=!rangeMode;updateSelectors()};
+$("applyMonths").onclick=()=>renderAll();$("clearMonths").onclick=()=>{selectedMonths=[mkey(current.getFullYear(),current.getMonth())];rangeMode=false;renderAll()};
+$("addExtra").onclick=()=>{const k=selectedMonths.length===1?selectedMonths[0]:mkey(current.getFullYear(),current.getMonth()),name=$("extraName").value.trim(),amount=parseMoney($("extraAmount").value);if(!name||amount<=0)return alert("Nhập tên khoản và số tiền.");(data.extras[k]||(data.extras[k]=[])).push({name,amount});$("extraName").value="";$("extraAmount").value="";save();renderAll()};
+$("modePercent").onclick=()=>setMode("percent");$("modeAmount").onclick=()=>setMode("amount");
+$("addFund").onclick=()=>{data.funds.push({name:"Quỹ mới",percent:0,amount:0,balance:0});save();renderAll()};
+$("allocate").onclick=()=>{const t=selectedData().sum;if(fundMode==="percent"){const p=data.funds.reduce((s,f)=>s+(+f.percent||0),0);if(Math.abs(p-100)>.001)return alert(p<100?`Phân bổ quỹ đang thiếu ${(100-p).toFixed(2)}%. Tổng phải đủ 100%.`:`Phân bổ quỹ đang thừa ${(p-100).toFixed(2)}%. Tổng không được vượt 100%.`);data.funds.forEach(f=>f.balance=t*(+f.percent||0)/100)}else{const s=data.funds.reduce((a,f)=>a+parseMoney(f.amount),0),diff=s-t;if(Math.abs(diff)>1)return alert(diff<0?`Phân bổ quỹ đang thiếu ${money(-diff)} so với tổng Income ${money(t)}.`:`Phân bổ quỹ đang thừa ${money(diff)} so với tổng Income ${money(t)}.`);data.funds.forEach(f=>f.balance=parseMoney(f.amount))}save();renderAll()};
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));$(b.dataset.page).classList.add("active");renderAll()});
+
+if($("backupData"))$("backupData").onclick=downloadBackup;
+if($("restoreData"))$("restoreData").onchange=e=>{const f=e.target.files&&e.target.files[0];if(f)restoreBackup(f);e.target.value=""};
+
+if($("saveDefaultSalary"))$("saveDefaultSalary").onclick=()=>{
+ const v=parseMoney($("defaultSalary").value);
+ data.salary=v;
+ save();renderAll();
+ alert("Đã lưu lương mặc định.");
 };
+if($("resetMonthSalary"))$("resetMonthSalary").onclick=()=>{
+  const k=mkey(current.getFullYear(),current.getMonth());
+  delete data.monthSalary[k];
+  save();renderAll();
+};
+renderAll();bindAllMoneyInputs();
+</script>
+</body>
+</html
+function setSelectedMonth(k, rangeMode){
+ if(!rangeMode){selectedMonths=[k];return}
+ if(selectedMonths.length===1 && selectedMonths[0]!==k){
+  let a=selectedMonths[0],lo=a<k?a:k,hi=a<k?k:a;selectedMonths=keysRange(lo,hi);
+ }else selectedMonths=[k];
+}
+$("homePrev").onclick=()=>{current.setMonth(current.getMonth()-1);let k=mkey(current.getFullYear(),current.getMonth());setSelectedMonth(k,$("homeRangeBtn").classList.contains("active"));renderAll()};
+$("homeNext").onclick=()=>{current.setMonth(current.getMonth()+1);let k=mkey(current.getFullYear(),current.getMonth());setSelectedMonth(k,$("homeRangeBtn").classList.contains("active"));renderAll()};
+$("incomePrev").onclick=()=>{current.setMonth(current.getMonth()-1);let k=mkey(current.getFullYear(),current.getMonth());setSelectedMonth(k,$("incomeRangeBtn").classList.contains("active"));renderAll()};
+$("incomeNext").onclick=()=>{current.setMonth(current.getMonth()+1);let k=mkey(current.getFullYear(),current.getMonth());setSelectedMonth(k,$("incomeRangeBtn").classList.contains("active"));renderAll()};
+$("homeMonthSelect").onchange=e=>{setSelectedMonth(e.target.value,$("homeRangeBtn").classList.contains("active"));renderAll()};
+$("incomeMonthSelect").onchange=e=>{setSelectedMonth(e.target.value,$("incomeRangeBtn").classList.contains("active"));renderAll()};
+$("homeRangeBtn").onclick=()=>{let b=$("homeRangeBtn");b.classList.toggle("active");if(!b.classList.contains("active"))selectedMonths=[$("homeMonthSelect").value];updateCompactSelectors()};
+$("incomeRangeBtn").onclick=()=>{let b=$("incomeRangeBtn");b.classList.toggle("active");if(!b.classList.contains("active"))selectedMonths=[$("incomeMonthSelect").value];updateCompactSelectors()};
 >
