@@ -374,19 +374,4 @@ if($("resetMonthSalary"))$("resetMonthSalary").onclick=()=>{
 renderAll();bindAllMoneyInputs();
 </script>
 </body>
-</html
-function setSelectedMonth(k, rangeMode){
- if(!rangeMode){selectedMonths=[k];return}
- if(selectedMonths.length===1 && selectedMonths[0]!==k){
-  let a=selectedMonths[0],lo=a<k?a:k,hi=a<k?k:a;selectedMonths=keysRange(lo,hi);
- }else selectedMonths=[k];
-}
-$("homePrev").onclick=()=>{current.setMonth(current.getMonth()-1);let k=mkey(current.getFullYear(),current.getMonth());setSelectedMonth(k,$("homeRangeBtn").classList.contains("active"));renderAll()};
-$("homeNext").onclick=()=>{current.setMonth(current.getMonth()+1);let k=mkey(current.getFullYear(),current.getMonth());setSelectedMonth(k,$("homeRangeBtn").classList.contains("active"));renderAll()};
-$("incomePrev").onclick=()=>{current.setMonth(current.getMonth()-1);let k=mkey(current.getFullYear(),current.getMonth());setSelectedMonth(k,$("incomeRangeBtn").classList.contains("active"));renderAll()};
-$("incomeNext").onclick=()=>{current.setMonth(current.getMonth()+1);let k=mkey(current.getFullYear(),current.getMonth());setSelectedMonth(k,$("incomeRangeBtn").classList.contains("active"));renderAll()};
-$("homeMonthSelect").onchange=e=>{setSelectedMonth(e.target.value,$("homeRangeBtn").classList.contains("active"));renderAll()};
-$("incomeMonthSelect").onchange=e=>{setSelectedMonth(e.target.value,$("incomeRangeBtn").classList.contains("active"));renderAll()};
-$("homeRangeBtn").onclick=()=>{let b=$("homeRangeBtn");b.classList.toggle("active");if(!b.classList.contains("active"))selectedMonths=[$("homeMonthSelect").value];updateCompactSelectors()};
-$("incomeRangeBtn").onclick=()=>{let b=$("incomeRangeBtn");b.classList.toggle("active");if(!b.classList.contains("active"))selectedMonths=[$("incomeMonthSelect").value];updateCompactSelectors()};
->
+</html>
