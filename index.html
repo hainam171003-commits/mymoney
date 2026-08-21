@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#f7f8fc">
+<link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
+<link rel="manifest" href="manifest.json">
+<title>Chấm công</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;background:#f7f8fc;color:#101828;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;touch-action:manipulation;-webkit-text-size-adjust:100%}
+body{padding-bottom:88px}.app{max-width:520px;margin:auto;padding:14px 14px 22px}.page{display:none}.page.active{display:block}
+.top{display:flex;align-items:center;justify-content:space-between;margin:3px 2px 14px}.title{font-size:26px;font-weight:800;letter-spacing:-.6px}.sub{font-size:11px;color:#667085;margin-top:3px}
+.card{background:#fff;border:1px solid #eaecf0;border-radius:22px;padding:15px;margin-bottom:11px;box-shadow:0 5px 18px rgba(16,24,40,.045)}
+.hero{background:linear-gradient(145deg,#1d4ed8,#2563eb);color:#fff;border:0;padding:19px}.hero .label{color:#dbeafe}.hero .big{font-size:31px;margin-top:7px}
+.label{font-size:11px;color:#667085;font-weight:650}.big{font-size:21px;font-weight:800;letter-spacing:-.3px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:9px}.stat{background:#fff;border:1px solid #eaecf0;border-radius:17px;padding:12px;box-shadow:0 3px 12px rgba(16,24,40,.035)}
+.stat .big{margin-top:5px}.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.section-head b{font-size:15px}
+.rowline{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid #f0f2f4}.rowline:last-child{border-bottom:0}
+.badge{font-size:10px;padding:4px 7px;border-radius:8px;background:#eef4ff;color:#175cd3;font-weight:700}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}label{font-size:11px;color:#667085;font-weight:650;display:block;margin-bottom:5px}
+input,select,textarea{width:100%;min-height:42px;padding:9px 10px;border:1px solid #d0d5dd;border-radius:11px;background:#fff;font:inherit;font-size:14px;color:#101828;outline:none}
+.btn{border:0;border-radius:11px;padding:9px 13px;font:inherit;font-size:13px;font-weight:700}.primary{background:#2563eb;color:#fff}.secondary{background:#eef1f5;color:#344054}.danger{background:#fee4e2;color:#b42318}
+.actions{display:flex;gap:7px;flex-wrap:wrap}.muted{font-size:11px;color:#667085}
+.monthbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}.monthbar b{font-size:15px}.monthbar .btn{font-size:20px;padding:6px 12px}
+.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.week{text-align:center;color:#98a2b3;font-size:10px;font-weight:650;padding:4px 0}
+.day{height:62px;border:1px solid #e1e4e8;background:#fff;border-radius:11px;padding:6px;overflow:hidden;text-align:left}.day.worked{border:2px solid #16a34a;background:#f0fdf4}.day.note{border-color:#2563eb;background:#eff6ff}.day b{font-size:12px}.tick{font-size:13px;color:#16a34a;font-weight:900;margin-top:3px}
+.tags{display:flex;gap:2px;margin-top:3px;overflow:hidden}.tag{font-size:7px;padding:2px 4px;border-radius:5px;background:#fff;border:1px solid #d0d5dd;white-space:nowrap}
+.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse}th,td{padding:8px 5px;border-bottom:1px solid #edf0f2;font-size:11px;text-align:left;white-space:nowrap}th{background:#f8fafc}
+.month-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.month-btn{border:1px solid #d0d5dd;background:#fff;border-radius:10px;padding:9px;font-size:12px;font-weight:700}.month-btn.selected{background:#2563eb;color:#fff;border-color:#2563eb}.month-btn.range{background:#dbeafe;color:#175cd3}
+.mode{display:grid;grid-template-columns:1fr 1fr;background:#f2f4f7;padding:3px;border-radius:11px;margin:8px 0 12px}.mode button{border:0;background:transparent;border-radius:9px;padding:9px;font-size:12px;font-weight:750;color:#667085}.mode button.active{background:#fff;color:#175cd3;box-shadow:0 1px 4px rgba(16,24,40,.08)}
+nav{position:fixed;left:0;right:0;bottom:0;z-index:40;height:78px;padding:7px 10px calc(7px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:rgba(255,255,255,.96);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border-top:1px solid #e5e7eb}
+nav button{border:0;background:transparent;color:#667085;border-radius:13px;font-size:10px;font-weight:700;padding:6px 2px}nav button.active{background:#eef4ff;color:#2563eb}
+@media(min-width:700px){body{padding-bottom:0}nav{position:sticky;top:0;bottom:auto;height:auto;background:#111827}nav button{color:#cbd5e1}nav button.active{background:#2563eb;color:#fff}.app{max-width:700px;padding:20px}.day{height:76px}}
+
+/* Finance-style refresh */
+body{background:#f3f5f9}
+.app{max-width:540px;padding:16px 14px 24px}
+.card{border:1px solid #eaecf0;border-radius:18px;box-shadow:0 8px 28px rgba(16,24,40,.055)}
+.hero{background:linear-gradient(135deg,#111827 0%,#1d4ed8 100%);box-shadow:0 12px 30px rgba(37,99,235,.18)}
+.title{font-size:28px;letter-spacing:-.8px}.sub{font-size:11px;color:#98a2b3}
+.stats{gap:10px}.stat{border:0;border-radius:19px;box-shadow:0 5px 18px rgba(16,24,40,.045)}
+.day{border:0;box-shadow:0 2px 8px rgba(16,24,40,.04);height:64px}
+.day.worked{border:2px solid #16a34a;box-shadow:0 4px 12px rgba(22,163,74,.12)}
+.day.note{border:1px solid #bfdbfe;background:#f8fbff}
+.mode{background:#eef1f5}.mode button.active{color:#175cd3}
+nav{height:80px;border-top:0;box-shadow:0 -6px 22px rgba(16,24,40,.07)}
+nav button.active{background:#eaf2ff}
+
+.pie-wrap{display:flex;align-items:center;gap:18px}.pie{width:132px;height:132px;border-radius:50%;background:conic-gradient(#2563eb 0 40%,#7c3aed 40% 70%,#12b76a 70% 88%,#f79009 88% 100%);position:relative;flex:none}.pie:after{content:"";position:absolute;inset:27px;background:#fff;border-radius:50%}.pie-center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:2;font-size:12px;font-weight:800}.legend{flex:1}.legend-row{display:flex;justify-content:space-between;padding:6px 0;font-size:11px}.dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:7px}.change{border-radius:9px;padding:5px 8px;font-size:10px;font-weight:800}.up{background:#ecfdf3;color:#027a48}.down{background:#fef3f2;color:#b42318}.flat{background:#f2f4f7;color:#667085}
+
+/* V4 finance polish */
+body{background:#f3f5f9}.app{max-width:540px;padding:16px 14px 24px}
+.card{border:0;border-radius:24px;box-shadow:0 8px 28px rgba(16,24,40,.055)}
+.hero{background:linear-gradient(135deg,#111827 0%,#1d4ed8 100%);box-shadow:0 12px 30px rgba(37,99,235,.18)}
+.title{font-size:28px;letter-spacing:-.8px}.sub{font-size:11px;color:#98a2b3}
+.stat{border:0;border-radius:19px;box-shadow:0 5px 18px rgba(16,24,40,.045)}
+.day{border:0;box-shadow:0 2px 8px rgba(16,24,40,.04)}
+.day.worked{border:2px solid #16a34a;box-shadow:0 4px 12px rgba(22,163,74,.12)}
+nav{height:80px;border-top:0;box-shadow:0 -6px 22px rgba(16,24,40,.07)}
+
+<style>
+/* Compact classic month selectors */
+.month-grid{display:none!important}
+.compact-month{display:flex;align-items:center;gap:7px;margin-top:8px}
+.compact-month .month-select{flex:1;min-height:38px}
+.compact-month .range-btn{white-space:nowrap}
+.compact-month .range-btn.active{background:#2563eb;color:#fff}
+.range-summary{font-size:11px;color:#667085;margin-top:7px;min-height:15px}
+</style>
+</style>
+</head>
+<body>
+<div class="app">
+<section id="home" class="page active">
+<div class="top"><div><div class="title">Tổng quan</div><div class="sub" id="homePeriod"></div></div><div class="badge" id="homeDays">0 ngày</div></div>
+<div class="card" style="padding:11px 12px"><div class="label">KỲ XEM</div><div class="compact-month"><button class="btn secondary" id="homePrev">‹</button><select class="month-select" id="homeMonthSelect"></select><button class="btn secondary" id="homeNext">›</button><button class="btn secondary range-btn" id="homeRangeBtn">Khoảng</button></div><div class="range-summary" id="homeRangeSummary"></div></div>
+<div class="card hero"><div class="label">TỔNG INCOME</div><div class="big" id="homeIncome">0đ</div></div>
+<div class="card"><div class="label">INCOME THÊM</div><div class="big" id="homeExtraIncome">0đ</div></div>
+<div class="stats"><div class="stat"><div class="label">Lương</div><div class="big" id="homeBase">0đ</div></div><div class="stat"><div class="label">OT</div><div class="big" id="homeOT">0đ</div></div><div class="stat"><div class="label">Công tác phí</div><div class="big" id="homeCTP">0đ</div></div><div class="stat"><div class="label">Đi lại</div><div class="big" id="homeTravel">0đ</div></div></div><div class="card"><div class="section-head"><b>Cơ cấu Income</b><span id="incomeChange"></span></div><div class="pie-wrap"><div class="pie"><div class="pie-center">Income</div></div><div class="legend" id="incomeLegend"></div></div></div>
+<div class="card"><div class="section-head"><b>Quỹ</b></div><div id="homeFunds"></div></div>
+</section>
+
+<section id="work" class="page">
+<div class="top"><div><div class="title">Chấm công</div><div class="sub">Chọn ngày để ghi nhận</div></div></div>
+<div class="card"><div class="grid"><div><label>Lương tháng (đ)</label><input id="salary" type="text" inputmode="numeric" placeholder="10000000" data-money-input></div><div><label>Giờ/ngày</label><input id="hoursDay" type="number" min="1" step=".5" value="8"></div></div>
+<div class="card" style="margin:10px 0;padding:11px 13px;background:#f8fafc"><div class="label">ĐƠN GIÁ OT / GIỜ</div><div class="big" id="hourlyRate" style="font-size:18px">0đ</div><div class="muted">Lương tháng ÷ 25 ÷ 8 giờ</div></div><div class="monthbar" style="margin-top:14px"><button class="btn secondary" id="prev">‹</button><b id="monthTitle"></b><button class="btn secondary" id="next">›</button></div><div class="calendar" id="calendar"></div></div>
+<div class="card"><div class="section-head"><b id="selectedTitle">Chọn ngày</b></div>
+<div class="grid"><div><label>OT 1.5 (giờ)</label><input id="ot15" type="number" min="0" step=".5"></div><div><label>OT 2 (giờ)</label><input id="ot2" type="number" min="0" step=".5"></div><div><label>Công tác phí (đ)</label><input id="ctp" type="text" inputmode="numeric" placeholder="100000" data-money-input></div><div><label>Đi lại (Km)</label><input id="travel" type="number" min="0" step="1" placeholder="10"></div></div>
+<div class="muted" style="margin-top:7px">Đi lại: 2.000đ/km</div><div class="muted" style="margin-top:7px">Không bấm = nghỉ. Bấm "Đánh dấu đi làm" để ghi nhận ngày đi làm.</div><div class="actions" style="margin-top:10px"><button class="btn primary" id="saveDay">Đánh dấu đi làm</button><button class="btn secondary" id="clearDay">Bỏ đánh dấu</button></div></div>
+</section>
+
+<section id="income" class="page">
+<div class="top"><div><div class="title">Income</div><div class="sub">Chọn 1 tháng hoặc một khoảng tháng</div></div></div>
+<div class="card"><div class="label">KỲ XEM</div><div class="compact-month"><button class="btn secondary" id="incomePrev">‹</button><select class="month-select" id="incomeMonthSelect"></select><button class="btn secondary" id="incomeNext">›</button><button class="btn secondary range-btn" id="incomeRangeBtn">Khoảng</button></div><div class="range-summary" id="incomeSelection"></div><div class="actions" style="margin-top:9px"><button class="btn primary" id="applyMonths">Xem Income</button><button class="btn secondary" id="clearMonths">Bỏ chọn</button></div></div>
+<div class="card"><div class="section-head"><b>Income thêm</b></div><div class="grid"><div><label>Tên khoản</label><input id="extraName" placeholder="Ví dụ: Thưởng"></div><div><label>Số tiền (đ)</label><input id="extraAmount" type="text" inputmode="numeric" placeholder="100000" data-money-input></div></div><div class="actions" style="margin-top:9px"><button class="btn secondary" id="addExtra">＋ Thêm khoản</button></div><div id="extraList"></div></div>
+<div class="card hero"><div class="label">TỔNG INCOME</div><div class="big" id="incomeTotal">0đ</div></div>
+<div class="stats"><div class="stat"><div class="label">Lương</div><div class="big" id="incomeBase">0đ</div></div><div class="stat"><div class="label">OT</div><div class="big" id="incomeOT">0đ</div></div><div class="stat"><div class="label">CTP</div><div class="big" id="incomeCTP">0đ</div></div><div class="stat"><div class="label">Đi lại</div><div class="big" id="incomeTravel">0đ</div></div></div>
+</section>
+
+<section id="fund" class="page">
+<div class="top"><div><div class="title">Quỹ</div><div class="sub">Phân bổ tổng Income</div></div></div>
+<div class="card"><div class="label">CHẾ ĐỘ PHÂN BỔ</div><div class="mode"><button id="modePercent" class="active">Theo %</button><button id="modeAmount">Theo số tiền</button></div><div class="label">Tổng Income</div><div class="big" id="fundIncome" style="margin-top:4px">0đ</div></div>
+<div class="card"><div id="fundEditor"></div><div class="actions"><button class="btn secondary" id="addFund">＋ Thêm quỹ</button><button class="btn primary" id="allocate">Phân bổ</button></div></div>
+<div class="card"><div class="section-head"><b>Số dư quỹ</b></div><div id="fundBalances"></div></div>
+</section>
+</div>
+<nav><button class="active" data-page="home">📊<br>Tổng quan</button><button data-page="work">🕐<br>Chấm công</button><button data-page="income">💰<br>Income</button><button data-page="fund">🏦<br>Quỹ</button></nav>
+<script>
+function parseMoney(v){return Number(String(v??"").replace(/[^\d-]/g,""))||0}
+function setMoneyInput(el,n){if(el)el.value=n?new Intl.NumberFormat("vi-VN").format(Math.round(n)):""}
+function moneyInputs(){
+ document.querySelectorAll("[data-money-input]").forEach(el=>{
+  el.addEventListener("focus",()=>{let n=parseMoney(el.value);el.value=n||""});
+  el.addEventListener("blur",()=>{let n=parseMoney(el.value);setMoneyInput(el,n)});
+ });
+}
+const KEY="cham_cong_finance_v1", $=id=>document.getElementById(id);
+const money=n=>new Intl.NumberFormat("vi-VN").format(Math.round(Number(n)||0))+"đ";
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+const pad=n=>String(n).padStart(2,"0"), mkey=(y,m)=>y+"-"+pad(m+1), dkey=(y,m,d)=>y+"-"+pad(m+1)+"-"+pad(d);
+const dim=(y,m)=>new Date(y,m+1,0).getDate();
+let data=JSON.parse(localStorage.getItem(KEY)||"null")||{salary:0,hoursDay:8,days:{},funds:[{name:"Sinh hoạt",percent:40,amount:0,balance:0},{name:"Tiết kiệm",percent:30,amount:0,balance:0},{name:"Đầu tư",percent:30,amount:0,balance:0}],extras:{}};
+data.extras=data.extras||{};
+let current=new Date();current.setDate(1),selectedKey=null,selectedMonths=[mkey(current.getFullYear(),current.getMonth())],fundMode="percent";
+function save(){localStorage.setItem(KEY,JSON.stringify(data))}
+function hourly(){return (Number(data.salary)||0)/(25*(Number(data.hoursDay)||8))}
+
+// Work schedule:
+// Mon-Fri = regular paid work days.
+// Saturday alternates: the week containing 21/08/2026 is a working Saturday.
+// Other Saturdays + every Sunday = default OT x2.
+// Regular salary is always based on 25 days, regardless of actual calendar count.
+function isRegularWorkDay(y,m,d){
+ const dt=new Date(y,m,d), dow=dt.getDay();
+ if(dow>=1 && dow<=5)return true;
+ if(dow===6){
+   // 21/08/2026 is Friday; the Saturday of that week is 22/08/2026.
+   const anchor=new Date(2026,7,22);
+   const diff=Math.round((new Date(y,m,d)-anchor)/86400000);
+   return diff%14===0;
+ }
+ return false;
+}
+function isDefaultOT2Day(y,m,d){
+ const dt=new Date(y,m,d), dow=dt.getDay();
+ return dow===0 || (dow===6 && !isRegularWorkDay(y,m,d));
+}
+function scheduleForDay(y,m,d){
+ if(isRegularWorkDay(y,m,d))return "regular";
+ if(isDefaultOT2Day(y,m,d))return "ot2";
+ return "off";
+}
+function monthRegularDays(y,m){
+ let n=dim(y,m),c=0;for(let d=1;d<=n;d++)if(isRegularWorkDay(y,m,d))c++;return c;
+}
+function monthIncome(k){
+ let [y,mm]=k.split("-").map(Number),m=mm-1,n=dim(y,m),base=0,ot=0,ctp=0,travel=0,worked=0;
+ for(let d=1;d<=n;d++){
+  let x=data.days[dkey(y,m,d)]||{}, sched=scheduleForDay(y,m,d);
+  // Regular salary is earned for scheduled Mon-Fri + alternating Saturday unless user explicitly marks absent.
+  if(sched==="regular"){
+    if(x.absent){ }
+    else {worked++;base+=(Number(data.salary)||0)/25}
+  }
+  // Default weekend OT x2 is available, but hours are only counted when entered.
+  ot+=Number(x.ot15||0)*hourly()*1.5+Number(x.ot2||0)*hourly()*2;
+  ctp+=Number(x.ctp||0);travel+=Number(x.travel||0)*2000;
+ }
+ const scheduled=monthRegularDays(y,m);
+ const absentCount=Array.from({length:n},(_,ii)=>ii+1).filter(d=>isRegularWorkDay(y,m,d)&&!(data.days[dkey(y,m,d)]||{}).worked).length;
+ const dailySalary=(Number(data.salary)||0)/25;
+ // Monthly salary is fixed. Whether the month has 23, 25 or 27 scheduled workdays,
+ // completing all scheduled days earns the full fixed salary. Each absent day deducts 1/25.
+ base=Math.max(0,(Number(data.salary)||0)-absentCount*dailySalary);
+ const extra=(data.extras[k]||[]).reduce((s,e)=>s+(Number(e.amount)||0),0);
+ return{sum:base+ot+ctp+travel+extra,base,ot,ctp,travel,extra,worked:scheduled-absentCount};
+}
+function keysRange(a,b){let out=[],d=new Date(a+"-01T00:00:00"),z=new Date(b+"-01T00:00:00");while(d<=z){out.push(mkey(d.getFullYear(),d.getMonth()));d.setMonth(d.getMonth()+1)}return out}
+function selectedData(){let ks=selectedMonths.length?selectedMonths:[mkey(current.getFullYear(),current.getMonth())];return ks.map(monthIncome).reduce((a,b)=>({sum:a.sum+ b.sum,base:a.base+b.base,ot:a.ot+b.ot,ctp:a.ctp+b.ctp,travel:a.travel+b.travel,worked:a.worked+b.worked}),{sum:0,base:0,ot:0,ctp:0,travel:0,worked:0})}
+function workRender(){
+ $("monthTitle").textContent="Tháng "+(current.getMonth()+1)+"/"+current.getFullYear();
+ setMoneyInput($("salary"),data.salary);$("hoursDay").value=data.hoursDay||8;$("hourlyRate").textContent=money(hourly());
+ let y=current.getFullYear(),m=current.getMonth(),first=(new Date(y,m,1).getDay()+6)%7,n=dim(y,m);
+ let h=["T2","T3","T4","T5","T6","T7","CN"].map(x=>`<div class="week">${x}</div>`).join("");
+ for(let i=0;i<first;i++)h+="<div></div>";
+ for(let d=1;d<=n;d++){
+  let k=dkey(y,m,d),x=data.days[k]||{},sched=scheduleForDay(y,m,d);
+  let worked=!!x.worked, note=worked || Number(x.ot15||0)||Number(x.ot2||0)||Number(x.ctp||0)||Number(x.travel||0);
+  h+=`<button class="day ${worked?"worked":""} ${note?"note":""}" data-day="${k}">
+    <b>${d}</b>
+    ${worked?'<div class="tick">✓</div>':""}
+    ${!worked && sched==="ot2"?'<div class="tags"><span class="tag">OT×2</span></div>':""}
+    ${worked && (x.ot15||x.ot2||x.ctp||x.travel)?'<div class="tags">'+(x.ot15?'<span class="tag">OT1.5</span>':"")+(x.ot2?'<span class="tag">OT2</span>':"")+(x.ctp?'<span class="tag">CTP</span>':"")+(x.travel?'<span class="tag">KM</span>':"")+"</div>":""}
+  </button>`;
+ }
+ $("calendar").innerHTML=h;
+ document.querySelectorAll("[data-day]").forEach(b=>b.onclick=()=>selectDay(b.dataset.day));
+}
+function selectDay(k){
+ selectedKey=k;
+ let x=data.days[k]||{},[y,mm,dd]=k.split("-").map(Number),sched=scheduleForDay(y,mm,dd);
+ $("selectedTitle").textContent="Ngày "+k.split("-").reverse().join("/");
+ $("ot15").value=x.ot15||"";$("ot2").value=x.ot2||"";setMoneyInput($("ctp"),x.ctp);$("travel").value=x.travel||"";
+ $("saveDay").textContent=x.worked?"Đã đi làm ✓":"Đánh dấu đi làm";
+}
+$("prev").onclick=()=>{current.setMonth(current.getMonth()-1);workRender()};$("next").onclick=()=>{current.setMonth(current.getMonth()+1);workRender()};
+$("salary").onchange=e=>{data.salary=parseMoney(e.target.value);save();renderAll()};$("hoursDay").onchange=e=>{data.hoursDay=+e.target.value||8;save();renderAll()};
+$("saveDay").onclick=()=>{
+ if(!selectedKey)return alert("Chọn ngày trước.");
+ let old=data.days[selectedKey]||{};
+ data.days[selectedKey]={...old,worked:!old.worked,absent:!old.worked,ot15:+$("ot15").value||0,ot2:+$("ot2").value||0,ctp:parseMoney($("ctp").value),travel:+$("travel").value||0};
+ if(data.days[selectedKey].worked)data.days[selectedKey].absent=false;
+ save();renderAll();selectDay(selectedKey);
+};
+$("clearDay").onclick=()=>{
+ if(!selectedKey)return;
+ delete data.days[selectedKey];
+ save();renderAll();selectDay(selectedKey);
+};
+>
