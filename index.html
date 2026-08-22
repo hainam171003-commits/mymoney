@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="vi">
 <head>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -10,6 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <title>Chấm công</title>
 <style>
+
 *{box-sizing:border-box}html,body{margin:0;background:#f7f8fc;color:#101828;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;touch-action:manipulation;-webkit-text-size-adjust:100%}
 body{padding-bottom:88px}.app{max-width:520px;margin:auto;padding:14px 14px 22px}.page{display:none}.page.active{display:block}
 .top{display:flex;align-items:center;justify-content:space-between;margin:3px 2px 14px}.title{font-size:26px;font-weight:800;letter-spacing:-.6px}.sub{font-size:11px;color:#667085;margin-top:3px}
@@ -27,7 +29,7 @@ input,select,textarea{width:100%;min-height:42px;padding:9px 10px;border:1px sol
 .monthbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}.monthbar b{font-size:15px}.monthbar .btn{font-size:20px;padding:6px 12px}
 .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.week{text-align:center;color:#98a2b3;font-size:10px;font-weight:650;padding:4px 0}
 .day{height:62px;border:1px solid #e1e4e8;background:#fff;border-radius:11px;padding:6px;overflow:hidden;text-align:left}.day.worked{border:2px solid #16a34a;background:#f0fdf4}.day.note{border-color:#2563eb;background:#eff6ff}.day b{font-size:12px}.tick{font-size:13px;color:#16a34a;font-weight:900;margin-top:3px}
-.tags{display:flex;gap:2px;margin-top:3px;overflow:hidden}.tag{font-size:7px;padding:2px 4px;border-radius:5px;background:#fff;border:1px solid #d0d5dd;white-space:nowrap}
+
 .table-wrap{overflow:auto}table{width:100%;border-collapse:collapse}th,td{padding:8px 5px;border-bottom:1px solid #edf0f2;font-size:11px;text-align:left;white-space:nowrap}th{background:#f8fafc}
 .month-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.month-btn{border:1px solid #d0d5dd;background:#fff;border-radius:10px;padding:9px;font-size:12px;font-weight:700}.month-btn.selected{background:#2563eb;color:#fff;border-color:#2563eb}.month-btn.range{background:#dbeafe;color:#175cd3}
 .mode{display:grid;grid-template-columns:1fr 1fr;background:#f2f4f7;padding:3px;border-radius:11px;margin:8px 0 12px}.mode button{border:0;background:transparent;border-radius:9px;padding:9px;font-size:12px;font-weight:750;color:#667085}.mode button.active{background:#fff;color:#175cd3;box-shadow:0 1px 4px rgba(16,24,40,.08)}
@@ -61,7 +63,7 @@ body{background:#f3f5f9}.app{max-width:540px;padding:16px 14px 24px}
 .day.worked{border:2px solid #16a34a;box-shadow:0 4px 12px rgba(22,163,74,.12)}
 nav{height:80px;border-top:0;box-shadow:0 -6px 22px rgba(16,24,40,.07)}
 
-<style>
+
 /* Compact classic month selectors */
 .month-grid{display:none!important}
 .compact-month{display:flex;align-items:center;gap:7px;margin-top:8px}
@@ -69,12 +71,12 @@ nav{height:80px;border-top:0;box-shadow:0 -6px 22px rgba(16,24,40,.07)}
 .compact-month .range-btn{white-space:nowrap}
 .compact-month .range-btn.active{background:#2563eb;color:#fff}
 .range-summary{font-size:11px;color:#667085;margin-top:7px;min-height:15px}
-<style>
+
 .income-compare{display:flex;align-items:center;justify-content:center;gap:5px;margin-top:5px;font-size:12px;font-weight:600}
 .income-compare.up{color:#12b76a}.income-compare.down{color:#f04438}.income-compare.flat{color:#667085}
 .income-compare .compare-icon{font-size:13px;line-height:1}
 
-<style>
+
 .salary-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:end}
 .salary-row .salary-block{min-width:0}
 @media(max-width:420px){.salary-row{gap:7px}.salary-row .btn{font-size:11px;padding:8px 9px}}
@@ -86,7 +88,7 @@ body.dark .muted,body.dark .label,body.dark .sub{color:#98a2b3}
 body.dark .day{background:#181b1f;color:#f2f4f7;border-color:#2a2f36}
 body.dark nav{background:#181b1f;border-color:#2a2f36}
 body.dark .btn.secondary{background:#242931;color:#f2f4f7;border-color:#343a43}
-<style>
+
 .rest-mark{display:inline-flex;align-items:center;justify-content:center;font-size:10px;margin-left:4px;opacity:.65;cursor:pointer}
 .rest-mark.checked{opacity:1}
 .day.rest-day{opacity:.72}
@@ -135,10 +137,10 @@ body.dark [data-day] .tick,
   .salary-minimal .salary-action{font-size:11px;padding:7px 6px}
 }
 
-<style>
+
 #salaryMinimal~.salary-old,
 .salary-old{display:none !important}
-<style>
+
 .salary-minimal{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -156,25 +158,13 @@ body.dark [data-day] .tick,
   .salary-minimal{gap:8px}
   .salary-minimal input{min-height:40px}
 }
-<style>
+
 body.dark .day.worked{color:inherit !important;background:inherit}
 body.dark .day.worked b{color:inherit !important}
 body.dark .day.worked .tick{color:#12b76a !important;background:transparent !important}
 
 
-body.dark .day .tags,
-body.dark [data-day] .tags{
-  display:flex !important; gap:2px !important; margin-top:3px !important;
-  overflow:hidden !important; line-height:normal !important;
-}
-body.dark .day .tags .tag,
-body.dark [data-day] .tags .tag{
-  display:inline-block !important; font-size:7px !important; padding:2px 4px !important;
-  border-radius:5px !important; background:#fff !important; border:1px solid #d0d5dd !important;
-  white-space:nowrap !important; line-height:normal !important; height:auto !important;
-  margin:0 !important; transform:none !important; position:static !important;
-  vertical-align:baseline !important; color:#111 !important;
-}
+
 
 .salary-input-row{
   display:flex;
@@ -202,18 +192,117 @@ body.dark .salary-save{
   background:#2b3138;
   color:#f2f4f7;
 }
-<style>
+
 .dark-toggle{position:fixed!important;right:auto!important;bottom:auto!important;left:calc(100% - 62px);top:calc(100% - 62px);z-index:9999!important;touch-action:none!important;cursor:grab!important}
 .dark-toggle.dragging{cursor:grabbing!important}
-<style>
+
 .dark-toggle{touch-action:none!important;user-select:none!important;-webkit-user-select:none!important}
 .dark-toggle.dragging{cursor:grabbing!important}
-</style></style></style></style></style></style>
-</style>
-</style></style>
-</style></style>
-</style>
-</head>
+
+.daily-only-v2{width:100%;margin:-12px 0 18px;text-align:center;font-size:16px;line-height:1.2;font-weight:700;color:#475467}
+body.dark .daily-only-v2{color:#d0d5dd}
+
+
+
+
+
+
+/* Calendar tags: one geometry for both themes */
+.day .tags{
+  display:flex;
+  gap:2px;
+  margin-top:3px;
+  overflow:hidden;
+  align-items:center;
+  justify-content:flex-start;
+  line-height:normal;
+  min-height:0;
+  height:auto;
+}
+.day .tags .tag{
+  display:inline-block;
+  flex:0 0 auto;
+  font-size:7px;
+  padding:2px 4px;
+  border-radius:5px;
+  background:#fff;
+  border:1px solid #d0d5dd;
+  color:#111;
+  white-space:nowrap;
+  line-height:normal;
+  margin:0;
+  position:static;
+  transform:none;
+  vertical-align:baseline;
+  box-sizing:border-box;
+}
+
+/* Final calendar layout: identical vertical geometry in light/dark */
+.day{
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:flex-start !important;
+  justify-content:flex-start !important;
+  gap:0 !important;
+  box-sizing:border-box !important;
+}
+.day b{
+  display:block !important;
+  flex:0 0 auto !important;
+  line-height:14px !important;
+  height:14px !important;
+}
+.day .tick,
+.day .rest-x{
+  display:block !important;
+  flex:0 0 auto !important;
+  height:18px !important;
+  line-height:18px !important;
+  margin:0 !important;
+  padding:0 !important;
+}
+.day .tags{
+  display:flex !important;
+  flex:0 0 16px !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  height:16px !important;
+  min-height:16px !important;
+  line-height:16px !important;
+  margin:0 !important;
+  padding:0 !important;
+  gap:2px !important;
+  overflow:hidden !important;
+}
+.day .tags .tag{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  flex:0 0 auto !important;
+  height:14px !important;
+  min-height:14px !important;
+  line-height:12px !important;
+  margin:0 !important;
+  padding:0 4px !important;
+  box-sizing:border-box !important;
+  position:static !important;
+  transform:none !important;
+  vertical-align:middle !important;
+  font-size:7px !important;
+  color:#111 !important;
+  background:#fff !important;
+  border:1px solid #d0d5dd !important;
+  border-radius:5px !important;
+}
+body.dark .day .tags .tag{
+  color:#111 !important;
+  background:#fff !important;
+  border-color:#d0d5dd !important;
+}
+.pie-center{color:#111 !important}
+
+
+</style></head>
 <body>
 <div class="app">
 <section id="home" class="page active">
@@ -246,7 +335,7 @@ body.dark .salary-save{
   </div>
 </div>
 
-<div id="hourlyOnly" class="hourly-only-v2"></div>
+<div id="hourlyOnly" class="hourly-only-v2"></div><div id="dailyOnly" class="daily-only-v2"></div>
 
 <div class="monthbar" style="margin-top:14px"><button class="btn secondary" id="prev">‹</button><b id="monthTitle"></b><button class="btn secondary" id="next">›</button></div><div class="calendar" id="calendar"></div></div>
 <div class="card"><div class="section-head"><b id="selectedTitle">Chọn ngày</b></div>
@@ -533,8 +622,9 @@ function syncMinimalSalary(){
 
 function syncHourlyOnly(){
   const k=mkey(current.getFullYear(),current.getMonth());
-  const v=hourlyForMonth(k);
+  const v=Number(hourlyForMonth(k))||0;
   if($("hourlyOnly"))$("hourlyOnly").textContent=v?money(v)+"/giờ":"0đ/giờ";
+  if($("dailyOnly"))$("dailyOnly").textContent=v?money(v*8)+"/ngày":"0đ/ngày";
 }
 
 
@@ -559,21 +649,19 @@ function syncSalaryInputs(){
 
 
 
+
+
+
 if($("saveSalaryMonth"))$("saveSalaryMonth").onclick=function(){
   const k=mkey(current.getFullYear(),current.getMonth());
   const v=parseMoney($("salaryMinimalMonth").value);
-  if(v>0)data.monthSalary[k]=v;
-  else delete data.monthSalary[k];
-  save();
-  renderAll();
+  if(v>0)data.monthSalary[k]=v; else delete data.monthSalary[k];
+  save();renderAll();
 };
 if($("saveSalaryDefault"))$("saveSalaryDefault").onclick=function(){
-  const v=parseMoney($("salaryMinimalDefault").value);
-  data.salary=v;
-  save();
-  renderAll();
+  data.salary=parseMoney($("salaryMinimalDefault").value);
+  save();renderAll();
 };
-
 function renderAll(){workRender();incomeRender();fundsRender();homeRender();syncSalaryInputs();syncHourlyOnly();save();bindAllMoneyInputs()}
 
 $("prev").onclick=()=>{current.setMonth(current.getMonth()-1);workRender()};$("next").onclick=()=>{current.setMonth(current.getMonth()+1);workRender()};
