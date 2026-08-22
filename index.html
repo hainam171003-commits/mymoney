@@ -175,6 +175,33 @@ body.dark [data-day] .tags .tag{
   margin:0 !important; transform:none !important; position:static !important;
   vertical-align:baseline !important; color:#111 !important;
 }
+
+.salary-input-row{
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+.salary-input-row input{
+  flex:1 1 auto;
+  min-width:0;
+}
+.salary-save{
+  flex:0 0 auto;
+  height:40px;
+  padding:0 10px;
+  border:0;
+  border-radius:12px;
+  background:#eef2f6;
+  color:#344054;
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+}
+.salary-save:active{transform:scale(.98)}
+body.dark .salary-save{
+  background:#2b3138;
+  color:#f2f4f7;
+}
 </style></style></style></style>
 </style>
 </style></style>
@@ -199,11 +226,17 @@ body.dark [data-day] .tags .tag{
 <div class="salary-minimal-v2">
   <div class="salary-field">
     <label>Lương tháng (đ)</label>
-    <input id="salaryMinimalMonth" type="text" inputmode="numeric" data-money-input placeholder="6.800.000">
+    <div class="salary-input-row">
+      <input id="salaryMinimalMonth" type="text" inputmode="numeric" data-money-input placeholder="6.800.000">
+      <button type="button" class="salary-save" id="saveSalaryMonth">Lưu</button>
+    </div>
   </div>
   <div class="salary-field">
     <label>Lương mặc định (đ)</label>
-    <input id="salaryMinimalDefault" type="text" inputmode="numeric" data-money-input placeholder="6.800.000">
+    <div class="salary-input-row">
+      <input id="salaryMinimalDefault" type="text" inputmode="numeric" data-money-input placeholder="6.800.000">
+      <button type="button" class="salary-save" id="saveSalaryDefault">Lưu</button>
+    </div>
   </div>
 </div>
 
@@ -508,15 +541,23 @@ function syncSalaryInputs(){
 
 
 
-if($("salaryMinimalMonth"))$("salaryMinimalMonth").onchange=function(e){
+
+
+
+
+if($("saveSalaryMonth"))$("saveSalaryMonth").onclick=function(){
   const k=mkey(current.getFullYear(),current.getMonth());
-  const v=parseMoney(e.target.value);
-  if(v>0)data.monthSalary[k]=v; else delete data.monthSalary[k];
-  save();renderAll();
+  const v=parseMoney($("salaryMinimalMonth").value);
+  if(v>0)data.monthSalary[k]=v;
+  else delete data.monthSalary[k];
+  save();
+  renderAll();
 };
-if($("salaryMinimalDefault"))$("salaryMinimalDefault").onchange=function(e){
-  data.salary=parseMoney(e.target.value);
-  save();renderAll();
+if($("saveSalaryDefault"))$("saveSalaryDefault").onclick=function(){
+  const v=parseMoney($("salaryMinimalDefault").value);
+  data.salary=v;
+  save();
+  renderAll();
 };
 
 function renderAll(){workRender();incomeRender();fundsRender();homeRender();syncSalaryInputs();syncHourlyOnly();save();bindAllMoneyInputs()}
