@@ -202,7 +202,10 @@ body.dark .salary-save{
   background:#2b3138;
   color:#f2f4f7;
 }
-</style></style></style></style>
+<style>
+.dark-toggle{position:fixed!important;right:auto!important;bottom:auto!important;left:calc(100% - 62px);top:calc(100% - 62px);z-index:9999!important;touch-action:none!important;cursor:grab!important}
+.dark-toggle.dragging{cursor:grabbing!important}
+</style></style></style></style></style>
 </style>
 </style></style>
 </style></style>
@@ -331,24 +334,19 @@ function isDefaultOT2Day(y,m,d){const w=new Date(y,m,d).getDay();return w===0||(
 function keysRange(a,b){const o=[],d=new Date(a+"-01T00:00:00"),z=new Date(b+"-01T00:00:00");while(d<=z){o.push(mkey(d.getFullYear(),d.getMonth()));d.setMonth(d.getMonth()+1)}return o}
 function monthIncome(k){
  const [y,mm]=k.split("-").map(Number),m=mm-1,n=dim(y,m),salary=salaryForMonth(k);
- let worked=0,rest=0,ot=0,ctp=0,travel=0,required=0;
+ let worked=0,rest=0,ot=0,ctp=0,travel=0,required=0,ot2Worked=0;
  for(let d=1;d<=n;d++){
-  const x=data.days[dkey(y,m,d)]||{};
-  if(isRegularWorkDay(y,m,d)){
-    required++;
-    if(x.worked) worked++;
-    if(x.rest) rest++;
-  }
+  const x=data.days[dkey(y,m,d)]||{},regular=isRegularWorkDay(y,m,d);
+  if(regular){required++;if(x.worked)worked++;if(x.rest)rest++}
+  if(x.worked&&isOT2Day(y,m,d))ot2Worked++;
   ot+=(+x.ot15||0)*hourlyForMonth(k)*1.5+(+x.ot2||0)*hourlyForMonth(k)*2;
-  ctp+=parseMoney(x.ctp);
-  travel+=(+x.travel||0)*2000;
+  ctp+=parseMoney(x.ctp);travel+=(+x.travel||0)*2000;
  }
- const dailyPay=required>0?salary/required:0;
- const earnedBase=worked*dailyPay;
- const absenceDeduction=rest*(salary/25);
- const base=Math.max(0,earnedBase-absenceDeduction);
+ const dailyPay=required?salary/required:0;
+ const base=Math.max(0,worked*dailyPay-rest*(salary/25));
+ const ot2Pay=ot2Worked*8*hourlyForMonth(k)*2;
  const extra=(data.extras[k]||[]).reduce((s,e)=>s+parseMoney(e.amount),0);
- return{sum:base+ot+ctp+travel+extra,base,ot,ctp,travel,extra,worked,absent:rest,rest,required,dailyPay}
+ return{sum:base+ot+ot2Pay+ctp+travel+extra,base,ot:ot+ot2Pay,ctp,travel,extra,worked,absent:rest,rest,required,dailyPay,ot2Worked};
 }
 function selectedData(){const ks=selectedMonths.length?selectedMonths:[mkey(current.getFullYear(),current.getMonth())];return ks.map(monthIncome).reduce((a,b)=>({sum:a.sum+b.sum,base:a.base+b.base,ot:a.ot+b.ot,ctp:a.ctp+b.ctp,travel:a.travel+b.travel,extra:a.extra+b.extra,worked:a.worked+b.worked,absent:a.absent+b.absent}),{sum:0,base:0,ot:0,ctp:0,travel:0,extra:0,worked:0,absent:0})}
 function workRender(){
@@ -604,6 +602,19 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
 else initDarkToggle();
 
 renderAll();bindAllMoneyInputs();
+function initDarkToggleDrag(){
+ const btn=$("darkToggle");if(!btn)return;
+ let drag=false,moved=false,sx=0,sy=0,sl=0,st=0;
+ const pt=e=>e.touches?e.touches[0]:e;
+ const down=e=>{const p=pt(e),r=btn.getBoundingClientRect();drag=true;moved=false;sx=p.clientX;sy=p.clientY;sl=r.left;st=r.top;btn.classList.add("dragging");if(e.cancelable)e.preventDefault()};
+ const move=e=>{if(!drag)return;const p=pt(e);let l=sl+p.clientX-sx,t=st+p.clientY-sy;moved=Math.abs(p.clientX-sx)+Math.abs(p.clientY-sy)>4;l=Math.max(4,Math.min(innerWidth-btn.offsetWidth-4,l));t=Math.max(4,Math.min(innerHeight-btn.offsetHeight-4,t));btn.style.left=l+"px";btn.style.top=t+"px";if(e.cancelable)e.preventDefault()};
+ const up=()=>{if(!drag)return;drag=false;btn.classList.remove("dragging");localStorage.setItem("dark_toggle_pos",JSON.stringify({left:btn.offsetLeft,top:btn.offsetTop}))};
+ btn.addEventListener("mousedown",down);addEventListener("mousemove",move);addEventListener("mouseup",up);
+ btn.addEventListener("touchstart",down,{passive:false});addEventListener("touchmove",move,{passive:false});addEventListener("touchend",up);
+ btn.addEventListener("click",e=>{if(moved){e.preventDefault();e.stopImmediatePropagation()}});
+ try{const p=JSON.parse(localStorage.getItem("dark_toggle_pos")||"null");if(p){btn.style.left=p.left+"px";btn.style.top=p.top+"px"}}catch{}
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initDarkToggleDrag);else initDarkToggleDrag();
 </script>
 <button id="darkToggle" class="dark-toggle" aria-label="Đổi chế độ sáng tối">☾</button></body>
 </html>
