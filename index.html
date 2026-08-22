@@ -161,358 +161,19 @@ body.dark .day.worked{color:inherit !important;background:inherit}
 body.dark .day.worked b{color:inherit !important}
 body.dark .day.worked .tick{color:#12b76a !important;background:transparent !important}
 
-/* Dark mode: calendar tags keep the same black text as light mode */
-body.dark .day .tag,
-body.dark [data-day] .tag{
-  color:#111 !important;
-  background:#fff !important;
-}
-<style>
-/* Compact salary UI: only the two inputs are visible */
-.salary-minimal{
-  display:grid !important;
-  grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
-  gap:10px !important;
-  margin:0 0 10px !important;
-  padding:0 !important;
-}
-.salary-minimal input{
-  display:block !important;
-  width:100% !important;
-  min-width:0 !important;
-  box-sizing:border-box !important;
-  height:40px !important;
-  margin:0 !important;
-  padding:0 10px !important;
-  text-align:right !important;
-}
-#salaryMinimal~.salary-old,
-.salary-old,
-#salaryScope,
-#salaryScopeTop,
-#resetMonthSalary,
-#resetMonthSalaryTop,
-#saveDefaultSalary,
-#saveDefaultSalaryTop,
-#defaultSalary,
-#salary,
-#salaryMinimalMonth + button,
-#salaryMinimalDefault + button{
-  display:none !important;
-}
 
 body.dark .day .tags,
 body.dark [data-day] .tags{
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  gap:3px !important;
-  line-height:1 !important;
-  min-height:16px !important;
-}
-body.dark .day .tag,
-body.dark [data-day] .tag{
-  display:inline-flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  line-height:16px !important;
-  height:16px !important;
-  padding:0 4px !important;
-  margin:0 !important;
-  vertical-align:middle !important;
-  color:#111 !important;
-  background:#fff !important;
-}
-
-.rest-mark{
-  display:inline-flex !important;
-  width:16px !important;
-  height:16px !important;
-  align-items:center !important;
-  justify-content:center !important;
-  margin-left:4px !important;
-  padding:0 !important;
-  border:1px solid currentColor !important;
-  border-radius:4px !important;
-  font-size:10px !important;
-  line-height:1 !important;
-  vertical-align:middle !important;
-  opacity:.72 !important;
-  box-sizing:border-box !important;
-}
-.rest-mark.checked{
-  opacity:1 !important;
-  background:#fff !important;
-  color:#111 !important;
-}
-body.dark .rest-mark.checked{
-  background:#fff !important;
-  color:#111 !important;
-}
-
-.rest-row{
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  gap:3px !important;
-  margin-top:2px !important;
-  line-height:1 !important;
-}
-.rest-label{
-  font-size:9px !important;
-  line-height:1 !important;
-  opacity:.7 !important;
-}
-.rest-mark{
-  display:inline-flex !important;
-  width:14px !important;
-  height:14px !important;
-  align-items:center !important;
-  justify-content:center !important;
-  margin:0 !important;
-  padding:0 !important;
-  border:1px solid currentColor !important;
-  border-radius:3px !important;
-  font-size:9px !important;
-  line-height:1 !important;
-  box-sizing:border-box !important;
-}
-
-.leave-control{
-  margin-top:8px;
-  display:flex;
-  align-items:center;
-  justify-content:flex-start;
-  font-size:13px;
-}
-.leave-control label{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  cursor:pointer;
-}
-.leave-control input{width:16px;height:16px;margin:0}
-
-.day.rest-day{
-  color:#d92d20 !important;
-  border-color:#f04438 !important;
-}
-.day.rest-day b{color:#d92d20 !important}
-.rest-x{
-  color:#d92d20 !important;
-  font-size:20px;
-  font-weight:800;
-  line-height:1;
-  margin-top:2px;
-}
-body.dark .day.rest-day{
-  color:#f04438 !important;
-  border-color:#f04438 !important;
-  background:#181b1f !important;
-}
-body.dark .day.rest-day b,
-body.dark .day.rest-day .rest-x{
-  color:#f04438 !important;
-}
-
-/* Dark mode: CTP / KM tags keep light-mode vertical alignment */
-body.dark .day .tags,
-body.dark [data-day] .tags{
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  gap:3px !important;
-  line-height:1 !important;
-  height:16px !important;
-  min-height:16px !important;
-  margin:2px 0 0 !important;
-  padding:0 !important;
+  display:flex !important; gap:2px !important; margin-top:3px !important;
+  overflow:hidden !important; line-height:normal !important;
 }
 body.dark .day .tags .tag,
 body.dark [data-day] .tags .tag{
-  display:inline-flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  height:16px !important;
-  line-height:16px !important;
-  margin:0 !important;
-  padding:0 4px !important;
-  box-sizing:border-box !important;
-  vertical-align:middle !important;
-  transform:none !important;
-}
-<style>
-.salary-minimal{display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important;margin:0 0 10px!important}
-.salary-minimal input{width:100%!important;height:40px!important;box-sizing:border-box!important;margin:0!important;text-align:right!important}
-.salary-legacy{display:none!important}
-
-.salary-legacy{display:none!important}
-.salary-minimal{
-  display:grid!important;
-  grid-template-columns:1fr 1fr!important;
-  gap:10px!important;
-  margin:0 0 8px!important;
-}
-.salary-minimal input{
-  width:100%!important;
-  height:40px!important;
-  box-sizing:border-box!important;
-  margin:0!important;
-  text-align:right!important;
-}
-
-body.dark .day .tags .tag,
-body.dark [data-day] .tags .tag{
-  position:relative !important;
-  top:0 !important;
-  transform:none !important;
-  display:inline-block !important;
-  vertical-align:middle !important;
-  line-height:16px !important;
-  height:16px !important;
-  margin:0 !important;
-  padding:0 4px !important;
-  box-sizing:border-box !important;
-}
-body.dark .day .tags,
-body.dark [data-day] .tags{
-  position:relative !important;
-  top:0 !important;
-  transform:none !important;
-  line-height:16px !important;
-  height:16px !important;
-  min-height:16px !important;
-  margin-top:2px !important;
-}
-
-.salary-legacy,
-#hoursDay,#hourlyRate,#salary,#defaultSalary,
-#salaryScope,#salaryScopeTop,#resetMonthSalary,#resetMonthSalaryTop,
-#saveDefaultSalary,#saveDefaultSalaryTop,#salaryMonthlyTop,#defaultSalaryTop,
-#saveDefaultSalaryTop{
-  display:none !important;
-}
-.salary-minimal{
-  display:grid !important;
-  grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
-  gap:14px !important;
-  width:100% !important;
-  margin:0 0 12px !important;
-  padding:0 !important;
-}
-.salary-minimal input{
-  display:block !important;
-  width:100% !important;
-  min-width:0 !important;
-  height:54px !important;
-  box-sizing:border-box !important;
-  margin:0 !important;
-  padding:0 16px !important;
-  text-align:right !important;
-}
-.hourly-only{
-  width:100% !important;
-  text-align:center !important;
-  margin:2px 0 12px !important;
-  font-size:14px !important;
-  line-height:1.2 !important;
-  font-weight:600 !important;
-}
-
-.salary-minimal-v2{
-  display:grid;
-  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-  gap:22px;
-  width:100%;
-  margin:0 0 20px;
-}
-.salary-field{
-  min-width:0;
-}
-.salary-field label{
-  display:block;
-  margin:0 0 12px;
-  font-size:17px;
-  line-height:1.25;
-  font-weight:700;
-  color:#667085;
-}
-.salary-field input{
-  display:block;
-  width:100%;
-  height:58px;
-  box-sizing:border-box;
-  margin:0;
-  padding:0 16px;
-  border:2px solid #d0d5dd;
-  border-radius:22px;
-  background:#fff;
-  color:#101828;
-  font-size:22px;
-  line-height:1;
-  text-align:right;
-}
-.hourly-only-v2{
-  width:100%;
-  margin:2px 0 20px;
-  text-align:center;
-  font-size:25px;
-  line-height:1.2;
-  font-weight:800;
-  color:#101828;
-}
-@media(max-width:600px){
-  .salary-minimal-v2{gap:14px}
-  .salary-field label{font-size:15px}
-  .salary-field input{height:54px;font-size:20px;padding:0 12px}
-  .hourly-only-v2{font-size:22px}
-}
-body.dark .salary-field label{color:#98a2b3}
-body.dark .salary-field input{
-  background:#181b1f;
-  border-color:#475467;
-  color:#f2f4f7;
-}
-body.dark .hourly-only-v2{color:#f2f4f7}
-
-.salary-minimal-v2,.salary-field,.salary-field input,.hourly-only-v2{
-  position:relative !important;
-  z-index:2 !important;
-  pointer-events:auto !important;
-}
-.salary-field input{cursor:text !important}
-
-body.dark .day .tags{
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  gap:3px !important;
-  height:16px !important;
-  min-height:16px !important;
-  margin:2px 0 0 !important;
-  padding:0 !important;
-  line-height:16px !important;
-  vertical-align:middle !important;
-}
-body.dark .day .tags .tag{
-  display:inline-flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  flex:none !important;
-  width:auto !important;
-  height:16px !important;
-  min-height:16px !important;
-  margin:0 !important;
-  padding:0 4px !important;
-  box-sizing:border-box !important;
-  line-height:16px !important;
-  vertical-align:middle !important;
-  position:static !important;
-  top:auto !important;
-  bottom:auto !important;
-  transform:none !important;
-  color:#111 !important;
-  background:#fff !important;
+  display:inline-block !important; font-size:7px !important; padding:2px 4px !important;
+  border-radius:5px !important; background:#fff !important; border:1px solid #d0d5dd !important;
+  white-space:nowrap !important; line-height:normal !important; height:auto !important;
+  margin:0 !important; transform:none !important; position:static !important;
+  vertical-align:baseline !important; color:#111 !important;
 }
 </style></style></style></style>
 </style>
@@ -658,7 +319,7 @@ function monthIncome(k){
 }
 function selectedData(){const ks=selectedMonths.length?selectedMonths:[mkey(current.getFullYear(),current.getMonth())];return ks.map(monthIncome).reduce((a,b)=>({sum:a.sum+b.sum,base:a.base+b.base,ot:a.ot+b.ot,ctp:a.ctp+b.ctp,travel:a.travel+b.travel,extra:a.extra+b.extra,worked:a.worked+b.worked,absent:a.absent+b.absent}),{sum:0,base:0,ot:0,ctp:0,travel:0,extra:0,worked:0,absent:0})}
 function workRender(){
- $("monthTitle").textContent="Tháng "+(current.getMonth()+1)+"/"+current.getFullYear();setMoneyInput($("salary"),salaryForMonth(mkey(current.getFullYear(),current.getMonth())));if($("defaultSalary")){setMoneyInput($("defaultSalary"),data.salary);formatMoneyInput($("defaultSalary"));}$("hoursDay").value=data.hoursDay||8;if($("hourlyRate"))$("hourlyRate").textContent=money(hourly());
+ $("monthTitle").textContent="Tháng "+(current.getMonth()+1)+"/"+current.getFullYear();syncSalaryInputs();syncHourlyOnly();
  const y=current.getFullYear(),m=current.getMonth(),first=(new Date(y,m,1).getDay()+6)%7,n=dim(y,m);
  let h=["T2","T3","T4","T5","T6","T7","CN"].map(x=>`<div class="week">${x}</div>`).join("");for(let i=0;i<first;i++)h+="<div></div>";
  for(let d=1;d<=n;d++){const k=dkey(y,m,d),x=data.days[k]||{},worked=!!x.worked,ot2=isDefaultOT2Day(y,m,d),tags=(x.ot15?'<span class="tag">OT1.5</span>':"")+(x.ot2?'<span class="tag">OT2</span>':"")+(x.ctp?'<span class="tag">CTP</span>':"")+(x.travel?'<span class="tag">KM</span>':"");h+=`<button class="day ${worked?"worked":""} ${x.rest?"rest-day":""} ${tags?"note":""}" data-day="${k}"><b>${d}</b>${x.rest?'<div class="rest-x">×</div>':(worked?'<div class="tick">✓</div>':"")}${!x.rest&&!worked&&ot2?'<div class="tags"><span class="tag">OT×2</span></div>':""}${!x.rest&&worked&&tags?`<div class="tags">${tags}</div>`:""}</button>`}
@@ -819,15 +480,8 @@ function syncMinimalSalary(){
   if($("salaryMinimalDefault"))setMoneyInput($("salaryMinimalDefault"),data.salary);
 }
 
-if($("salaryMinimalReset"))$("salaryMinimalReset").onclick=()=>{
-  const k=mkey(current.getFullYear(),current.getMonth());
-  delete data.monthSalary[k];
-  save();renderAll();
-};
-if($("salaryMinimalSave"))$("salaryMinimalSave").onclick=()=>{
-  data.salary=parseMoney($("salaryMinimalDefault").value);
-  save();renderAll();
-};
+
+
 
 
 function syncHourlyOnly(){
@@ -850,31 +504,25 @@ function syncSalaryInputs(){
 }
 
 
+
+
+
+
 if($("salaryMinimalMonth"))$("salaryMinimalMonth").onchange=function(e){
   const k=mkey(current.getFullYear(),current.getMonth());
   const v=parseMoney(e.target.value);
-  if(v>0){ data.monthSalary[k]=v; } else { delete data.monthSalary[k]; }
-  save(); renderAll();
+  if(v>0)data.monthSalary[k]=v; else delete data.monthSalary[k];
+  save();renderAll();
 };
 if($("salaryMinimalDefault"))$("salaryMinimalDefault").onchange=function(e){
   data.salary=parseMoney(e.target.value);
-  save(); renderAll();
+  save();renderAll();
 };
 
 function renderAll(){workRender();incomeRender();fundsRender();homeRender();syncSalaryInputs();syncHourlyOnly();save();bindAllMoneyInputs()}
 
 $("prev").onclick=()=>{current.setMonth(current.getMonth()-1);workRender()};$("next").onclick=()=>{current.setMonth(current.getMonth()+1);workRender()};
-$("salary").onchange=e=>{
-  const k=mkey(current.getFullYear(),current.getMonth());
-  data.monthSalary[k]=parseMoney(e.target.value);
-  save();renderAll();
-};$("hoursDay").onchange=e=>{data.hoursDay=+e.target.value||8;save();renderAll()};
-$("saveDay").onclick=()=>{
- if(!selectedKey)return alert("Chọn ngày trước.");
- const old=data.days[selectedKey]||{};
- data.days[selectedKey]={...old,worked:!!old.worked,ot15:+$("ot15").value||0,ot2:+$("ot2").value||0,ctp:parseMoney($("ctp").value),travel:+$("travel").value||0};
- save();renderAll();selectDay(selectedKey);
-};
+
 
 $("homePrev").onclick=()=>{current.setMonth(current.getMonth()-1);selectedMonths=[mkey(current.getFullYear(),current.getMonth())];rangeMode=false;renderAll()};
 $("homeNext").onclick=()=>{current.setMonth(current.getMonth()+1);selectedMonths=[mkey(current.getFullYear(),current.getMonth())];rangeMode=false;renderAll()};
@@ -892,17 +540,8 @@ document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{document.query
 if($("backupData"))$("backupData").onclick=downloadBackup;
 if($("restoreData"))$("restoreData").onchange=e=>{const f=e.target.files&&e.target.files[0];if(f)restoreBackup(f);e.target.value=""};
 
-if($("saveDefaultSalary"))$("saveDefaultSalary").onclick=()=>{
- const v=parseMoney($("defaultSalary").value);
- data.salary=v;
- save();renderAll();
- alert("Đã lưu lương mặc định.");
-};
-if($("resetMonthSalary"))$("resetMonthSalary").onclick=()=>{
-  const k=mkey(current.getFullYear(),current.getMonth());
-  delete data.monthSalary[k];
-  save();renderAll();
-};
+
+
 
 function applyDarkMode(){
  const on=localStorage.getItem("cham_cong_dark")==="1";
