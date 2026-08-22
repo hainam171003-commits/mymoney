@@ -474,6 +474,46 @@ body.dark .salary-field input{
   color:#f2f4f7;
 }
 body.dark .hourly-only-v2{color:#f2f4f7}
+
+.salary-minimal-v2,.salary-field,.salary-field input,.hourly-only-v2{
+  position:relative !important;
+  z-index:2 !important;
+  pointer-events:auto !important;
+}
+.salary-field input{cursor:text !important}
+
+body.dark .day .tags{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:3px !important;
+  height:16px !important;
+  min-height:16px !important;
+  margin:2px 0 0 !important;
+  padding:0 !important;
+  line-height:16px !important;
+  vertical-align:middle !important;
+}
+body.dark .day .tags .tag{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  flex:none !important;
+  width:auto !important;
+  height:16px !important;
+  min-height:16px !important;
+  margin:0 !important;
+  padding:0 4px !important;
+  box-sizing:border-box !important;
+  line-height:16px !important;
+  vertical-align:middle !important;
+  position:static !important;
+  top:auto !important;
+  bottom:auto !important;
+  transform:none !important;
+  color:#111 !important;
+  background:#fff !important;
+}
 </style></style></style></style>
 </style>
 </style></style>
@@ -796,17 +836,8 @@ function syncHourlyOnly(){
   if($("hourlyOnly"))$("hourlyOnly").textContent=v?money(v)+"/giờ":"0đ/giờ";
 }
 
-if($("salaryMinimalMonth"))$("salaryMinimalMonth").onchange=e=>{
-  const k=mkey(current.getFullYear(),current.getMonth());
-  const v=parseMoney(e.target.value);
-  if(v>0)data.monthSalary[k]=v;
-  else delete data.monthSalary[k];
-  save();renderAll();
-};
-if($("salaryMinimalDefault"))$("salaryMinimalDefault").onchange=e=>{
-  data.salary=parseMoney(e.target.value);
-  save();renderAll();
-};
+
+
 
 
 function syncSalaryInputs(){
@@ -817,6 +848,18 @@ function syncSalaryInputs(){
   }
   if($("salaryMinimalDefault"))setMoneyInput($("salaryMinimalDefault"),data.salary||0);
 }
+
+
+if($("salaryMinimalMonth"))$("salaryMinimalMonth").onchange=function(e){
+  const k=mkey(current.getFullYear(),current.getMonth());
+  const v=parseMoney(e.target.value);
+  if(v>0){ data.monthSalary[k]=v; } else { delete data.monthSalary[k]; }
+  save(); renderAll();
+};
+if($("salaryMinimalDefault"))$("salaryMinimalDefault").onchange=function(e){
+  data.salary=parseMoney(e.target.value);
+  save(); renderAll();
+};
 
 function renderAll(){workRender();incomeRender();fundsRender();homeRender();syncSalaryInputs();syncHourlyOnly();save();bindAllMoneyInputs()}
 
