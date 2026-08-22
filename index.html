@@ -418,6 +418,62 @@ body.dark [data-day] .tags{
   line-height:1.2 !important;
   font-weight:600 !important;
 }
+
+.salary-minimal-v2{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:22px;
+  width:100%;
+  margin:0 0 20px;
+}
+.salary-field{
+  min-width:0;
+}
+.salary-field label{
+  display:block;
+  margin:0 0 12px;
+  font-size:17px;
+  line-height:1.25;
+  font-weight:700;
+  color:#667085;
+}
+.salary-field input{
+  display:block;
+  width:100%;
+  height:58px;
+  box-sizing:border-box;
+  margin:0;
+  padding:0 16px;
+  border:2px solid #d0d5dd;
+  border-radius:22px;
+  background:#fff;
+  color:#101828;
+  font-size:22px;
+  line-height:1;
+  text-align:right;
+}
+.hourly-only-v2{
+  width:100%;
+  margin:2px 0 20px;
+  text-align:center;
+  font-size:25px;
+  line-height:1.2;
+  font-weight:800;
+  color:#101828;
+}
+@media(max-width:600px){
+  .salary-minimal-v2{gap:14px}
+  .salary-field label{font-size:15px}
+  .salary-field input{height:54px;font-size:20px;padding:0 12px}
+  .hourly-only-v2{font-size:22px}
+}
+body.dark .salary-field label{color:#98a2b3}
+body.dark .salary-field input{
+  background:#181b1f;
+  border-color:#475467;
+  color:#f2f4f7;
+}
+body.dark .hourly-only-v2{color:#f2f4f7}
 </style></style></style></style>
 </style>
 </style></style>
@@ -438,33 +494,21 @@ body.dark [data-day] .tags{
 <section id="work" class="page">
 <div class="top"><div><div class="title">Chấm công</div><div class="sub">Chọn ngày để ghi nhận</div></div></div>
 <div class="card">
-<div id="salarySideBySide" class="salary-row" style="margin-bottom:10px">
-  <div class="salary-block">
-    <label>Lương tháng đang chọn</label>
-    <input id="salaryMonthlyTop" type="text" inputmode="numeric" data-money-input placeholder="10000000">
-    <div id="salaryScopeTop" class="muted" style="margin-top:4px">Lương riêng tháng</div>
-    <button type="button" class="btn secondary" id="resetMonthSalaryTop" style="margin-top:5px;width:100%">Dùng mặc định</button>
+
+<div class="salary-minimal-v2">
+  <div class="salary-field">
+    <label>Lương tháng (đ)</label>
+    <input id="salaryMinimalMonth" type="text" inputmode="numeric" data-money-input placeholder="6.800.000">
   </div>
-  <div class="salary-block">
-    <label>Lương mặc định</label>
-    <input id="defaultSalaryTop" type="text" inputmode="numeric" data-money-input placeholder="10000000">
-    <div class="muted" style="margin-top:4px">Áp dụng cho tháng chưa chỉnh riêng</div>
-    <button type="button" class="btn secondary" id="saveDefaultSalaryTop" style="margin-top:5px;width:100%">Lưu mặc định</button>
+  <div class="salary-field">
+    <label>Lương mặc định (đ)</label>
+    <input id="salaryMinimalDefault" type="text" inputmode="numeric" data-money-input placeholder="6.800.000">
   </div>
 </div>
-<div class="grid">
-<div id="salaryMinimal" class="salary-minimal">
-  <input id="salaryMinimalMonth" type="text" inputmode="numeric" data-money-input placeholder="Lương tháng">
-  <input id="salaryMinimalDefault" type="text" inputmode="numeric" data-money-input placeholder="Lương cố định">
-</div>
-<div id="hourlyOnly" class="hourly-only"></div>
-<div class="salary-legacy" class="salary-old"><label>Lương tháng (đ)</label><input id="salary" type="text" inputmode="numeric" data-money-input placeholder="10000000" data-money-input><div id="salaryScope" class="muted" style="margin-top:5px">Đang dùng lương mặc định</div><div id="hourlyOnly" style="text-align:center;font-size:12px;margin-top:3px"></div><button type="button" class="btn secondary" id="resetMonthSalary" style="margin-top:6px">Dùng lương mặc định</button></div><div class="salary-legacy" style="margin-top:12px;padding-top:10px;border-top:1px solid #eaecf0">
-<label>Lương mặc định</label>
-<input id="defaultSalary" type="text" inputmode="numeric" data-money-input placeholder="10000000">
-<div class="muted" style="margin-top:5px">Áp dụng cho mọi tháng chưa có lương riêng.</div>
-<button type="button" class="btn secondary" id="saveDefaultSalary" style="margin-top:6px">Lưu lương mặc định</button>
-</div><div class="salary-legacy"><label>Giờ/ngày</label><input id="hoursDay" type="number" min="1" step=".5" value="8"></div></div>
-<div class="card" style="margin:10px 0;padding:11px 13px;background:#f8fafc"><div class="label">ĐƠN GIÁ OT / GIỜ</div><div class="salary-legacy" class="big" id="hourlyRate" style="font-size:18px">0đ</div><div class="muted">Lương tháng ÷ 25 ÷ 8 giờ</div></div><div class="monthbar" style="margin-top:14px"><button class="btn secondary" id="prev">‹</button><b id="monthTitle"></b><button class="btn secondary" id="next">›</button></div><div class="calendar" id="calendar"></div></div>
+
+<div id="hourlyOnly" class="hourly-only-v2"></div>
+
+<div class="monthbar" style="margin-top:14px"><button class="btn secondary" id="prev">‹</button><b id="monthTitle"></b><button class="btn secondary" id="next">›</button></div><div class="calendar" id="calendar"></div></div>
 <div class="card"><div class="section-head"><b id="selectedTitle">Chọn ngày</b></div>
 <div class="grid"><div><label>OT 1.5 (giờ)</label><input id="ot15" type="number" min="0" step=".5"></div><div><label>OT 2 (giờ)</label><input id="ot2" type="number" min="0" step=".5"></div><div><label>Công tác phí (đ)</label><input id="ctp" type="text" inputmode="numeric" data-money-input placeholder="100000" data-money-input></div><div><label>Đi lại (Km)</label><input id="travel" type="number" min="0" step="1" placeholder="10"></div><div class="leave-control">
   <label><input type="checkbox" id="dayRest"> Nghỉ</label>
@@ -734,12 +778,7 @@ function syncMinimalSalary(){
   if($("salaryMinimalMonth"))setMoneyInput($("salaryMinimalMonth"),salaryForMonth(k));
   if($("salaryMinimalDefault"))setMoneyInput($("salaryMinimalDefault"),data.salary);
 }
-if($("salaryMinimalMonth"))$("salaryMinimalMonth").onchange=e=>{
-  const k=mkey(current.getFullYear(),current.getMonth());
-  const v=parseMoney(e.target.value);
-  if(v>0)data.monthSalary[k]=v; else delete data.monthSalary[k];
-  save();renderAll();
-};
+
 if($("salaryMinimalReset"))$("salaryMinimalReset").onclick=()=>{
   const k=mkey(current.getFullYear(),current.getMonth());
   delete data.monthSalary[k];
@@ -750,16 +789,35 @@ if($("salaryMinimalSave"))$("salaryMinimalSave").onclick=()=>{
   save();renderAll();
 };
 
-function syncSalaryInputs(){
-  const k=mkey(current.getFullYear(),current.getMonth());
-  if($("salaryMinimalMonth"))setMoneyInput($("salaryMinimalMonth"),Object.prototype.hasOwnProperty.call(data.monthSalary||{},k)?data.monthSalary[k]:"");
-  if($("salaryMinimalDefault"))setMoneyInput($("salaryMinimalDefault"),data.salary||0);
-}
+
 function syncHourlyOnly(){
   const k=mkey(current.getFullYear(),current.getMonth());
   const v=hourlyForMonth(k);
   if($("hourlyOnly"))$("hourlyOnly").textContent=v?money(v)+"/giờ":"0đ/giờ";
 }
+
+if($("salaryMinimalMonth"))$("salaryMinimalMonth").onchange=e=>{
+  const k=mkey(current.getFullYear(),current.getMonth());
+  const v=parseMoney(e.target.value);
+  if(v>0)data.monthSalary[k]=v;
+  else delete data.monthSalary[k];
+  save();renderAll();
+};
+if($("salaryMinimalDefault"))$("salaryMinimalDefault").onchange=e=>{
+  data.salary=parseMoney(e.target.value);
+  save();renderAll();
+};
+
+
+function syncSalaryInputs(){
+  const k=mkey(current.getFullYear(),current.getMonth());
+  if($("salaryMinimalMonth")){
+    const has=Object.prototype.hasOwnProperty.call(data.monthSalary||{},k);
+    setMoneyInput($("salaryMinimalMonth"),has?data.monthSalary[k]:"");
+  }
+  if($("salaryMinimalDefault"))setMoneyInput($("salaryMinimalDefault"),data.salary||0);
+}
+
 function renderAll(){workRender();incomeRender();fundsRender();homeRender();syncSalaryInputs();syncHourlyOnly();save();bindAllMoneyInputs()}
 
 $("prev").onclick=()=>{current.setMonth(current.getMonth()-1);workRender()};$("next").onclick=()=>{current.setMonth(current.getMonth()+1);workRender()};
