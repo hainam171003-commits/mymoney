@@ -73,6 +73,354 @@ nav{height:80px;border-top:0;box-shadow:0 -6px 22px rgba(16,24,40,.07)}
 .income-compare{display:flex;align-items:center;justify-content:center;gap:5px;margin-top:5px;font-size:12px;font-weight:600}
 .income-compare.up{color:#12b76a}.income-compare.down{color:#f04438}.income-compare.flat{color:#667085}
 .income-compare .compare-icon{font-size:13px;line-height:1}
+
+<style>
+.salary-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:end}
+.salary-row .salary-block{min-width:0}
+@media(max-width:420px){.salary-row{gap:7px}.salary-row .btn{font-size:11px;padding:8px 9px}}
+.dark-toggle{position:fixed;right:14px;bottom:14px;z-index:50;width:44px;height:44px;border:0;border-radius:50%;box-shadow:0 4px 14px rgba(0,0,0,.16);font-size:19px;cursor:pointer}
+body.dark{background:#101214;color:#f2f4f7}
+body.dark .card,body.dark .stat{background:#181b1f;border-color:#2a2f36;color:#f2f4f7}
+body.dark input,body.dark select{background:#111418;color:#f2f4f7;border-color:#343a43}
+body.dark .muted,body.dark .label,body.dark .sub{color:#98a2b3}
+body.dark .day{background:#181b1f;color:#f2f4f7;border-color:#2a2f36}
+body.dark nav{background:#181b1f;border-color:#2a2f36}
+body.dark .btn.secondary{background:#242931;color:#f2f4f7;border-color:#343a43}
+<style>
+.rest-mark{display:inline-flex;align-items:center;justify-content:center;font-size:10px;margin-left:4px;opacity:.65;cursor:pointer}
+.rest-mark.checked{opacity:1}
+.day.rest-day{opacity:.72}
+
+
+
+
+
+
+
+body.dark .day .check,
+body.dark .day .tick,
+body.dark [data-day] .check,
+body.dark [data-day] .tick,
+
+
+.salary-minimal{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin:0 0 12px;
+}
+.salary-minimal .salary-cell{
+  min-width:0;
+}
+.salary-minimal label{
+  display:block;
+  margin:0 0 6px;
+  font-size:13px;
+  font-weight:600;
+}
+.salary-minimal input{
+  width:100%;
+  box-sizing:border-box;
+  margin:0;
+  text-align:right;
+}
+.salary-minimal .salary-action{
+  width:100%;
+  margin-top:6px;
+  min-height:34px;
+}
+@media(max-width:420px){
+  .salary-minimal{gap:8px}
+  .salary-minimal label{font-size:12px}
+  .salary-minimal .salary-action{font-size:11px;padding:7px 6px}
+}
+
+<style>
+#salaryMinimal~.salary-old,
+.salary-old{display:none !important}
+<style>
+.salary-minimal{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin:0 0 10px;
+}
+.salary-minimal input{
+  width:100%;
+  box-sizing:border-box;
+  margin:0;
+  text-align:right;
+  min-height:42px;
+}
+@media(max-width:420px){
+  .salary-minimal{gap:8px}
+  .salary-minimal input{min-height:40px}
+}
+<style>
+body.dark .day.worked{color:inherit !important;background:inherit}
+body.dark .day.worked b{color:inherit !important}
+body.dark .day.worked .tick{color:#12b76a !important;background:transparent !important}
+
+/* Dark mode: calendar tags keep the same black text as light mode */
+body.dark .day .tag,
+body.dark [data-day] .tag{
+  color:#111 !important;
+  background:#fff !important;
+}
+<style>
+/* Compact salary UI: only the two inputs are visible */
+.salary-minimal{
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+  gap:10px !important;
+  margin:0 0 10px !important;
+  padding:0 !important;
+}
+.salary-minimal input{
+  display:block !important;
+  width:100% !important;
+  min-width:0 !important;
+  box-sizing:border-box !important;
+  height:40px !important;
+  margin:0 !important;
+  padding:0 10px !important;
+  text-align:right !important;
+}
+#salaryMinimal~.salary-old,
+.salary-old,
+#salaryScope,
+#salaryScopeTop,
+#resetMonthSalary,
+#resetMonthSalaryTop,
+#saveDefaultSalary,
+#saveDefaultSalaryTop,
+#defaultSalary,
+#salary,
+#salaryMinimalMonth + button,
+#salaryMinimalDefault + button{
+  display:none !important;
+}
+
+body.dark .day .tags,
+body.dark [data-day] .tags{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:3px !important;
+  line-height:1 !important;
+  min-height:16px !important;
+}
+body.dark .day .tag,
+body.dark [data-day] .tag{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  line-height:16px !important;
+  height:16px !important;
+  padding:0 4px !important;
+  margin:0 !important;
+  vertical-align:middle !important;
+  color:#111 !important;
+  background:#fff !important;
+}
+
+.rest-mark{
+  display:inline-flex !important;
+  width:16px !important;
+  height:16px !important;
+  align-items:center !important;
+  justify-content:center !important;
+  margin-left:4px !important;
+  padding:0 !important;
+  border:1px solid currentColor !important;
+  border-radius:4px !important;
+  font-size:10px !important;
+  line-height:1 !important;
+  vertical-align:middle !important;
+  opacity:.72 !important;
+  box-sizing:border-box !important;
+}
+.rest-mark.checked{
+  opacity:1 !important;
+  background:#fff !important;
+  color:#111 !important;
+}
+body.dark .rest-mark.checked{
+  background:#fff !important;
+  color:#111 !important;
+}
+
+.rest-row{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:3px !important;
+  margin-top:2px !important;
+  line-height:1 !important;
+}
+.rest-label{
+  font-size:9px !important;
+  line-height:1 !important;
+  opacity:.7 !important;
+}
+.rest-mark{
+  display:inline-flex !important;
+  width:14px !important;
+  height:14px !important;
+  align-items:center !important;
+  justify-content:center !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:1px solid currentColor !important;
+  border-radius:3px !important;
+  font-size:9px !important;
+  line-height:1 !important;
+  box-sizing:border-box !important;
+}
+
+.leave-control{
+  margin-top:8px;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  font-size:13px;
+}
+.leave-control label{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  cursor:pointer;
+}
+.leave-control input{width:16px;height:16px;margin:0}
+
+.day.rest-day{
+  color:#d92d20 !important;
+  border-color:#f04438 !important;
+}
+.day.rest-day b{color:#d92d20 !important}
+.rest-x{
+  color:#d92d20 !important;
+  font-size:20px;
+  font-weight:800;
+  line-height:1;
+  margin-top:2px;
+}
+body.dark .day.rest-day{
+  color:#f04438 !important;
+  border-color:#f04438 !important;
+  background:#181b1f !important;
+}
+body.dark .day.rest-day b,
+body.dark .day.rest-day .rest-x{
+  color:#f04438 !important;
+}
+
+/* Dark mode: CTP / KM tags keep light-mode vertical alignment */
+body.dark .day .tags,
+body.dark [data-day] .tags{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:3px !important;
+  line-height:1 !important;
+  height:16px !important;
+  min-height:16px !important;
+  margin:2px 0 0 !important;
+  padding:0 !important;
+}
+body.dark .day .tags .tag,
+body.dark [data-day] .tags .tag{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  height:16px !important;
+  line-height:16px !important;
+  margin:0 !important;
+  padding:0 4px !important;
+  box-sizing:border-box !important;
+  vertical-align:middle !important;
+  transform:none !important;
+}
+<style>
+.salary-minimal{display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important;margin:0 0 10px!important}
+.salary-minimal input{width:100%!important;height:40px!important;box-sizing:border-box!important;margin:0!important;text-align:right!important}
+.salary-legacy{display:none!important}
+
+.salary-legacy{display:none!important}
+.salary-minimal{
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  gap:10px!important;
+  margin:0 0 8px!important;
+}
+.salary-minimal input{
+  width:100%!important;
+  height:40px!important;
+  box-sizing:border-box!important;
+  margin:0!important;
+  text-align:right!important;
+}
+
+body.dark .day .tags .tag,
+body.dark [data-day] .tags .tag{
+  position:relative !important;
+  top:0 !important;
+  transform:none !important;
+  display:inline-block !important;
+  vertical-align:middle !important;
+  line-height:16px !important;
+  height:16px !important;
+  margin:0 !important;
+  padding:0 4px !important;
+  box-sizing:border-box !important;
+}
+body.dark .day .tags,
+body.dark [data-day] .tags{
+  position:relative !important;
+  top:0 !important;
+  transform:none !important;
+  line-height:16px !important;
+  height:16px !important;
+  min-height:16px !important;
+  margin-top:2px !important;
+}
+
+.salary-legacy,
+#hoursDay,#hourlyRate,#salary,#defaultSalary,
+#salaryScope,#salaryScopeTop,#resetMonthSalary,#resetMonthSalaryTop,
+#saveDefaultSalary,#saveDefaultSalaryTop,#salaryMonthlyTop,#defaultSalaryTop,
+#saveDefaultSalaryTop{
+  display:none !important;
+}
+.salary-minimal{
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+  gap:14px !important;
+  width:100% !important;
+  margin:0 0 12px !important;
+  padding:0 !important;
+}
+.salary-minimal input{
+  display:block !important;
+  width:100% !important;
+  min-width:0 !important;
+  height:54px !important;
+  box-sizing:border-box !important;
+  margin:0 !important;
+  padding:0 16px !important;
+  text-align:right !important;
+}
+.hourly-only{
+  width:100% !important;
+  text-align:center !important;
+  margin:2px 0 12px !important;
+  font-size:14px !important;
+  line-height:1.2 !important;
+  font-weight:600 !important;
+}
+</style></style></style></style>
+</style>
+</style></style>
 </style></style>
 </style>
 </head>
@@ -89,15 +437,38 @@ nav{height:80px;border-top:0;box-shadow:0 -6px 22px rgba(16,24,40,.07)}
 
 <section id="work" class="page">
 <div class="top"><div><div class="title">Chấm công</div><div class="sub">Chọn ngày để ghi nhận</div></div></div>
-<div class="card"><div class="grid"><div><label>Lương tháng (đ)</label><input id="salary" type="text" inputmode="numeric" data-money-input placeholder="10000000" data-money-input><div id="salaryScope" class="muted" style="margin-top:5px">Đang dùng lương mặc định</div><button type="button" class="btn secondary" id="resetMonthSalary" style="margin-top:6px">Dùng lương mặc định</button></div><div style="margin-top:12px;padding-top:10px;border-top:1px solid #eaecf0">
+<div class="card">
+<div id="salarySideBySide" class="salary-row" style="margin-bottom:10px">
+  <div class="salary-block">
+    <label>Lương tháng đang chọn</label>
+    <input id="salaryMonthlyTop" type="text" inputmode="numeric" data-money-input placeholder="10000000">
+    <div id="salaryScopeTop" class="muted" style="margin-top:4px">Lương riêng tháng</div>
+    <button type="button" class="btn secondary" id="resetMonthSalaryTop" style="margin-top:5px;width:100%">Dùng mặc định</button>
+  </div>
+  <div class="salary-block">
+    <label>Lương mặc định</label>
+    <input id="defaultSalaryTop" type="text" inputmode="numeric" data-money-input placeholder="10000000">
+    <div class="muted" style="margin-top:4px">Áp dụng cho tháng chưa chỉnh riêng</div>
+    <button type="button" class="btn secondary" id="saveDefaultSalaryTop" style="margin-top:5px;width:100%">Lưu mặc định</button>
+  </div>
+</div>
+<div class="grid">
+<div id="salaryMinimal" class="salary-minimal">
+  <input id="salaryMinimalMonth" type="text" inputmode="numeric" data-money-input placeholder="Lương tháng">
+  <input id="salaryMinimalDefault" type="text" inputmode="numeric" data-money-input placeholder="Lương cố định">
+</div>
+<div id="hourlyOnly" class="hourly-only"></div>
+<div class="salary-legacy" class="salary-old"><label>Lương tháng (đ)</label><input id="salary" type="text" inputmode="numeric" data-money-input placeholder="10000000" data-money-input><div id="salaryScope" class="muted" style="margin-top:5px">Đang dùng lương mặc định</div><div id="hourlyOnly" style="text-align:center;font-size:12px;margin-top:3px"></div><button type="button" class="btn secondary" id="resetMonthSalary" style="margin-top:6px">Dùng lương mặc định</button></div><div class="salary-legacy" style="margin-top:12px;padding-top:10px;border-top:1px solid #eaecf0">
 <label>Lương mặc định</label>
 <input id="defaultSalary" type="text" inputmode="numeric" data-money-input placeholder="10000000">
 <div class="muted" style="margin-top:5px">Áp dụng cho mọi tháng chưa có lương riêng.</div>
 <button type="button" class="btn secondary" id="saveDefaultSalary" style="margin-top:6px">Lưu lương mặc định</button>
-</div><div><label>Giờ/ngày</label><input id="hoursDay" type="number" min="1" step=".5" value="8"></div></div>
-<div class="card" style="margin:10px 0;padding:11px 13px;background:#f8fafc"><div class="label">ĐƠN GIÁ OT / GIỜ</div><div class="big" id="hourlyRate" style="font-size:18px">0đ</div><div class="muted">Lương tháng ÷ 25 ÷ 8 giờ</div></div><div class="monthbar" style="margin-top:14px"><button class="btn secondary" id="prev">‹</button><b id="monthTitle"></b><button class="btn secondary" id="next">›</button></div><div class="calendar" id="calendar"></div></div>
+</div><div class="salary-legacy"><label>Giờ/ngày</label><input id="hoursDay" type="number" min="1" step=".5" value="8"></div></div>
+<div class="card" style="margin:10px 0;padding:11px 13px;background:#f8fafc"><div class="label">ĐƠN GIÁ OT / GIỜ</div><div class="salary-legacy" class="big" id="hourlyRate" style="font-size:18px">0đ</div><div class="muted">Lương tháng ÷ 25 ÷ 8 giờ</div></div><div class="monthbar" style="margin-top:14px"><button class="btn secondary" id="prev">‹</button><b id="monthTitle"></b><button class="btn secondary" id="next">›</button></div><div class="calendar" id="calendar"></div></div>
 <div class="card"><div class="section-head"><b id="selectedTitle">Chọn ngày</b></div>
-<div class="grid"><div><label>OT 1.5 (giờ)</label><input id="ot15" type="number" min="0" step=".5"></div><div><label>OT 2 (giờ)</label><input id="ot2" type="number" min="0" step=".5"></div><div><label>Công tác phí (đ)</label><input id="ctp" type="text" inputmode="numeric" data-money-input placeholder="100000" data-money-input></div><div><label>Đi lại (Km)</label><input id="travel" type="number" min="0" step="1" placeholder="10"></div></div>
+<div class="grid"><div><label>OT 1.5 (giờ)</label><input id="ot15" type="number" min="0" step=".5"></div><div><label>OT 2 (giờ)</label><input id="ot2" type="number" min="0" step=".5"></div><div><label>Công tác phí (đ)</label><input id="ctp" type="text" inputmode="numeric" data-money-input placeholder="100000" data-money-input></div><div><label>Đi lại (Km)</label><input id="travel" type="number" min="0" step="1" placeholder="10"></div><div class="leave-control">
+  <label><input type="checkbox" id="dayRest"> Nghỉ</label>
+</div></div>
 <div id="dayNoteStatus" class="badge" style="margin:8px 0">Chưa có khoản ngày</div><div class="muted" style="margin-top:7px">Đi lại: 2.000đ/km</div><div class="actions" style="margin-top:10px"><button class="btn primary" id="saveDay">Lưu ngày</button></div></div>
 </section>
 
@@ -182,29 +553,42 @@ function isDefaultOT2Day(y,m,d){const w=new Date(y,m,d).getDay();return w===0||(
 function keysRange(a,b){const o=[],d=new Date(a+"-01T00:00:00"),z=new Date(b+"-01T00:00:00");while(d<=z){o.push(mkey(d.getFullYear(),d.getMonth()));d.setMonth(d.getMonth()+1)}return o}
 function monthIncome(k){
  const [y,mm]=k.split("-").map(Number),m=mm-1,n=dim(y,m),salary=salaryForMonth(k);
- let absent=0,worked=0,ot=0,ctp=0,travel=0;
- for(let d=1;d<=n;d++){const x=data.days[dkey(y,m,d)]||{};if(isRegularWorkDay(y,m,d)){if(x.worked)worked++;else absent++}ot+=(+x.ot15||0)*hourlyForMonth(k)*1.5+(+x.ot2||0)*hourlyForMonth(k)*2;ctp+=parseMoney(x.ctp);travel+=(+x.travel||0)*2000}
- const base=Math.max(0,salary-absent*(salary/25)),extra=(data.extras[k]||[]).reduce((s,e)=>s+parseMoney(e.amount),0);
- return{sum:base+ot+ctp+travel+extra,base,ot,ctp,travel,extra,worked,absent}
+ let worked=0,rest=0,ot=0,ctp=0,travel=0,required=0;
+ for(let d=1;d<=n;d++){
+  const x=data.days[dkey(y,m,d)]||{};
+  if(isRegularWorkDay(y,m,d)){
+    required++;
+    if(x.worked) worked++;
+    if(x.rest) rest++;
+  }
+  ot+=(+x.ot15||0)*hourlyForMonth(k)*1.5+(+x.ot2||0)*hourlyForMonth(k)*2;
+  ctp+=parseMoney(x.ctp);
+  travel+=(+x.travel||0)*2000;
+ }
+ const dailyPay=required>0?salary/required:0;
+ const earnedBase=worked*dailyPay;
+ const absenceDeduction=rest*(salary/25);
+ const base=Math.max(0,earnedBase-absenceDeduction);
+ const extra=(data.extras[k]||[]).reduce((s,e)=>s+parseMoney(e.amount),0);
+ return{sum:base+ot+ctp+travel+extra,base,ot,ctp,travel,extra,worked,absent:rest,rest,required,dailyPay}
 }
 function selectedData(){const ks=selectedMonths.length?selectedMonths:[mkey(current.getFullYear(),current.getMonth())];return ks.map(monthIncome).reduce((a,b)=>({sum:a.sum+b.sum,base:a.base+b.base,ot:a.ot+b.ot,ctp:a.ctp+b.ctp,travel:a.travel+b.travel,extra:a.extra+b.extra,worked:a.worked+b.worked,absent:a.absent+b.absent}),{sum:0,base:0,ot:0,ctp:0,travel:0,extra:0,worked:0,absent:0})}
 function workRender(){
  $("monthTitle").textContent="Tháng "+(current.getMonth()+1)+"/"+current.getFullYear();setMoneyInput($("salary"),salaryForMonth(mkey(current.getFullYear(),current.getMonth())));if($("defaultSalary")){setMoneyInput($("defaultSalary"),data.salary);formatMoneyInput($("defaultSalary"));}$("hoursDay").value=data.hoursDay||8;if($("hourlyRate"))$("hourlyRate").textContent=money(hourly());
  const y=current.getFullYear(),m=current.getMonth(),first=(new Date(y,m,1).getDay()+6)%7,n=dim(y,m);
  let h=["T2","T3","T4","T5","T6","T7","CN"].map(x=>`<div class="week">${x}</div>`).join("");for(let i=0;i<first;i++)h+="<div></div>";
- for(let d=1;d<=n;d++){const k=dkey(y,m,d),x=data.days[k]||{},worked=!!x.worked,ot2=isDefaultOT2Day(y,m,d),tags=(x.ot15?'<span class="tag">OT1.5</span>':"")+(x.ot2?'<span class="tag">OT2</span>':"")+(x.ctp?'<span class="tag">CTP</span>':"")+(x.travel?'<span class="tag">KM</span>':"");h+=`<button class="day ${worked?"worked":""} ${tags?"note":""}" data-day="${k}"><b>${d}</b>${worked?'<div class="tick">✓</div>':""}${!worked&&ot2?'<div class="tags"><span class="tag">OT×2</span></div>':""}${worked&&tags?`<div class="tags">${tags}</div>`:""}</button>`}
+ for(let d=1;d<=n;d++){const k=dkey(y,m,d),x=data.days[k]||{},worked=!!x.worked,ot2=isDefaultOT2Day(y,m,d),tags=(x.ot15?'<span class="tag">OT1.5</span>':"")+(x.ot2?'<span class="tag">OT2</span>':"")+(x.ctp?'<span class="tag">CTP</span>':"")+(x.travel?'<span class="tag">KM</span>':"");h+=`<button class="day ${worked?"worked":""} ${x.rest?"rest-day":""} ${tags?"note":""}" data-day="${k}"><b>${d}</b>${x.rest?'<div class="rest-x">×</div>':(worked?'<div class="tick">✓</div>':"")}${!x.rest&&!worked&&ot2?'<div class="tags"><span class="tag">OT×2</span></div>':""}${!x.rest&&worked&&tags?`<div class="tags">${tags}</div>`:""}</button>`}
  $("calendar").innerHTML=h;document.querySelectorAll("[data-day]").forEach(b=>{
   b.onclick=()=>{
     const k=b.dataset.day;
     const x=data.days[k]||{};
-    data.days[k]={...x,worked:!x.worked};
+    data.days[k]={...x,worked:!x.worked,rest:false};
     save();
     workRender();
     selectDay(k);
   };
 });
 }
-
 function selectDay(k){
   selectedKey=k;
   const x=data.days[k]||{};
@@ -214,7 +598,8 @@ function selectDay(k){
   setMoneyInput($("ctp"),x.ctp);
   formatMoneyInput($("ctp"));
   $("travel").value=x.travel||"";
-  $("saveDay").textContent=x.worked?"Đã chấm công ✓":"Chưa chấm công";
+  if($("dayRest"))$("dayRest").checked=!!x.rest;
+  $("saveDay").textContent=x.worked?"Đã chấm công ✓":(x.rest?"Đã đánh dấu nghỉ":"Chưa đánh dấu");
   if(typeof updateDayNoteStatus==="function")updateDayNoteStatus();
 
   const autoSave=()=>{
@@ -234,6 +619,13 @@ function selectDay(k){
   $("travel").onchange=autoSave;
   $("ot15").onchange=autoSave;
   $("ot2").onchange=autoSave;
+  if($("dayRest"))$("dayRest").onchange=()=>{
+    const old=data.days[k]||{};
+    data.days[k]={...old,rest:$("dayRest").checked,worked:!!old.worked};
+    save();
+    workRender();
+    selectDay(k);
+  };
 }
 function fillSelect(id){const s=$(id);if(!s)return;const y=current.getFullYear();s.innerHTML=Array.from({length:12},(_,m)=>`<option value="${mkey(y,m)}">${m+1}/${y}</option>`).join("");s.value=selectedMonths[0]||mkey(y,current.getMonth())}
 function updateSelectors(){fillSelect("homeMonthSelect");fillSelect("incomeMonthSelect");const t=selectedMonths.length>1?selectedMonths[0]+" → "+selectedMonths[selectedMonths.length-1]:(selectedMonths[0]||mkey(current.getFullYear(),current.getMonth()));if($("homeRangeSummary"))$("homeRangeSummary").textContent=selectedMonths.length>1?"Khoảng đang xem: "+t:"Đang xem: "+t;if($("incomeSelection"))$("incomeSelection").textContent=selectedMonths.length>1?"Khoảng: "+t:"Tháng: "+t;if($("homeRangeBtn"))$("homeRangeBtn").classList.toggle("active",rangeMode);if($("incomeRangeBtn"))$("incomeRangeBtn").classList.toggle("active",rangeMode)}
@@ -258,9 +650,11 @@ function renderIncomeComparison(id){
   const prevTotal=periodIncome(previousPeriodKeys());
   if(prevTotal===0){
     el.className="income-compare flat";
-    el.innerHTML=`<span class="compare-icon">—</span><span>Không có dữ liệu tháng trước</span>`;
+    el.innerHTML="";
+    el.style.display="none";
     return;
   }
+  el.style.display="flex";
   const pct=((currentTotal-prevTotal)/Math.abs(prevTotal))*100;
   if(Math.abs(pct)<0.05){
     el.className="income-compare flat";
@@ -329,7 +723,44 @@ function updateSalaryScope(){
     ?"Đang dùng lương riêng tháng "+(current.getMonth()+1)+"/"+current.getFullYear()
     :"Đang dùng lương mặc định";
 }
-function renderAll(){workRender();incomeRender();fundsRender();homeRender();updateSalaryScope();save();bindAllMoneyInputs()}
+
+function syncSalaryControls(){
+ const k=mkey(current.getFullYear(),current.getMonth());
+ }
+
+
+function syncMinimalSalary(){
+  const k=mkey(current.getFullYear(),current.getMonth());
+  if($("salaryMinimalMonth"))setMoneyInput($("salaryMinimalMonth"),salaryForMonth(k));
+  if($("salaryMinimalDefault"))setMoneyInput($("salaryMinimalDefault"),data.salary);
+}
+if($("salaryMinimalMonth"))$("salaryMinimalMonth").onchange=e=>{
+  const k=mkey(current.getFullYear(),current.getMonth());
+  const v=parseMoney(e.target.value);
+  if(v>0)data.monthSalary[k]=v; else delete data.monthSalary[k];
+  save();renderAll();
+};
+if($("salaryMinimalReset"))$("salaryMinimalReset").onclick=()=>{
+  const k=mkey(current.getFullYear(),current.getMonth());
+  delete data.monthSalary[k];
+  save();renderAll();
+};
+if($("salaryMinimalSave"))$("salaryMinimalSave").onclick=()=>{
+  data.salary=parseMoney($("salaryMinimalDefault").value);
+  save();renderAll();
+};
+
+function syncSalaryInputs(){
+  const k=mkey(current.getFullYear(),current.getMonth());
+  if($("salaryMinimalMonth"))setMoneyInput($("salaryMinimalMonth"),Object.prototype.hasOwnProperty.call(data.monthSalary||{},k)?data.monthSalary[k]:"");
+  if($("salaryMinimalDefault"))setMoneyInput($("salaryMinimalDefault"),data.salary||0);
+}
+function syncHourlyOnly(){
+  const k=mkey(current.getFullYear(),current.getMonth());
+  const v=hourlyForMonth(k);
+  if($("hourlyOnly"))$("hourlyOnly").textContent=v?money(v)+"/giờ":"0đ/giờ";
+}
+function renderAll(){workRender();incomeRender();fundsRender();homeRender();syncSalaryInputs();syncHourlyOnly();save();bindAllMoneyInputs()}
 
 $("prev").onclick=()=>{current.setMonth(current.getMonth()-1);workRender()};$("next").onclick=()=>{current.setMonth(current.getMonth()+1);workRender()};
 $("salary").onchange=e=>{
@@ -371,7 +802,27 @@ if($("resetMonthSalary"))$("resetMonthSalary").onclick=()=>{
   delete data.monthSalary[k];
   save();renderAll();
 };
+
+function applyDarkMode(){
+ const on=localStorage.getItem("cham_cong_dark")==="1";
+ document.body.classList.toggle("dark",on);
+ if($("darkToggle"))$("darkToggle").textContent=on?"☀":"☾";
+}
+function initDarkToggle(){
+ const btn=$("darkToggle");
+ if(!btn)return;
+ applyDarkMode();
+ btn.onclick=()=>{
+   const on=!document.body.classList.contains("dark");
+   document.body.classList.toggle("dark",on);
+   localStorage.setItem("cham_cong_dark",on?"1":"0");
+   btn.textContent=on?"☀":"☾";
+ };
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initDarkToggle);
+else initDarkToggle();
+
 renderAll();bindAllMoneyInputs();
 </script>
-</body>
+<button id="darkToggle" class="dark-toggle" aria-label="Đổi chế độ sáng tối">☾</button></body>
 </html>
