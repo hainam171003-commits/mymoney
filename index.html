@@ -354,10 +354,27 @@ body.dark .day .tags .tag{
 </section>
 
 <section id="fund" class="page">
-<div class="top"><div><div class="title">Quỹ</div><div class="sub">Phân bổ tổng Income</div></div></div>
-<div class="card"><div class="label">CHẾ ĐỘ PHÂN BỔ</div><div class="mode"><button id="modePercent" class="active">Theo %</button><button id="modeAmount">Theo số tiền</button></div><div class="label">Tổng Income</div><div class="big" id="fundIncome" style="margin-top:4px">0đ</div></div>
-<div class="card"><div id="fundEditor"></div><div class="actions"><button class="btn secondary" id="addFund">＋ Thêm quỹ</button><button class="btn primary" id="allocate">Phân bổ</button></div></div>
-<div class="card"><div class="section-head"><b>Số dư quỹ</b></div><div id="fundBalances"></div></div>
+<div class="top"><div><div class="title">Quỹ</div></div></div>
+
+<div class="card">
+  <div class="section-head"><b>Theo %</b></div>
+  <div id="fundPercentEditor"></div>
+  <div class="actions">
+    <button class="btn secondary" id="addFundPercent">＋ Thêm quỹ</button>
+    <button class="btn primary" id="allocatePercent">Phân bổ</button>
+  </div>
+  <div id="fundPercentRemaining" style="margin-top:10px;text-align:right;font-weight:600">Còn lại: 0đ</div>
+</div>
+
+<div class="card">
+  <div class="section-head"><b>Theo số tiền</b></div>
+  <div id="fundAmountEditor"></div>
+  <div class="actions">
+    <button class="btn secondary" id="addFundAmount">＋ Thêm quỹ</button>
+    <button class="btn primary" id="allocateAmount">Phân bổ</button>
+  </div>
+  <div id="fundAmountRemaining" style="margin-top:10px;text-align:right;font-weight:600">Còn lại: 0đ</div>
+</div>
 </section>
 </div>
 
@@ -379,8 +396,10 @@ const parseMoney=v=>Number(String(v??"").replace(/[^\d-]/g,""))||0;
 const pad=n=>String(n).padStart(2,"0"),mkey=(y,m)=>y+"-"+pad(m+1),dkey=(y,m,d)=>y+"-"+pad(m+1)+"-"+pad(d);
 const dim=(y,m)=>new Date(y,m+1,0).getDate();
 let data=JSON.parse(localStorage.getItem(KEY)||"null")||{salary:0,hoursDay:8,days:{},extras:{},funds:[{name:"Sinh hoạt",percent:40,amount:0,balance:0},{name:"Tiết kiệm",percent:30,amount:0,balance:0},{name:"Đầu tư",percent:30,amount:0,balance:0}]};
-data.extras=data.extras||{}; data.funds=data.funds||[]; data.monthSalary=data.monthSalary||{};
-let current=new Date();current.setDate(1),selectedKey=null,selectedMonths=[mkey(current.getFullYear(),current.getMonth())],rangeMode=false,fundMode="percent";
+data.extras=data.extras||{}; data.funds=data.funds||[]; data.monthSalary=data.monthSalary||{}; data.fundsAmount=data.fundsAmount||[];
+data.fundsPercent=data.fundsPercent||data.funds||[];
+data.fundsAmount=data.fundsAmount||[];
+let current=new Date();current.setDate(1),selectedKey=null,selectedMonths=[mkey(current.getFullYear(),current.getMonth())],rangeMode=false;
 function save(){localStorage.setItem(KEY,JSON.stringify(data))}
 function formatMoneyInput(el){
   if(!el)return;
@@ -599,8 +618,125 @@ function renderExtraList(){const k=selectedMonths.length===1?selectedMonths[0]:m
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
 function renderChart(r){const vals=[r.base,r.ot,r.ctp,r.travel].map(Number),names=["Lương","OT","Công tác phí","Đi lại"],colors=["#2563eb","#7c3aed","#12b76a","#f79009"],tot=vals.reduce((a,b)=>a+b,0)||0,pie=document.querySelector(".pie");if(pie){if(!tot)pie.style.background="#e5e7eb";else{let a=0;pie.style.background="conic-gradient("+vals.map((v,i)=>{let s=a,e=a+v/tot*100;a=e;return colors[i]+" "+s+"% "+e+"%"}).join(",")+")"}}if($("incomeLegend"))$("incomeLegend").innerHTML=names.map((n,i)=>`<div class="legend-row"><span><span class="dot" style="background:${colors[i]}"></span>${n}</span><b>${tot?(vals[i]/tot*100).toFixed(1):"0.0"}%</b></div>`).join("")}
 function homeRender(){const r=selectedData();$("homeIncome").textContent=money(r.sum);renderIncomeComparison("homeIncomeCompare");if($("homeExtraIncome"))$("homeExtraIncome").textContent=money(r.extra);$("homeBase").textContent=money(r.base);$("homeOT").textContent=money(r.ot);$("homeCTP").textContent=money(r.ctp);$("homeTravel").textContent=money(r.travel);$("homeDays").textContent=r.worked+" ngày";const t=selectedMonths.length>1?selectedMonths[0]+" → "+selectedMonths[selectedMonths.length-1]:selectedMonths[0];$("homePeriod").textContent=t;if($("homePeriod2"))$("homePeriod2").textContent=t;$("homeFunds").innerHTML=data.funds.map(f=>`<div class="rowline"><span>${esc(f.name)}</span><b>${money(f.balance)}</b></div>`).join("");updateSelectors();renderChart(r)}
-function fundsRender(){const r=selectedData();$("fundIncome").textContent=money(r.sum);let h="";data.funds.forEach((f,i)=>{const v=fundMode==="percent"?f.percent:f.amount;h+=`<div class="rowline"><div style="flex:1"><input data-name="${i}" value="${esc(f.name)}"></div><div style="width:105px;margin-left:8px"><input data-val="${i}" type="number" min="0" value="${v||0}" placeholder="${fundMode==="percent"?"%":"đ"}"></div><button class="btn danger" data-del="${i}" style="margin-left:6px">×</button></div>`});$("fundEditor").innerHTML=h;document.querySelectorAll("[data-name]").forEach(x=>x.onchange=()=>{data.funds[+x.dataset.name].name=x.value||"Quỹ";save();renderAll()});document.querySelectorAll("[data-val]").forEach(x=>x.onchange=()=>{const f=data.funds[+x.dataset.val];if(fundMode==="percent")f.percent=+x.value||0;else f.amount=parseMoney(x.value);save();renderAll()});document.querySelectorAll("[data-del]").forEach(x=>x.onclick=()=>{if(data.funds.length<=1)return alert("Phải giữ ít nhất 1 quỹ.");data.funds.splice(+x.dataset.del,1);save();renderAll()});$("fundBalances").innerHTML=data.funds.map(f=>`<div class="rowline"><span>${esc(f.name)}</span><b>${money(f.balance)}</b></div>`).join("")}
-function setMode(m){fundMode=m;$("modePercent").classList.toggle("active",m==="percent");$("modeAmount").classList.toggle("active",m==="amount");fundsRender()}
+if($("addFundPercent"))$("addFundPercent").onclick=()=>{
+ data.fundsPercent.push({name:"Quỹ mới",percent:0,amount:0,balance:0});save();renderAll();
+};
+if($("addFundAmount"))$("addFundAmount").onclick=()=>{
+ data.fundsAmount.push({name:"Quỹ mới",percent:0,amount:0,balance:0});save();renderAll();
+};
+
+function renderFundEditor(type){
+ const arr=type==="percent"?data.fundsPercent:data.fundsAmount;
+ const editor=$(type==="percent"?"fundPercentEditor":"fundAmountEditor");
+ if(!editor)return;
+ editor.innerHTML=arr.map((f,i)=>{
+   const val=type==="percent"?(Number(f.percent)||0):(Number(f.amount)||0);
+   return `<div class="rowline">
+     <div style="flex:1"><input data-fname="${type}-${i}" value="${esc(f.name||"Quỹ")}"></div>
+     <div style="width:130px;margin-left:8px">
+       <input data-fval="${type}-${i}" type="${type==="percent"?"number":"text"}" inputmode="${type==="percent"?"decimal":"numeric"}" ${type==="percent"?'min="0" max="100" step="0.01"':''} value="${type==="percent"?val:money(val)}" placeholder="${type==="percent"?"%":"0đ"}">
+     </div>
+     <button class="btn danger" data-fdel="${type}-${i}" style="margin-left:6px">×</button>
+   </div>`;
+ }).join("");
+
+ editor.querySelectorAll("[data-fname]").forEach(x=>x.onchange=()=>{
+   const [t,i]=x.dataset.fname.split("-");
+   const arr=t==="percent"?data.fundsPercent:data.fundsAmount;
+   arr[+i].name=x.value||"Quỹ"; save(); renderAll();
+ });
+ editor.querySelectorAll("[data-fval]").forEach(x=>{
+   if(type==="amount")bindMoneyInput(x);
+   x.onchange=()=>{
+     const [t,i]=x.dataset.fval.split("-");
+     const arr=t==="percent"?data.fundsPercent:data.fundsAmount;
+     arr[+i][t==="percent"?"percent":"amount"]=t==="percent"?(Number(x.value)||0):parseMoney(x.value);
+     save(); renderAll();
+   };
+ });
+ editor.querySelectorAll("[data-fdel]").forEach(x=>x.onclick=()=>{
+   const [t,i]=x.dataset.fdel.split("-");
+   const arr=t==="percent"?data.fundsPercent:data.fundsAmount;
+   if(arr.length<=1)return alert("Phải giữ ít nhất 1 quỹ.");
+   arr.splice(+i,1); save(); renderAll();
+ });
+}
+
+function renderFundEditor(type){
+ const arr=type==="percent"?data.funds:data.fundsAmount;
+ const editor=$(type==="percent"?"fundPercentEditor":"fundAmountEditor");
+ if(!editor)return;
+ editor.innerHTML=arr.map((f,i)=>{
+   const val=type==="percent"
+     ? (Number(f.percent)||0)
+     : (Number(f.amount)>0?money(f.amount):"");
+   return `<div class="rowline">
+     <div style="flex:1"><input data-fname="${type}-${i}" value="${esc(f.name||"Quỹ")}"></div>
+     <div style="width:130px;margin-left:8px">
+       <input data-fval="${type}-${i}"
+         type="${type==="percent"?"number":"text"}"
+         inputmode="${type==="percent"?"decimal":"numeric"}"
+         ${type==="percent"?'min="0" max="100" step="0.01"':''}
+         value="${val}" placeholder="${type==="percent"?"%":"0đ"}">
+     </div>
+     <button class="btn danger" data-fdel="${type}-${i}" style="margin-left:6px">×</button>
+   </div>`;
+ }).join("");
+
+ editor.querySelectorAll("[data-fname]").forEach(x=>x.onchange=()=>{
+   const [t,i]=x.dataset.fname.split("-");
+   const arr=t==="percent"?data.funds:data.fundsAmount;
+   arr[+i].name=x.value||"Quỹ";
+   save();renderAll();
+ });
+ editor.querySelectorAll("[data-fval]").forEach(x=>{
+   if(type==="amount")bindMoneyInput(x);
+   x.onchange=()=>{
+     const [t,i]=x.dataset.fval.split("-");
+     const arr=t==="percent"?data.funds:data.fundsAmount;
+     arr[+i][t==="percent"?"percent":"amount"]=
+       t==="percent"?(Number(x.value)||0):parseMoney(x.value);
+     save();renderAll();
+   };
+ });
+ editor.querySelectorAll("[data-fdel]").forEach(x=>x.onclick=()=>{
+   const [t,i]=x.dataset.fdel.split("-");
+   const arr=t==="percent"?data.funds:data.fundsAmount;
+   if(arr.length<=1)return alert("Phải giữ ít nhất 1 quỹ.");
+   arr.splice(+i,1);
+   save();renderAll();
+ });
+}
+
+function fundsRender(){
+ const income=Number(selectedData().sum)||0;
+ data.funds=data.funds||[];
+ data.fundsAmount=data.fundsAmount||[];
+
+ if($("fundIncome"))$("fundIncome").textContent=money(income);
+
+ renderFundEditor("percent");
+ renderFundEditor("amount");
+
+ const percentTotal=data.funds.reduce((s,f)=>s+(Number(f.percent)||0),0);
+ const amountTotal=data.fundsAmount.reduce((s,f)=>s+parseMoney(f.amount),0);
+
+ if($("fundPercentTotal"))$("fundPercentTotal").textContent=percentTotal.toFixed(2)+"%";
+ if($("fundAmountTotal"))$("fundAmountTotal").textContent=money(amountTotal);
+
+ if($("fundPercentBalances"))
+   $("fundPercentBalances").innerHTML=data.funds.map(f=>`<div class="rowline"><span>${esc(f.name)}</span><b>${money(f.balance)}</b></div>`).join("");
+
+ if($("fundAmountBalances"))
+   $("fundAmountBalances").innerHTML=data.fundsAmount.map(f=>`<div class="rowline"><span>${esc(f.name)}</span><b>${money(f.balance)}</b></div>`).join("");
+
+ // Both systems use the same Income source, but are independent of each other.
+ if($("fundPercentRemaining"))
+   $("fundPercentRemaining").textContent="Còn lại: "+money(Math.max(0,income-income*percentTotal/100));
+
+ if($("fundAmountRemaining"))
+   $("fundAmountRemaining").textContent="Còn lại: "+money(Math.max(0,income-amountTotal));
+}
 
 function updateDayNoteStatus(){
   const el=$("dayNoteStatus"); if(!el||!selectedKey)return;
@@ -752,9 +888,34 @@ $("homeMonthSelect").onchange=e=>{chooseMonth(e.target.value);renderAll()};$("in
 $("homeRangeBtn").onclick=()=>{rangeMode=!rangeMode;updateSelectors()};$("incomeRangeBtn").onclick=()=>{rangeMode=!rangeMode;updateSelectors()};
 $("applyMonths").onclick=()=>renderAll();$("clearMonths").onclick=()=>{selectedMonths=[mkey(current.getFullYear(),current.getMonth())];rangeMode=false;renderAll()};
 $("addExtra").onclick=()=>{const k=selectedMonths.length===1?selectedMonths[0]:mkey(current.getFullYear(),current.getMonth()),name=$("extraName").value.trim(),amount=parseMoney($("extraAmount").value);if(!name||amount<=0)return alert("Nhập tên khoản và số tiền.");(data.extras[k]||(data.extras[k]=[])).push({name,amount});$("extraName").value="";$("extraAmount").value="";save();renderAll()};
-$("modePercent").onclick=()=>setMode("percent");$("modeAmount").onclick=()=>setMode("amount");
-$("addFund").onclick=()=>{data.funds.push({name:"Quỹ mới",percent:0,amount:0,balance:0});save();renderAll()};
-$("allocate").onclick=()=>{const t=selectedData().sum;if(fundMode==="percent"){const p=data.funds.reduce((s,f)=>s+(+f.percent||0),0);if(Math.abs(p-100)>.001)return alert(p<100?`Phân bổ quỹ đang thiếu ${(100-p).toFixed(2)}%. Tổng phải đủ 100%.`:`Phân bổ quỹ đang thừa ${(p-100).toFixed(2)}%. Tổng không được vượt 100%.`);data.funds.forEach(f=>f.balance=t*(+f.percent||0)/100)}else{const s=data.funds.reduce((a,f)=>a+parseMoney(f.amount),0),diff=s-t;if(Math.abs(diff)>1)return alert(diff<0?`Phân bổ quỹ đang thiếu ${money(-diff)} so với tổng Income ${money(t)}.`:`Phân bổ quỹ đang thừa ${money(diff)} so với tổng Income ${money(t)}.`);data.funds.forEach(f=>f.balance=parseMoney(f.amount))}save();renderAll()};
+
+if($("addFundPercent"))$("addFundPercent").onclick=()=>{
+ data.funds=data.funds||[];
+ data.funds.push({name:"Quỹ mới",percent:0,amount:0,balance:0});
+ save();renderAll();
+};
+if($("addFundAmount"))$("addFundAmount").onclick=()=>{
+ data.fundsAmount=data.fundsAmount||[];
+ data.fundsAmount.push({name:"Quỹ mới",amount:0,balance:0});
+ save();renderAll();
+};
+if($("allocatePercent"))$("allocatePercent").onclick=()=>{
+ const income=Number(selectedData().sum)||0;
+ const total=(data.funds||[]).reduce((s,f)=>s+(Number(f.percent)||0),0);
+ if(total>100.000001)return alert("Phân bổ quỹ đang thừa so với Income.");
+ if(total<99.999999)return alert("Phân bổ quỹ chưa đủ 100%.");
+ data.funds.forEach(f=>f.balance=income*(Number(f.percent)||0)/100);
+ save();renderAll();
+};
+if($("allocateAmount"))$("allocateAmount").onclick=()=>{
+ const income=Number(selectedData().sum)||0;
+ const total=(data.fundsAmount||[]).reduce((s,f)=>s+parseMoney(f.amount),0);
+ if(total>income+1)return alert("Phân bổ quỹ đang thừa so với Income.");
+ if(total<income-1)return alert("Phân bổ quỹ chưa đủ tổng Income.");
+ data.fundsAmount.forEach(f=>f.balance=parseMoney(f.amount));
+ save();renderAll();
+};
+
 document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));$(b.dataset.page).classList.add("active");renderAll()});
 
 if($("backupData"))$("backupData").onclick=downloadBackup;
