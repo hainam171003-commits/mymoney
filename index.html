@@ -472,8 +472,13 @@ function monthIncome(k){
  // Salary/day displayed for this month may vary with actual workdays,
  // but an explicitly marked rest day always deducts salary/25, NOT salary/day.
  // If no day is marked at all, there is no base salary to show for that month.
- const anyMarked=worked>0||rest>0;
- const base=anyMarked?Math.max(0,salary-rest*(salary/25)):0;
+ const anyWorked=worked>0;
+ // Full salary is earned only when every regular workday in the month
+ // has been explicitly ticked. Each regular day not worked costs salary/25.
+ // The month can have 23, 25, 26... regular workdays; the deduction itself
+ // is always based on the fixed 25-day salary rule.
+ const missingDays=Math.max(0,required-worked);
+ const base=anyWorked?Math.max(0,salary-missingDays*(salary/25)):0;
  const ot2Pay=ot2Worked*8*hourlyForMonth(k)*2;
  const extra=(data.extras[k]||[]).reduce((sum,e)=>sum+parseMoney(e.amount),0);
 
