@@ -426,6 +426,21 @@ function isDefaultOT2Day(y,m,d){
  const w=new Date(y,m,d).getDay();
  return w===0 || (w===6 && !isWorkingSaturday(y,m,d));
 }
+function cleanLegacyPhantomOT2(){
+ const changed=[];
+ Object.keys(data.days||{}).forEach(k=>{
+  const p=k.split("-").map(Number); if(p.length!==3)return;
+  const [y,mo,d]=p,x=data.days[k];
+  if(!x || x.worked!==true || x.workedByUser===true)return;
+  if(isDefaultOT2Day(y,mo-1,d)){
+    // Old versions could leave OT2 Saturdays/Sundays as worked even though
+    // the user never ticked them. Clear that phantom state once.
+    x.worked=false;
+    changed.push(k);
+  }
+ });
+ if(changed.length)save();
+}
 function keysRange(a,b){const o=[],d=new Date(a+"-01T00:00:00"),z=new Date(b+"-01T00:00:00");while(d<=z){o.push(mkey(d.getFullYear(),d.getMonth()));d.setMonth(d.getMonth()+1)}return o}
 function monthIncome(k){
  const [y,mm]=k.split("-").map(Number),m=mm-1,n=dim(y,m),salary=Number(salaryForMonth(k))||0;
@@ -433,21 +448,31 @@ function monthIncome(k){
  for(let d=1;d<=n;d++){
   const x=data.days[dkey(y,m,d)]||{};
   const regular=isRegularWorkDay(y,m,d);
+  const isWorked=x.worked===true;
+
   if(regular){
    required++;
-   if(x.worked)worked++;
-   if(x.rest)rest++;
+   if(isWorked)worked++;
+   if(x.rest===true)rest++;
   }
-  if(x.worked && isDefaultOT2Day(y,m,d))ot2Worked++;
-  ot+=(Number(x.ot15)||0)*hourlyForMonth(k)*1.5+(Number(x.ot2)||0)*hourlyForMonth(k)*2;
+
+  // Absolutely no day-specific money is counted unless this day is ticked.
+  if(!isWorked)continue;
+
+  if(isDefaultOT2Day(y,m,d) && x.workedByUser===true)ot2Worked++;
+
+  ot+=(Number(x.ot15)||0)*hourlyForMonth(k)*1.5
+     +(Number(x.ot2)||0)*hourlyForMonth(k)*2;
   ctp+=parseMoney(x.ctp);
   travel+=(Number(x.travel)||0)*2000;
  }
+
  const dailyPay=required?salary/required:0;
  const base=Math.max(0,worked*dailyPay-rest*(salary/25));
  const ot2Pay=ot2Worked*8*hourlyForMonth(k)*2;
  const extra=(data.extras[k]||[]).reduce((sum,e)=>sum+parseMoney(e.amount),0);
- return {
+
+ return{
   sum:base+ot+ot2Pay+ctp+travel+extra,
   base,ot:ot+ot2Pay,ctp,travel,extra,
   worked,absent:rest,rest,required,dailyPay,ot2Worked
@@ -463,7 +488,14 @@ function workRender(){
   b.onclick=()=>{
     const k=b.dataset.day;
     const x=data.days[k]||{};
-    data.days[k]={...x,worked:!x.worked,rest:false};
+    const nextWorked=!x.worked;
+const p=k.split("-").map(Number), yy=p[0], mm=p[1]-1, dd=p[2];
+data.days[k]={
+  ...x,
+  worked:nextWorked,
+  workedByUser:nextWorked ? true : false,
+  rest:false
+};
     save();
     workRender();
     selectDay(k);
@@ -503,6 +535,7 @@ function selectDay(k){
   if($("dayRest"))$("dayRest").onchange=()=>{
     const old=data.days[k]||{};
     data.days[k]={...old,rest:$("dayRest").checked,worked:!!old.worked};
+    if(data.days[k].rest)data.days[k].workedByUser=false;
     save();
     workRender();
     selectDay(k);
@@ -591,7 +624,7 @@ function restoreBackup(file){
         extras:incoming.extras||{},
         funds:incoming.funds||[]
       };
-      save();selectedKey=null;renderAll();
+      save();selectedKey=null;cleanLegacyPhantomOT2();renderAll();
       alert("Đã khôi phục dữ liệu thành công.");
     }catch(e){alert("File sao lưu không hợp lệ.");}
   };
@@ -705,6 +738,7 @@ function initDarkToggle(){
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initDarkToggle);
 else initDarkToggle();
 
+cleanLegacyPhantomOT2();
 renderAll();bindAllMoneyInputs();
 function initDarkToggleDrag(){
  const btn=$("darkToggle"); if(!btn)return;
