@@ -703,12 +703,25 @@ function renderFundEditor(){
  editor.querySelectorAll("[data-fval]").forEach(x=>{
    const i=+x.dataset.fval;
    const f=data.funds[i];
-   if(f.mode!=="percent")bindMoneyInput(x);
-   x.onchange=()=>{
-     if(f.mode==="percent")f.percent=Number(x.value)||0;
-     else f.amount=parseMoney(x.value);
-     save();renderAll();
+   const commit=()=>{
+     if(!data.funds[i])return;
+     if(data.funds[i].mode==="percent"){
+       data.funds[i].percent=Number(x.value)||0;
+     }else{
+       data.funds[i].amount=parseMoney(x.value);
+     }
+     save();
    };
+   if(f.mode!=="percent"){
+     bindMoneyInput(x);
+     x.addEventListener("input",commit);
+   }else{
+     x.addEventListener("input",commit);
+   }
+   x.addEventListener("change",()=>{
+     commit();
+     renderAll();
+   });
  });
 
  editor.querySelectorAll("[data-fdel]").forEach(x=>x.onclick=()=>{
@@ -983,32 +996,6 @@ $("homeRangeBtn").onclick=()=>{rangeMode=!rangeMode;updateSelectors()};$("income
 $("applyMonths").onclick=()=>renderAll();$("clearMonths").onclick=()=>{selectedMonths=[mkey(current.getFullYear(),current.getMonth())];rangeMode=false;renderAll()};
 $("addExtra").onclick=()=>{const k=selectedMonths.length===1?selectedMonths[0]:mkey(current.getFullYear(),current.getMonth()),name=$("extraName").value.trim(),amount=parseMoney($("extraAmount").value);if(!name||amount<=0)return alert("Nhập tên khoản và số tiền.");(data.extras[k]||(data.extras[k]=[])).push({name,amount});$("extraName").value="";$("extraAmount").value="";save();renderAll()};
 
-if($("addFundPercent"))$("addFundPercent").onclick=()=>{
- data.funds=data.funds||[];
- data.funds.push({name:"Quỹ mới",percent:0,amount:0,balance:0});
- save();renderAll();
-};
-if($("addFundAmount"))$("addFundAmount").onclick=()=>{
- data.fundsAmount=data.fundsAmount||[];
- data.fundsAmount.push({name:"Quỹ mới",amount:0,balance:0});
- save();renderAll();
-};
-if($("allocatePercent"))$("allocatePercent").onclick=()=>{
- const income=Number(selectedData().sum)||0;
- const total=(data.funds||[]).reduce((s,f)=>s+(Number(f.percent)||0),0);
- if(total>100.000001)return alert("Phân bổ quỹ đang thừa so với Income.");
- if(total<99.999999)return alert("Phân bổ quỹ chưa đủ 100%.");
- data.funds.forEach(f=>f.balance=income*(Number(f.percent)||0)/100);
- save();renderAll();
-};
-if($("allocateAmount"))$("allocateAmount").onclick=()=>{
- const income=Number(selectedData().sum)||0;
- const total=(data.fundsAmount||[]).reduce((s,f)=>s+parseMoney(f.amount),0);
- if(total>income+1)return alert("Phân bổ quỹ đang thừa so với Income.");
- if(total<income-1)return alert("Phân bổ quỹ chưa đủ tổng Income.");
- data.fundsAmount.forEach(f=>f.balance=parseMoney(f.amount));
- save();renderAll();
-};
 
 
 
