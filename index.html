@@ -414,9 +414,11 @@ function bindAllMoneyInputs(){
 function setMoneyInput(el,n){if(el)el.value=n?new Intl.NumberFormat("vi-VN").format(Math.round(n)):""}
 function hourly(){return (Number(data.salary)||0)/(25*(Number(data.hoursDay)||8))}
 function salaryForMonth(k){
-  return Object.prototype.hasOwnProperty.call(data.monthSalary||{},k)
-    ? (Number(data.monthSalary[k])||0)
-    : (Number(data.salary)||0);
+  const monthValue=(data.monthSalary||{})[k];
+  if(monthValue!==undefined && monthValue!==null && Number(monthValue)>0){
+    return Number(monthValue);
+  }
+  return Number(data.salary)||0;
 }
 function hourlyForMonth(k){return salaryForMonth(k)/(25*(Number(data.hoursDay)||8))}
 
@@ -456,7 +458,7 @@ function monthIncome(k){
    if(x.rest===true)rest++;
   }
 
-  // Absolutely no day-specific money is counted unless this day is ticked.
+  // Only money attached to a day that is actually ticked is counted.
   if(!isWorked)continue;
 
   if(isDefaultOT2Day(y,m,d) && x.workedByUser===true)ot2Worked++;
@@ -467,15 +469,21 @@ function monthIncome(k){
   travel+=(Number(x.travel)||0)*2000;
  }
 
- const dailyPay=required?salary/required:0;
- const base=Math.max(0,worked*dailyPay-rest*(salary/25));
+ // Salary/day displayed for this month may vary with actual workdays,
+ // but an explicitly marked rest day always deducts salary/25, NOT salary/day.
+ // If no day is marked at all, there is no base salary to show for that month.
+ const anyMarked=worked>0||rest>0;
+ const base=anyMarked?Math.max(0,salary-rest*(salary/25)):0;
  const ot2Pay=ot2Worked*8*hourlyForMonth(k)*2;
  const extra=(data.extras[k]||[]).reduce((sum,e)=>sum+parseMoney(e.amount),0);
 
  return{
   sum:base+ot+ot2Pay+ctp+travel+extra,
   base,ot:ot+ot2Pay,ctp,travel,extra,
-  worked,absent:rest,rest,required,dailyPay,ot2Worked
+  worked,absent:rest,rest,required,
+  dailyPay:required?salary/required:0,
+  dailyDeduction:salary/25,
+  ot2Worked
  };
 }
 function selectedData(){const ks=selectedMonths.length?selectedMonths:[mkey(current.getFullYear(),current.getMonth())];return ks.map(monthIncome).reduce((a,b)=>({sum:a.sum+b.sum,base:a.base+b.base,ot:a.ot+b.ot,ctp:a.ctp+b.ctp,travel:a.travel+b.travel,extra:a.extra+b.extra,worked:a.worked+b.worked,absent:a.absent+b.absent}),{sum:0,base:0,ot:0,ctp:0,travel:0,extra:0,worked:0,absent:0})}
@@ -656,8 +664,15 @@ function syncMinimalSalary(){
 function syncHourlyOnly(){
   const k=mkey(current.getFullYear(),current.getMonth());
   const v=Number(hourlyForMonth(k))||0;
+  const [yy,mm]=k.split("-").map(Number), monthIndex=mm-1;
+  let required=0;
+  for(let d=1;d<=dim(yy,monthIndex);d++){
+    if(isRegularWorkDay(yy,monthIndex,d))required++;
+  }
+  const salary=Number(salaryForMonth(k))||0;
+  const daily=required?salary/required:0;
   if($("hourlyOnly"))$("hourlyOnly").textContent=v?money(v)+"/giờ":"0đ/giờ";
-  if($("dailyOnly"))$("dailyOnly").textContent=v?money(v*8)+"/ngày":"0đ/ngày";
+  if($("dailyOnly"))$("dailyOnly").textContent=daily?money(daily)+"/ngày":"0đ/ngày";
 }
 
 
@@ -685,16 +700,40 @@ function syncSalaryInputs(){
 
 
 
+
+
+
+
+
+
+
+
 if($("saveSalaryMonth"))$("saveSalaryMonth").onclick=function(){
   const k=mkey(current.getFullYear(),current.getMonth());
   const v=parseMoney($("salaryMinimalMonth").value);
-  if(v>0)data.monthSalary[k]=v; else delete data.monthSalary[k];
-  save();renderAll();
+  if(v>0){
+    data.monthSalary[k]=v;
+  }else{
+    delete data.monthSalary[k];
+  }
+  save();
+  renderAll();
 };
+
 if($("saveSalaryDefault"))$("saveSalaryDefault").onclick=function(){
-  data.salary=parseMoney($("salaryMinimalDefault").value);
-  save();renderAll();
+  const v=parseMoney($("salaryMinimalDefault").value);
+  data.salary=v;
+
+  // "Lương mặc định" is the explicitly saved source for the current month
+  // when this button is pressed. Remove that month's previous override so the
+  // current month immediately follows the default salary.
+  const k=mkey(current.getFullYear(),current.getMonth());
+  if(data.monthSalary) delete data.monthSalary[k];
+
+  save();
+  renderAll();
 };
+
 function renderAll(){workRender();incomeRender();fundsRender();homeRender();syncSalaryInputs();syncHourlyOnly();save();bindAllMoneyInputs()}
 
 $("prev").onclick=()=>{current.setMonth(current.getMonth()-1);workRender()};$("next").onclick=()=>{current.setMonth(current.getMonth()+1);workRender()};
