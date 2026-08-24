@@ -302,6 +302,18 @@ body.dark .day .tags .tag{
 .pie-center{color:#111 !important}
 
 
+</style><style>
+.fund-toggle{border:0;background:transparent;padding:0;cursor:pointer}
+.fund-toggle-track{display:block;width:42px;height:24px;border-radius:999px;background:#d0d5dd;padding:2px;box-sizing:border-box}
+.fund-toggle-knob{display:flex;width:20px;height:20px;border-radius:50%;background:#fff;align-items:center;justify-content:center;font-size:10px;font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,.15);transition:transform .18s}
+.fund-toggle.is-percent .fund-toggle-track{background:#111827}
+.fund-toggle.is-percent .fund-toggle-knob{transform:translateX(18px)}
+</style><style>
+.fund-row-toggle{border:0;background:transparent;padding:0;cursor:pointer;flex:none}
+.fund-row-track{display:block;width:38px;height:22px;border-radius:999px;background:#d0d5dd;padding:2px;box-sizing:border-box}
+.fund-row-knob{display:flex;width:18px;height:18px;border-radius:50%;background:#fff;align-items:center;justify-content:center;font-size:9px;font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,.15);transition:transform .16s}
+.fund-row-toggle.is-percent .fund-row-track{background:#111827}
+.fund-row-toggle.is-percent .fund-row-knob{transform:translateX(16px)}
 </style></head>
 <body>
 <div class="app">
@@ -357,23 +369,13 @@ body.dark .day .tags .tag{
 <div class="top"><div><div class="title">Quỹ</div></div></div>
 
 <div class="card">
-  <div class="section-head"><b>Theo %</b></div>
-  <div id="fundPercentEditor"></div>
+  <div class="section-head"><b>Quỹ</b></div>
+  <div id="fundEditor"></div>
   <div class="actions">
-    <button class="btn secondary" id="addFundPercent">＋ Thêm quỹ</button>
-    <button class="btn primary" id="allocatePercent">Phân bổ</button>
+    <button class="btn secondary" id="addFund">＋ Thêm quỹ</button>
+    <button class="btn primary" id="allocateFund">Phân bổ</button>
   </div>
-  <div id="fundPercentRemaining" style="margin-top:10px;text-align:right;font-weight:600">Còn lại: 0đ</div>
-</div>
-
-<div class="card">
-  <div class="section-head"><b>Theo số tiền</b></div>
-  <div id="fundAmountEditor"></div>
-  <div class="actions">
-    <button class="btn secondary" id="addFundAmount">＋ Thêm quỹ</button>
-    <button class="btn primary" id="allocateAmount">Phân bổ</button>
-  </div>
-  <div id="fundAmountRemaining" style="margin-top:10px;text-align:right;font-weight:600">Còn lại: 0đ</div>
+  <div id="fundRemaining" style="margin-top:10px;text-align:right;font-weight:600"></div>
 </div>
 </section>
 </div>
@@ -396,7 +398,9 @@ const parseMoney=v=>Number(String(v??"").replace(/[^\d-]/g,""))||0;
 const pad=n=>String(n).padStart(2,"0"),mkey=(y,m)=>y+"-"+pad(m+1),dkey=(y,m,d)=>y+"-"+pad(m+1)+"-"+pad(d);
 const dim=(y,m)=>new Date(y,m+1,0).getDate();
 let data=JSON.parse(localStorage.getItem(KEY)||"null")||{salary:0,hoursDay:8,days:{},extras:{},funds:[{name:"Sinh hoạt",percent:40,amount:0,balance:0},{name:"Tiết kiệm",percent:30,amount:0,balance:0},{name:"Đầu tư",percent:30,amount:0,balance:0}]};
-data.extras=data.extras||{}; data.funds=data.funds||[]; data.monthSalary=data.monthSalary||{}; data.fundsAmount=data.fundsAmount||[];
+data.extras=data.extras||{}; data.funds=data.funds||[]; data.monthSalary=data.monthSalary||{};
+data.fundMode=data.fundMode==="percent"?"percent":"amount";
+data.funds=data.funds.map(f=>({...f,mode:f.mode==="percent"?"percent":"amount",percent:Number(f.percent)||0,amount:Number(f.amount)||0,balance:Number(f.balance)||0}));
 data.fundsPercent=data.fundsPercent||data.funds||[];
 data.fundsAmount=data.fundsAmount||[];
 let current=new Date();current.setDate(1),selectedKey=null,selectedMonths=[mkey(current.getFullYear(),current.getMonth())],rangeMode=false;
@@ -617,93 +621,99 @@ function incomeRender(){const r=selectedData();$("incomeTotal").textContent=mone
 function renderExtraList(){const k=selectedMonths.length===1?selectedMonths[0]:mkey(current.getFullYear(),current.getMonth()),a=data.extras[k]||[];if($("extraList"))$("extraList").innerHTML=a.map(e=>`<div class="rowline"><span>${esc(e.name)}</span><b>${money(e.amount)}</b></div>`).join("")}
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
 function renderChart(r){const vals=[r.base,r.ot,r.ctp,r.travel].map(Number),names=["Lương","OT","Công tác phí","Đi lại"],colors=["#2563eb","#7c3aed","#12b76a","#f79009"],tot=vals.reduce((a,b)=>a+b,0)||0,pie=document.querySelector(".pie");if(pie){if(!tot)pie.style.background="#e5e7eb";else{let a=0;pie.style.background="conic-gradient("+vals.map((v,i)=>{let s=a,e=a+v/tot*100;a=e;return colors[i]+" "+s+"% "+e+"%"}).join(",")+")"}}if($("incomeLegend"))$("incomeLegend").innerHTML=names.map((n,i)=>`<div class="legend-row"><span><span class="dot" style="background:${colors[i]}"></span>${n}</span><b>${tot?(vals[i]/tot*100).toFixed(1):"0.0"}%</b></div>`).join("")}
-function homeRender(){const r=selectedData();$("homeIncome").textContent=money(r.sum);renderIncomeComparison("homeIncomeCompare");if($("homeExtraIncome"))$("homeExtraIncome").textContent=money(r.extra);$("homeBase").textContent=money(r.base);$("homeOT").textContent=money(r.ot);$("homeCTP").textContent=money(r.ctp);$("homeTravel").textContent=money(r.travel);$("homeDays").textContent=r.worked+" ngày";const t=selectedMonths.length>1?selectedMonths[0]+" → "+selectedMonths[selectedMonths.length-1]:selectedMonths[0];$("homePeriod").textContent=t;if($("homePeriod2"))$("homePeriod2").textContent=t;$("homeFunds").innerHTML=data.funds.map(f=>`<div class="rowline"><span>${esc(f.name)}</span><b>${money(f.balance)}</b></div>`).join("");updateSelectors();renderChart(r)}
-if($("addFundPercent"))$("addFundPercent").onclick=()=>{
- data.fundsPercent.push({name:"Quỹ mới",percent:0,amount:0,balance:0});save();renderAll();
-};
-if($("addFundAmount"))$("addFundAmount").onclick=()=>{
- data.fundsAmount.push({name:"Quỹ mới",percent:0,amount:0,balance:0});save();renderAll();
-};
+function homeRender(){
+ const r=selectedData();
+ $("homeIncome").textContent=money(r.sum);
+ renderIncomeComparison("homeIncomeCompare");
+ if($("homeExtraIncome"))$("homeExtraIncome").textContent=money(r.extra);
+ $("homeBase").textContent=money(r.base);
+ $("homeOT").textContent=money(r.ot);
+ $("homeCTP").textContent=money(r.ctp);
+ $("homeTravel").textContent=money(r.travel);
+ $("homeDays").textContent=r.worked+" ngày";
+ const t=selectedMonths.length>1?selectedMonths[0]+" → "+selectedMonths[selectedMonths.length-1]:selectedMonths[0];
+ $("homePeriod").textContent=t;
+ if($("homePeriod2"))$("homePeriod2").textContent=t;
 
-function renderFundEditor(type){
- const arr=type==="percent"?data.fundsPercent:data.fundsAmount;
- const editor=$(type==="percent"?"fundPercentEditor":"fundAmountEditor");
- if(!editor)return;
- editor.innerHTML=arr.map((f,i)=>{
-   const val=type==="percent"?(Number(f.percent)||0):(Number(f.amount)||0);
-   return `<div class="rowline">
-     <div style="flex:1"><input data-fname="${type}-${i}" value="${esc(f.name||"Quỹ")}"></div>
-     <div style="width:130px;margin-left:8px">
-       <input data-fval="${type}-${i}" type="${type==="percent"?"number":"text"}" inputmode="${type==="percent"?"decimal":"numeric"}" ${type==="percent"?'min="0" max="100" step="0.01"':''} value="${type==="percent"?val:money(val)}" placeholder="${type==="percent"?"%":"0đ"}">
-     </div>
-     <button class="btn danger" data-fdel="${type}-${i}" style="margin-left:6px">×</button>
-   </div>`;
+ // Overview fund list uses the same Income source and each fund's own mode.
+ // "Còn lại" appears only when there is still money not allocated.
+ const income=Number(r.sum)||0;
+ let allocated=0;
+ const rows=(data.funds||[]).map(f=>{
+   const amount=f.mode==="percent"
+     ? income*(Number(f.percent)||0)/100
+     : parseMoney(f.amount);
+   allocated+=amount;
+   return `<div class="rowline"><span>${esc(f.name)}</span><b>${money(amount)}</b></div>`;
  }).join("");
+ const remaining=Math.max(0,income-allocated);
+ $("homeFunds").innerHTML=rows+(remaining>1
+   ? `<div class="rowline"><span>Còn lại</span><b>${money(remaining)}</b></div>`
+   : "");
 
- editor.querySelectorAll("[data-fname]").forEach(x=>x.onchange=()=>{
-   const [t,i]=x.dataset.fname.split("-");
-   const arr=t==="percent"?data.fundsPercent:data.fundsAmount;
-   arr[+i].name=x.value||"Quỹ"; save(); renderAll();
- });
- editor.querySelectorAll("[data-fval]").forEach(x=>{
-   if(type==="amount")bindMoneyInput(x);
-   x.onchange=()=>{
-     const [t,i]=x.dataset.fval.split("-");
-     const arr=t==="percent"?data.fundsPercent:data.fundsAmount;
-     arr[+i][t==="percent"?"percent":"amount"]=t==="percent"?(Number(x.value)||0):parseMoney(x.value);
-     save(); renderAll();
-   };
- });
- editor.querySelectorAll("[data-fdel]").forEach(x=>x.onclick=()=>{
-   const [t,i]=x.dataset.fdel.split("-");
-   const arr=t==="percent"?data.fundsPercent:data.fundsAmount;
-   if(arr.length<=1)return alert("Phải giữ ít nhất 1 quỹ.");
-   arr.splice(+i,1); save(); renderAll();
- });
+ updateSelectors();
+ renderChart(r);
 }
 
-function renderFundEditor(type){
- const arr=type==="percent"?data.funds:data.fundsAmount;
- const editor=$(type==="percent"?"fundPercentEditor":"fundAmountEditor");
+function renderFundEditor(){
+ const arr=data.funds||[];
+ const editor=$("fundEditor");
  if(!editor)return;
+
  editor.innerHTML=arr.map((f,i)=>{
-   const val=type==="percent"
-     ? (Number(f.percent)||0)
+   const mode=f.mode==="percent"?"percent":"amount";
+   const value=mode==="percent"
+     ? String(Number(f.percent)||0)
      : (Number(f.amount)>0?money(f.amount):"");
-   return `<div class="rowline">
-     <div style="flex:1"><input data-fname="${type}-${i}" value="${esc(f.name||"Quỹ")}"></div>
-     <div style="width:130px;margin-left:8px">
-       <input data-fval="${type}-${i}"
-         type="${type==="percent"?"number":"text"}"
-         inputmode="${type==="percent"?"decimal":"numeric"}"
-         ${type==="percent"?'min="0" max="100" step="0.01"':''}
-         value="${val}" placeholder="${type==="percent"?"%":"0đ"}">
+   const label=mode==="percent"?"%":"đ";
+   return `<div class="fund-item" style="padding:10px 0;border-bottom:1px solid var(--border,#e5e7eb)">
+     <div style="display:flex;align-items:center;gap:7px">
+       <div style="flex:1">
+         <input data-fname="${i}" value="${esc(f.name||"Quỹ")}">
+       </div>
+       <button type="button" class="fund-row-toggle ${mode==="percent"?"is-percent":""}" data-fmode="${i}" aria-label="Đổi đơn vị">
+         <span class="fund-row-track"><span class="fund-row-knob">${label}</span></span>
+       </button>
+       <div style="width:125px">
+         <input data-fval="${i}"
+           type="${mode==="percent"?"number":"text"}"
+           inputmode="${mode==="percent"?"decimal":"numeric"}"
+           ${mode==="percent"?'min="0" max="100" step="0.01"':''}
+           value="${value}" placeholder="${mode==="percent"?"%":"0đ"}">
+       </div>
+       <button type="button" class="btn danger" data-fdel="${i}">×</button>
      </div>
-     <button class="btn danger" data-fdel="${type}-${i}" style="margin-left:6px">×</button>
+     ${mode==="percent"
+       ? `<div style="font-size:13px;margin:4px 0 0 2px;color:var(--muted,#667085)">${money((Number(selectedData().sum)||0)*(Number(f.percent)||0)/100)}</div>`
+       : ""}
    </div>`;
  }).join("");
 
  editor.querySelectorAll("[data-fname]").forEach(x=>x.onchange=()=>{
-   const [t,i]=x.dataset.fname.split("-");
-   const arr=t==="percent"?data.funds:data.fundsAmount;
-   arr[+i].name=x.value||"Quỹ";
+   data.funds[+x.dataset.fname].name=x.value||"Quỹ";
    save();renderAll();
  });
+
+ editor.querySelectorAll("[data-fmode]").forEach(x=>x.onclick=()=>{
+   const f=data.funds[+x.dataset.fmode];
+   f.mode=f.mode==="percent"?"amount":"percent";
+   save();renderAll();
+ });
+
  editor.querySelectorAll("[data-fval]").forEach(x=>{
-   if(type==="amount")bindMoneyInput(x);
+   const i=+x.dataset.fval;
+   const f=data.funds[i];
+   if(f.mode!=="percent")bindMoneyInput(x);
    x.onchange=()=>{
-     const [t,i]=x.dataset.fval.split("-");
-     const arr=t==="percent"?data.funds:data.fundsAmount;
-     arr[+i][t==="percent"?"percent":"amount"]=
-       t==="percent"?(Number(x.value)||0):parseMoney(x.value);
+     if(f.mode==="percent")f.percent=Number(x.value)||0;
+     else f.amount=parseMoney(x.value);
      save();renderAll();
    };
  });
+
  editor.querySelectorAll("[data-fdel]").forEach(x=>x.onclick=()=>{
-   const [t,i]=x.dataset.fdel.split("-");
-   const arr=t==="percent"?data.funds:data.fundsAmount;
-   if(arr.length<=1)return alert("Phải giữ ít nhất 1 quỹ.");
-   arr.splice(+i,1);
+   if(data.funds.length<=1)return alert("Phải giữ ít nhất 1 quỹ.");
+   data.funds.splice(+x.dataset.fdel,1);
    save();renderAll();
  });
 }
@@ -711,33 +721,37 @@ function renderFundEditor(type){
 function fundsRender(){
  const income=Number(selectedData().sum)||0;
  data.funds=data.funds||[];
- data.fundsAmount=data.fundsAmount||[];
 
  if($("fundIncome"))$("fundIncome").textContent=money(income);
+ renderFundEditor();
 
- renderFundEditor("percent");
- renderFundEditor("amount");
+ let allocated=0;
+ data.funds.forEach(f=>{
+   allocated += f.mode==="percent"
+     ? income*(Number(f.percent)||0)/100
+     : parseMoney(f.amount);
+ });
 
- const percentTotal=data.funds.reduce((s,f)=>s+(Number(f.percent)||0),0);
- const amountTotal=data.fundsAmount.reduce((s,f)=>s+parseMoney(f.amount),0);
+ const remaining=Math.max(0,income-allocated);
+ if($("fundRemaining")){
+   $("fundRemaining").textContent=remaining>1 ? "Còn lại: "+money(remaining) : "";
+ }
 
- if($("fundPercentTotal"))$("fundPercentTotal").textContent=percentTotal.toFixed(2)+"%";
- if($("fundAmountTotal"))$("fundAmountTotal").textContent=money(amountTotal);
-
- if($("fundPercentBalances"))
-   $("fundPercentBalances").innerHTML=data.funds.map(f=>`<div class="rowline"><span>${esc(f.name)}</span><b>${money(f.balance)}</b></div>`).join("");
-
- if($("fundAmountBalances"))
-   $("fundAmountBalances").innerHTML=data.fundsAmount.map(f=>`<div class="rowline"><span>${esc(f.name)}</span><b>${money(f.balance)}</b></div>`).join("");
-
- // Both systems use the same Income source, but are independent of each other.
- if($("fundPercentRemaining"))
-   $("fundPercentRemaining").textContent="Còn lại: "+money(Math.max(0,income-income*percentTotal/100));
-
- if($("fundAmountRemaining"))
-   $("fundAmountRemaining").textContent="Còn lại: "+money(Math.max(0,income-amountTotal));
+ const balances=$("fundBalances");
+ if(balances){
+   balances.innerHTML=data.funds.map(f=>{
+     const amount=f.mode==="percent"
+       ? income*(Number(f.percent)||0)/100
+       : parseMoney(f.amount);
+     const sub=f.mode==="percent"
+       ? `<small style="display:block;margin-top:3px">${Number(f.percent)||0}%</small>`
+       : "";
+     return `<div class="rowline" style="align-items:flex-start">
+       <span>${esc(f.name)}${sub}</span><b>${money(amount)}</b>
+     </div>`;
+   }).join("");
+ }
 }
-
 function updateDayNoteStatus(){
   const el=$("dayNoteStatus"); if(!el||!selectedKey)return;
   const x=data.days[selectedKey]||{};
@@ -762,23 +776,100 @@ function restoreBackup(file){
   const reader=new FileReader();
   reader.onload=()=>{
     try{
-      const obj=JSON.parse(reader.result);
-      const incoming=obj&&obj.data?obj.data:obj;
-      if(!incoming||typeof incoming!=="object"||!incoming.days||!incoming.funds)throw new Error("invalid");
-      if(!confirm("Khôi phục sẽ thay dữ liệu hiện tại bằng bản sao lưu. Tiếp tục?"))return;
-      data={
+      const raw=String(reader.result||"");
+      let obj;
+      try{ obj=JSON.parse(raw); }
+      catch(e){ throw new Error("json"); }
+
+      const incoming=(obj&&obj.data&&typeof obj.data==="object")?obj.data:obj;
+      if(!incoming || typeof incoming!=="object"){
+        throw new Error("structure");
+      }
+
+      // Backward-compatible migration. Old v1 backups may not have the
+      // newer fields; missing fields are created without discarding old data.
+      const restored={
         salary:Number(incoming.salary)||0,
         hoursDay:Number(incoming.hoursDay)||8,
-        days:incoming.days||{},
-        extras:incoming.extras||{},
-        funds:incoming.funds||[]
+        days:(incoming.days&&typeof incoming.days==="object")?incoming.days:{},
+        extras:(incoming.extras&&typeof incoming.extras==="object")?incoming.extras:{},
+        monthSalary:(incoming.monthSalary&&typeof incoming.monthSalary==="object")?incoming.monthSalary:{},
+        funds:Array.isArray(incoming.funds)?incoming.funds:[],
+        fundsAmount:Array.isArray(incoming.fundsAmount)?incoming.fundsAmount:[],
+        fundsPercent:Array.isArray(incoming.fundsPercent)?incoming.fundsPercent:[],
+        fundMode:incoming.fundMode==="percent"?"percent":"amount",
+        darkMode:!!incoming.darkMode
       };
-      save();selectedKey=null;cleanLegacyPhantomOT2();renderAll();
+
+      // Migrate every old fund to the current single-list structure.
+      if(restored.funds.length){
+        restored.funds=restored.funds.map(f=>({
+          name:f&&f.name?String(f.name):"Quỹ",
+          mode:f&&f.mode==="percent"?"percent":"amount",
+          percent:Number(f&&f.percent)||0,
+          amount:parseMoney(f&&f.amount),
+          balance:Number(f&&f.balance)||0
+        }));
+      }else{
+        const fromPercent=restored.fundsPercent.map(f=>({
+          name:f&&f.name?String(f.name):"Quỹ",
+          mode:"percent",
+          percent:Number(f&&f.percent)||0,
+          amount:0,
+          balance:Number(f&&f.balance)||0
+        }));
+        const fromAmount=restored.fundsAmount.map(f=>({
+          name:f&&f.name?String(f.name):"Quỹ",
+          mode:"amount",
+          percent:0,
+          amount:parseMoney(f&&f.amount),
+          balance:Number(f&&f.balance)||0
+        }));
+        restored.funds=fromPercent.concat(fromAmount);
+      }
+
+      if(!restored.funds.length){
+        restored.funds=[{name:"Quỹ mới",mode:"amount",percent:0,amount:0,balance:0}];
+      }
+
+      // Preserve all day records from old backups, including CTP/KM/OT/rest.
+      Object.keys(restored.days).forEach(k=>{
+        const x=restored.days[k];
+        if(!x || typeof x!=="object")restored.days[k]={worked:false,rest:false};
+        else{
+          x.worked=!!x.worked;
+          x.rest=!!x.rest;
+          if(x.workedByUser===undefined)x.workedByUser=!!x.worked;
+          x.ot15=Number(x.ot15)||0;
+          x.ot2=Number(x.ot2)||0;
+          x.ctp=Number(x.ctp)||0;
+          x.travel=Number(x.travel)||0;
+        }
+      });
+
+      if(!confirm("Khôi phục dữ liệu từ bản sao lưu này?"))return;
+
+      data=restored;
+      save();
+
+      selectedKey=null;
+      if(typeof cleanLegacyPhantomOT2==="function")cleanLegacyPhantomOT2();
+      renderAll();
+
+      const input=$("restoreData");
+      if(input)input.value="";
       alert("Đã khôi phục dữ liệu thành công.");
-    }catch(e){alert("File sao lưu không hợp lệ.");}
+    }catch(err){
+      console.error("Restore error:",err);
+      alert(err.message==="json"
+        ?"File sao lưu bị lỗi hoặc không phải JSON hoàn chỉnh."
+        :"File sao lưu không đúng cấu trúc của ứng dụng.");
+    }
   };
+  reader.onerror=()=>alert("Không thể đọc file sao lưu.");
   reader.readAsText(file);
 }
+
 function updateSalaryScope(){
   const k=mkey(current.getFullYear(),current.getMonth());
   if($("salaryScope"))$("salaryScope").textContent=
@@ -875,6 +966,9 @@ if($("saveSalaryDefault"))$("saveSalaryDefault").onclick=function(){
   renderAll();
 };
 
+
+
+
 function renderAll(){workRender();incomeRender();fundsRender();homeRender();syncSalaryInputs();syncHourlyOnly();save();bindAllMoneyInputs()}
 
 $("prev").onclick=()=>{current.setMonth(current.getMonth()-1);workRender()};$("next").onclick=()=>{current.setMonth(current.getMonth()+1);workRender()};
@@ -913,6 +1007,34 @@ if($("allocateAmount"))$("allocateAmount").onclick=()=>{
  if(total>income+1)return alert("Phân bổ quỹ đang thừa so với Income.");
  if(total<income-1)return alert("Phân bổ quỹ chưa đủ tổng Income.");
  data.fundsAmount.forEach(f=>f.balance=parseMoney(f.amount));
+ save();renderAll();
+};
+
+
+
+
+
+
+
+if($("addFund"))$("addFund").onclick=()=>{
+ data.funds=data.funds||[];
+ data.funds.push({name:"Quỹ mới",mode:"amount",percent:0,amount:0,balance:0});
+ save();renderAll();
+};
+if($("allocateFund"))$("allocateFund").onclick=()=>{
+ const income=Number(selectedData().sum)||0;
+ let total=0;
+ data.funds.forEach(f=>{
+   total += f.mode==="percent"
+     ? income*(Number(f.percent)||0)/100
+     : parseMoney(f.amount);
+ });
+ if(total>income+1)return alert("Phân bổ quỹ đang vượt quá Income.");
+ data.funds.forEach(f=>{
+   f.balance=f.mode==="percent"
+     ? income*(Number(f.percent)||0)/100
+     : parseMoney(f.amount);
+ });
  save();renderAll();
 };
 
