@@ -628,7 +628,33 @@ function renderIncomeComparison(id){
   }
 }
 function incomeRender(){const r=selectedData();$("incomeTotal").textContent=money(r.sum);$("incomeBase").textContent=money(r.base);$("incomeOT").textContent=money(r.ot);$("incomeCTP").textContent=money(r.ctp);$("incomeTravel").textContent=money(r.travel);renderIncomeComparison("incomeTotalCompare");renderExtraList();updateSelectors()}
-function renderExtraList(){const k=selectedMonths.length===1?selectedMonths[0]:mkey(current.getFullYear(),current.getMonth()),a=data.extras[k]||[];if($("extraList"))$("extraList").innerHTML=a.map(e=>`<div class="rowline"><span>${esc(e.name)}</span><b>${money(e.amount)}</b></div>`).join("")}
+function renderExtraList(){
+ const k=selectedMonths.length===1?selectedMonths[0]:mkey(current.getFullYear(),current.getMonth());
+ const a=data.extras[k]||[];
+ if(!$("extraList"))return;
+ $("extraList").innerHTML=a.map((e,i)=>`
+   <div class="extra-item" style="display:flex;align-items:center;gap:7px;padding:8px 0;border-bottom:1px solid var(--border,#e5e7eb)">
+     <input data-extra-name="${i}" value="${esc(e.name||"Khoản")}">
+     <input data-extra-amount="${i}" type="text" inputmode="numeric" value="${money(e.amount)}" style="width:130px">
+     <button type="button" class="btn danger" data-extra-del="${i}">×</button>
+   </div>`).join("");
+
+ $("extraList").querySelectorAll("[data-extra-name]").forEach(x=>x.onchange=()=>{
+   a[+x.dataset.extraName].name=x.value||"Khoản";
+   save();renderAll();
+ });
+ $("extraList").querySelectorAll("[data-extra-amount]").forEach(x=>{
+   bindMoneyInput(x);
+   x.onchange=()=>{
+     a[+x.dataset.extraAmount].amount=parseMoney(x.value);
+     save();renderAll();
+   };
+ });
+ $("extraList").querySelectorAll("[data-extra-del]").forEach(x=>x.onclick=()=>{
+   a.splice(+x.dataset.extraDel,1);
+   save();renderAll();
+ });
+}
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
 function renderChart(r){const vals=[r.base,r.ot,r.ctp,r.travel].map(Number),names=["Lương","OT","Công tác phí","Đi lại"],colors=["#2563eb","#7c3aed","#12b76a","#f79009"],tot=vals.reduce((a,b)=>a+b,0)||0,pie=document.querySelector(".pie");if(pie){if(!tot)pie.style.background="#e5e7eb";else{let a=0;pie.style.background="conic-gradient("+vals.map((v,i)=>{let s=a,e=a+v/tot*100;a=e;return colors[i]+" "+s+"% "+e+"%"}).join(",")+")"}}if($("incomeLegend"))$("incomeLegend").innerHTML=names.map((n,i)=>`<div class="legend-row"><span><span class="dot" style="background:${colors[i]}"></span>${n}</span><b>${tot?(vals[i]/tot*100).toFixed(1):"0.0"}%</b></div>`).join("")}
 function homeRender(){
@@ -657,9 +683,10 @@ function homeRender(){
    return `<div class="rowline"><span>${esc(f.name)}</span><b>${money(amount)}</b></div>`;
  }).join("");
  const remaining=Math.max(0,income-allocated);
- $("homeFunds").innerHTML=rows+(remaining>1
-   ? `<div class="rowline"><span>Còn lại</span><b>${money(remaining)}</b></div>`
-   : "");
+ const fundTotal=allocated;
+$("homeFunds").innerHTML=rows
+   +(remaining>1?`<div class="rowline"><span>Còn lại</span><b>${money(remaining)}</b></div>`:"")
+   +`<div class="rowline" style="font-weight:700;border-top:1px solid var(--border,#e5e7eb);margin-top:4px;padding-top:10px"><span>Tổng</span><b>${money(fundTotal)}</b></div>`;
 
  updateSelectors();
  renderChart(r);
@@ -1048,6 +1075,19 @@ if($("allocateFund"))$("allocateFund").onclick=()=>{
  save();renderAll();
 };
 
+
+if($("addExtra"))$("addExtra").onclick=()=>{
+ const name=($("extraName").value||"").trim();
+ const amount=parseMoney($("extraAmount").value);
+ if(!name)return alert("Vui lòng nhập tên khoản.");
+ if(!amount)return alert("Vui lòng nhập số tiền.");
+ const k=selectedMonths.length===1?selectedMonths[0]:mkey(current.getFullYear(),current.getMonth());
+ data.extras[k]=data.extras[k]||[];
+ data.extras[k].push({name,amount});
+ $("extraName").value="";
+ $("extraAmount").value="";
+ save();renderAll();
+};
 
 document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));$(b.dataset.page).classList.add("active");renderAll()});
 
