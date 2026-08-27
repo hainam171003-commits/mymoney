@@ -314,6 +314,9 @@ body.dark .day .tags .tag{
 .fund-row-knob{display:flex;width:18px;height:18px;border-radius:50%;background:#fff;align-items:center;justify-content:center;font-size:9px;font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,.15);transition:transform .16s}
 .fund-row-toggle.is-percent .fund-row-track{background:#111827}
 .fund-row-toggle.is-percent .fund-row-knob{transform:translateX(16px)}
+</style><style>
+.fund-item,.fund-item *{ -webkit-touch-callout:none; }
+.fund-drag{ -webkit-user-select:none!important; user-select:none!important; }
 </style></head>
 <body>
 <div class="app">
@@ -665,17 +668,17 @@ function renderFundEditor(){
    const mode=f.mode==="percent"?"percent":"amount";
    const value=mode==="percent"?String(Number(f.percent)||0):(Number(f.amount)>0?money(f.amount):"");
    const amount=mode==="percent"?income*(Number(f.percent)||0)/100:parseMoney(f.amount);
-   return `<div class="fund-item" draggable="true" data-fund-index="${i}" style="padding:10px 0;border-bottom:1px solid var(--border,#e5e7eb)">
+   return `<div class="fund-item" data-fund-index="${i}" style="padding:10px 0;border-bottom:1px solid var(--border,#e5e7eb);user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:pan-y">
     <div style="display:flex;align-items:center;gap:7px">
-     <span class="fund-drag" title="Kéo để sắp xếp" style="cursor:grab;user-select:none">⋮⋮</span>
-     <div style="flex:1"><input data-fname="${i}" value="${esc(f.name||"Quỹ")}"></div>
+     <span class="fund-drag" title="Giữ và kéo để sắp xếp" style="cursor:grab;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:none;padding:6px 4px;font-size:18px;line-height:1">⋮⋮</span>
+     <div style="flex:1"><input data-fname="${i}" value="${esc(f.name||"Quỹ")}" style="user-select:text;-webkit-user-select:text"></div>
      <button type="button" class="fund-row-toggle ${mode==="percent"?"is-percent":""}" data-fmode="${i}">
       <span class="fund-row-track"><span class="fund-row-knob">${mode==="percent"?"%":"đ"}</span></span>
      </button>
-     <div style="width:125px"><input data-fval="${i}" type="${mode==="percent"?"number":"text"}" inputmode="${mode==="percent"?"decimal":"numeric"}" ${mode==="percent"?'min="0" max="100" step="0.01"':''} value="${value}" placeholder="${mode==="percent"?"%":"0đ"}"></div>
+     <div style="width:125px"><input data-fval="${i}" type="${mode==="percent"?"number":"text"}" inputmode="${mode==="percent"?"decimal":"numeric"}" ${mode==="percent"?'min="0" max="100" step="0.01"':''} value="${value}" placeholder="${mode==="percent"?"%":"0đ"} style="user-select:text;-webkit-user-select:text"></div>
      <button type="button" class="btn danger" data-fdel="${i}">×</button>
     </div>
-    ${mode==="percent"?`<div style="font-size:13px;margin:4px 0 0 24px;color:var(--muted,#667085)">${money(amount)}</div>`:""}
+    ${mode==="percent"?`<div style="font-size:13px;margin:4px 0 0 24px;color:var(--muted,#667085);user-select:none;-webkit-user-select:none">${money(amount)}</div>`:""}
    </div>`;
  }).join("");
 
@@ -690,19 +693,59 @@ function renderFundEditor(){
  });
  editor.querySelectorAll("[data-fdel]").forEach(x=>x.onclick=()=>{if(data.funds.length<=1)return alert("Phải giữ ít nhất 1 quỹ.");data.funds.splice(+x.dataset.fdel,1);save();renderAll();});
 
- let dragIndex=null;
+ // Pointer-based reordering works with mouse and touch. Only the ⋮⋮ handle
+ // starts a drag, so inputs/buttons remain normal controls.
  editor.querySelectorAll(".fund-item").forEach(row=>{
-   row.addEventListener("dragstart",()=>{dragIndex=+row.dataset.fundIndex;row.classList.add("dragging");});
-   row.addEventListener("dragend",()=>{row.classList.remove("dragging");dragIndex=null;});
-   row.addEventListener("dragover",e=>e.preventDefault());
-   row.addEventListener("drop",e=>{
+   const handle=row.querySelector(".fund-drag");
+   if(!handle)return;
+   let active=false,startY=0,from=-1,ghost=null;
+   const start=e=>{
+     active=true;
+     startY=e.clientY;
+     from=+row.dataset.fundIndex;
+     row.classList.add("dragging");
+     handle.setPointerCapture?.(e.pointerId);
      e.preventDefault();
-     const to=+row.dataset.fundIndex;
-     if(dragIndex===null||dragIndex===to)return;
-     const moved=data.funds.splice(dragIndex,1)[0];
-     data.funds.splice(to,0,moved);
-     save();renderAll();
-   });
+   };
+   const move=e=>{
+     if(!active)return;
+     e.preventDefault();
+     const dy=e.clientY-startY;
+     if(Math.abs(dy)<8)return;
+     const rows=[...editor.querySelectorAll(".fund-item")];
+     let target=from;
+     rows.forEach((r,i)=>{
+       if(r===row)return;
+       const rect=r.getBoundingClientRect();
+       if(e.clientY>rect.top+rect.height/2)target=i;
+     });
+     if(target!==from){
+       const moved=data.funds.splice(from,1)[0];
+       data.funds.splice(target,0,moved);
+       from=target;
+       save();
+       // Re-rendering would cancel the touch pointer, so move DOM row directly.
+       const current=[...editor.querySelectorAll(".fund-item")];
+       const targetRow=current[target];
+       if(targetRow && targetRow!==row){
+         if(target>current.indexOf(row))targetRow.after(row);
+         else targetRow.before(row);
+       }
+     }
+   };
+   const end=e=>{
+     if(!active)return;
+     active=false;
+     row.classList.remove("dragging");
+     try{handle.releasePointerCapture?.(e.pointerId)}catch{}
+     save();
+     renderAll();
+     e.preventDefault();
+   };
+   handle.addEventListener("pointerdown",start,{passive:false});
+   handle.addEventListener("pointermove",move,{passive:false});
+   handle.addEventListener("pointerup",end,{passive:false});
+   handle.addEventListener("pointercancel",end,{passive:false});
  });
 }
 
