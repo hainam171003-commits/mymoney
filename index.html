@@ -574,9 +574,15 @@ function selectDay(k){
     save();
     if(typeof updateDayNoteStatus==="function")updateDayNoteStatus();
   };
+  // Save day-level amounts immediately while typing, so changing the
+  // selected date/month can never discard CTP or travel data.
+  $("ctp").oninput=autoSave;
   $("ctp").onchange=autoSave;
+  $("travel").oninput=autoSave;
   $("travel").onchange=autoSave;
+  $("ot15").oninput=autoSave;
   $("ot15").onchange=autoSave;
+  $("ot2").oninput=autoSave;
   $("ot2").onchange=autoSave;
   if($("dayRest"))$("dayRest").onchange=()=>{
     const old=data.days[k]||{};
