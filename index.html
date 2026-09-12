@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="vi">
 <head>
-
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -11,320 +10,38 @@
 <link rel="manifest" href="manifest.json">
 <title>Chấm công</title>
 <style>
-
-*{box-sizing:border-box}html,body{margin:0;background:#f7f8fc;color:#101828;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;touch-action:manipulation;-webkit-text-size-adjust:100%}
-body{padding-bottom:88px}.app{max-width:520px;margin:auto;padding:14px 14px 22px}.page{display:none}.page.active{display:block}
-.top{display:flex;align-items:center;justify-content:space-between;margin:3px 2px 14px}.title{font-size:26px;font-weight:800;letter-spacing:-.6px}.sub{font-size:11px;color:#667085;margin-top:3px}
-.card{background:#fff;border:1px solid #eaecf0;border-radius:22px;padding:15px;margin-bottom:11px;box-shadow:0 5px 18px rgba(16,24,40,.045)}
-.hero{background:linear-gradient(145deg,#1d4ed8,#2563eb);color:#fff;border:0;padding:19px}.hero .label{color:#dbeafe}.hero .big{font-size:31px;margin-top:7px}
-.label{font-size:11px;color:#667085;font-weight:650}.big{font-size:21px;font-weight:800;letter-spacing:-.3px}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:9px}.stat{background:#fff;border:1px solid #eaecf0;border-radius:17px;padding:12px;box-shadow:0 3px 12px rgba(16,24,40,.035)}
-.stat .big{margin-top:5px}.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.section-head b{font-size:15px}
-.rowline{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid #f0f2f4}.rowline:last-child{border-bottom:0}
-.badge{font-size:10px;padding:4px 7px;border-radius:8px;background:#eef4ff;color:#175cd3;font-weight:700}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}label{font-size:11px;color:#667085;font-weight:650;display:block;margin-bottom:5px}
-input,select,textarea{width:100%;min-height:42px;padding:9px 10px;border:1px solid #d0d5dd;border-radius:11px;background:#fff;font:inherit;font-size:14px;color:#101828;outline:none}
-.btn{border:0;border-radius:11px;padding:9px 13px;font:inherit;font-size:13px;font-weight:700}.primary{background:#2563eb;color:#fff}.secondary{background:#eef1f5;color:#344054}.danger{background:#fee4e2;color:#b42318}
-.actions{display:flex;gap:7px;flex-wrap:wrap}.muted{font-size:11px;color:#667085}
+*{box-sizing:border-box}
+html,body{margin:0;background:#f3f5f9;color:#101828;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;touch-action:manipulation;-webkit-text-size-adjust:100%}
+body{padding-bottom:88px}.app{max-width:540px;margin:auto;padding:16px 14px 24px}.page{display:none}.page.active{display:block}
+.top{display:flex;align-items:center;justify-content:space-between;margin:3px 2px 14px}.title{font-size:28px;font-weight:800;letter-spacing:-.8px}.sub{font-size:11px;color:#98a2b3;margin-top:3px}
+.card{background:#fff;border:0;border-radius:24px;padding:15px;margin-bottom:11px;box-shadow:0 8px 28px rgba(16,24,40,.055)}
+.hero{background:linear-gradient(135deg,#111827 0%,#1d4ed8 100%);color:#fff;padding:19px;box-shadow:0 12px 30px rgba(37,99,235,.18)}
+.hero .label{color:#dbeafe}.hero .big{font-size:31px;margin-top:7px}.label{font-size:11px;color:#667085;font-weight:650}.big{font-size:21px;font-weight:800;letter-spacing:-.3px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:#fff;border:0;border-radius:19px;padding:12px;box-shadow:0 5px 18px rgba(16,24,40,.045)}.stat .big{margin-top:5px}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.section-head b{font-size:15px}.rowline{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid #f0f2f4}.rowline:last-child{border-bottom:0}
+.badge{font-size:10px;padding:4px 7px;border-radius:8px;background:#eef4ff;color:#175cd3;font-weight:700}.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+label{font-size:11px;color:#667085;font-weight:650;display:block;margin-bottom:5px}input,select,textarea{width:100%;min-height:42px;padding:9px 10px;border:1px solid #d0d5dd;border-radius:11px;background:#fff;font:inherit;font-size:14px;color:#101828;outline:none}
+.btn{border:0;border-radius:11px;padding:9px 13px;font:inherit;font-size:13px;font-weight:700}.primary{background:#2563eb;color:#fff}.secondary{background:#eef1f5;color:#344054}.danger{background:#fee4e2;color:#b42318}.actions{display:flex;gap:7px;flex-wrap:wrap}.muted{font-size:11px;color:#667085}
 .monthbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}.monthbar b{font-size:15px}.monthbar .btn{font-size:20px;padding:6px 12px}
 .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.week{text-align:center;color:#98a2b3;font-size:10px;font-weight:650;padding:4px 0}
-.day{height:62px;border:1px solid #e1e4e8;background:#fff;border-radius:11px;padding:6px;overflow:hidden;text-align:left}.day.worked{border:2px solid #16a34a;background:#f0fdf4}.day.note{border-color:#2563eb;background:#eff6ff}.day b{font-size:12px}.tick{font-size:13px;color:#16a34a;font-weight:900;margin-top:3px}
-
-.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse}th,td{padding:8px 5px;border-bottom:1px solid #edf0f2;font-size:11px;text-align:left;white-space:nowrap}th{background:#f8fafc}
-.month-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.month-btn{border:1px solid #d0d5dd;background:#fff;border-radius:10px;padding:9px;font-size:12px;font-weight:700}.month-btn.selected{background:#2563eb;color:#fff;border-color:#2563eb}.month-btn.range{background:#dbeafe;color:#175cd3}
-.mode{display:grid;grid-template-columns:1fr 1fr;background:#f2f4f7;padding:3px;border-radius:11px;margin:8px 0 12px}.mode button{border:0;background:transparent;border-radius:9px;padding:9px;font-size:12px;font-weight:750;color:#667085}.mode button.active{background:#fff;color:#175cd3;box-shadow:0 1px 4px rgba(16,24,40,.08)}
-nav{position:fixed;left:0;right:0;bottom:0;z-index:40;height:78px;padding:7px 10px calc(7px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:rgba(255,255,255,.96);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border-top:1px solid #e5e7eb}
-nav button{border:0;background:transparent;color:#667085;border-radius:13px;font-size:10px;font-weight:700;padding:6px 2px}nav button.active{background:#eef4ff;color:#2563eb}
+.day{height:64px;border:0;background:#fff;border-radius:11px;padding:6px;overflow:hidden;text-align:left;box-shadow:0 2px 8px rgba(16,24,40,.04);display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start}
+.day.worked{border:2px solid #16a34a;background:#f0fdf4;box-shadow:0 4px 12px rgba(22,163,74,.12)}.day.note{border:1px solid #bfdbfe;background:#f8fbff}.day.rest-day{opacity:.72}.day b{font-size:12px;display:block;line-height:14px;height:14px}.tick,.rest-x{display:block;height:18px;line-height:18px;margin:0;padding:0}.tick{font-size:13px;color:#16a34a;font-weight:900}
+.day .tags{display:flex;align-items:center;gap:2px;height:16px;min-height:16px;line-height:16px;margin:0;padding:0;overflow:hidden}.day .tags .tag{display:inline-flex;align-items:center;justify-content:center;height:14px;min-height:14px;line-height:12px;margin:0;padding:0 4px;border-radius:5px;border:1px solid #d0d5dd;background:#fff;color:#111;font-size:7px;white-space:nowrap}
+.compact-month{display:flex;align-items:center;gap:7px;margin-top:8px}.compact-month .month-select{flex:1;min-height:38px}.compact-month .range-btn{white-space:nowrap}.compact-month .range-btn.active{background:#2563eb;color:#fff}.range-summary{font-size:11px;color:#667085;margin-top:7px;min-height:15px}
+.income-compare{display:flex;align-items:center;justify-content:center;gap:5px;margin-top:5px;font-size:12px;font-weight:600}.income-compare.up{color:#12b76a}.income-compare.down{color:#f04438}.income-compare.flat{color:#667085}.income-compare .compare-icon{font-size:13px;line-height:1}
+.pie-wrap{display:flex;align-items:center;gap:18px}.pie{width:132px;height:132px;border-radius:50%;position:relative;flex:none}.pie:after{content:"";position:absolute;inset:27px;background:#fff;border-radius:50%}.pie-center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:2;font-size:12px;font-weight:800;color:#111}.legend{flex:1}.legend-row{display:flex;justify-content:space-between;padding:6px 0;font-size:11px}.dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:7px}
+.salary-minimal-v2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 10px}.salary-input-row{display:flex;align-items:center;gap:7px}.salary-input-row input{flex:1 1 auto;min-width:0}.salary-save{flex:0 0 auto;height:40px;padding:0 10px;border:0;border-radius:12px;background:#eef2f6;color:#344054;font-size:13px;font-weight:700;cursor:pointer}
+.hourly-only-v2,.daily-only-v2{width:100%;text-align:center;font-size:16px;line-height:1.2;font-weight:700;color:#475467}.daily-only-v2{margin:3px 0 18px}
+nav{position:fixed;left:0;right:0;bottom:0;z-index:40;height:80px;padding:7px 10px calc(7px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:rgba(255,255,255,.96);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);box-shadow:0 -6px 22px rgba(16,24,40,.07)}
+nav button{border:0;background:transparent;color:#667085;border-radius:13px;font-size:10px;font-weight:700;padding:6px 2px}nav button.active{background:#eaf2ff;color:#2563eb}
+.dark-toggle{position:fixed;left:calc(100% - 62px);top:calc(100% - 62px);z-index:9999;width:44px;height:44px;border:0;border-radius:50%;box-shadow:0 4px 14px rgba(0,0,0,.16);font-size:19px;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}.dark-toggle.dragging{cursor:grabbing}
+body.dark{background:#101214;color:#f2f4f7}body.dark .card,body.dark .stat{background:#181b1f;color:#f2f4f7}body.dark input,body.dark select{background:#111418;color:#f2f4f7;border-color:#343a43}body.dark .muted,body.dark .label,body.dark .sub{color:#98a2b3}body.dark .day{background:#181b1f;color:#f2f4f7}body.dark nav{background:#181b1f}body.dark .btn.secondary{background:#242931;color:#f2f4f7}body.dark .salary-save{background:#2b3138;color:#f2f4f7}body.dark .day.worked{color:inherit;background:inherit}body.dark .day.worked .tick{color:#12b76a!important;background:transparent!important}body.dark .day .tags .tag{color:#111!important;background:#fff!important;border-color:#d0d5dd!important}body.dark .daily-only-v2,body.dark .hourly-only-v2{color:#d0d5dd}
+.fund-row-toggle{border:0;background:transparent;padding:0;cursor:pointer;flex:none}.fund-row-track{display:block;width:38px;height:22px;border-radius:999px;background:#d0d5dd;padding:2px;box-sizing:border-box}.fund-row-knob{display:flex;width:18px;height:18px;border-radius:50%;background:#fff;align-items:center;justify-content:center;font-size:9px;font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,.15);transition:transform .16s}.fund-row-toggle.is-percent .fund-row-track{background:#111827}.fund-row-toggle.is-percent .fund-row-knob{transform:translateX(16px)}
+.fund-item,.fund-item *{-webkit-touch-callout:none}.fund-item,.fund-item .fund-drag{-webkit-user-select:none!important;user-select:none!important}.fund-drag{-webkit-user-drag:none!important;touch-action:none!important}body.fund-touch-dragging,body.fund-touch-dragging *{-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important}body.fund-touch-dragging{overflow:hidden}.fund-item.dragging{opacity:.72}
+.core-total{margin-top:11px}
 @media(min-width:700px){body{padding-bottom:0}nav{position:sticky;top:0;bottom:auto;height:auto;background:#111827}nav button{color:#cbd5e1}nav button.active{background:#2563eb;color:#fff}.app{max-width:700px;padding:20px}.day{height:76px}}
-
-/* Finance-style refresh */
-body{background:#f3f5f9}
-.app{max-width:540px;padding:16px 14px 24px}
-.card{border:1px solid #eaecf0;border-radius:18px;box-shadow:0 8px 28px rgba(16,24,40,.055)}
-.hero{background:linear-gradient(135deg,#111827 0%,#1d4ed8 100%);box-shadow:0 12px 30px rgba(37,99,235,.18)}
-.title{font-size:28px;letter-spacing:-.8px}.sub{font-size:11px;color:#98a2b3}
-.stats{gap:10px}.stat{border:0;border-radius:19px;box-shadow:0 5px 18px rgba(16,24,40,.045)}
-.day{border:0;box-shadow:0 2px 8px rgba(16,24,40,.04);height:64px}
-.day.worked{border:2px solid #16a34a;box-shadow:0 4px 12px rgba(22,163,74,.12)}
-.day.note{border:1px solid #bfdbfe;background:#f8fbff}
-.mode{background:#eef1f5}.mode button.active{color:#175cd3}
-nav{height:80px;border-top:0;box-shadow:0 -6px 22px rgba(16,24,40,.07)}
-nav button.active{background:#eaf2ff}
-
-.pie-wrap{display:flex;align-items:center;gap:18px}.pie{width:132px;height:132px;border-radius:50%;background:conic-gradient(#2563eb 0 40%,#7c3aed 40% 70%,#12b76a 70% 88%,#f79009 88% 100%);position:relative;flex:none}.pie:after{content:"";position:absolute;inset:27px;background:#fff;border-radius:50%}.pie-center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:2;font-size:12px;font-weight:800}.legend{flex:1}.legend-row{display:flex;justify-content:space-between;padding:6px 0;font-size:11px}.dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:7px}.change{border-radius:9px;padding:5px 8px;font-size:10px;font-weight:800}.up{background:#ecfdf3;color:#027a48}.down{background:#fef3f2;color:#b42318}.flat{background:#f2f4f7;color:#667085}
-
-/* V4 finance polish */
-body{background:#f3f5f9}.app{max-width:540px;padding:16px 14px 24px}
-.card{border:0;border-radius:24px;box-shadow:0 8px 28px rgba(16,24,40,.055)}
-.hero{background:linear-gradient(135deg,#111827 0%,#1d4ed8 100%);box-shadow:0 12px 30px rgba(37,99,235,.18)}
-.title{font-size:28px;letter-spacing:-.8px}.sub{font-size:11px;color:#98a2b3}
-.stat{border:0;border-radius:19px;box-shadow:0 5px 18px rgba(16,24,40,.045)}
-.day{border:0;box-shadow:0 2px 8px rgba(16,24,40,.04)}
-.day.worked{border:2px solid #16a34a;box-shadow:0 4px 12px rgba(22,163,74,.12)}
-nav{height:80px;border-top:0;box-shadow:0 -6px 22px rgba(16,24,40,.07)}
-
-
-/* Compact classic month selectors */
-.month-grid{display:none!important}
-.compact-month{display:flex;align-items:center;gap:7px;margin-top:8px}
-.compact-month .month-select{flex:1;min-height:38px}
-.compact-month .range-btn{white-space:nowrap}
-.compact-month .range-btn.active{background:#2563eb;color:#fff}
-.range-summary{font-size:11px;color:#667085;margin-top:7px;min-height:15px}
-
-.income-compare{display:flex;align-items:center;justify-content:center;gap:5px;margin-top:5px;font-size:12px;font-weight:600}
-.income-compare.up{color:#12b76a}.income-compare.down{color:#f04438}.income-compare.flat{color:#667085}
-.income-compare .compare-icon{font-size:13px;line-height:1}
-
-
-.salary-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:end}
-.salary-row .salary-block{min-width:0}
-@media(max-width:420px){.salary-row{gap:7px}.salary-row .btn{font-size:11px;padding:8px 9px}}
-.dark-toggle{position:fixed;right:14px;bottom:14px;z-index:50;width:44px;height:44px;border:0;border-radius:50%;box-shadow:0 4px 14px rgba(0,0,0,.16);font-size:19px;cursor:pointer}
-body.dark{background:#101214;color:#f2f4f7}
-body.dark .card,body.dark .stat{background:#181b1f;border-color:#2a2f36;color:#f2f4f7}
-body.dark input,body.dark select{background:#111418;color:#f2f4f7;border-color:#343a43}
-body.dark .muted,body.dark .label,body.dark .sub{color:#98a2b3}
-body.dark .day{background:#181b1f;color:#f2f4f7;border-color:#2a2f36}
-body.dark nav{background:#181b1f;border-color:#2a2f36}
-body.dark .btn.secondary{background:#242931;color:#f2f4f7;border-color:#343a43}
-
-.rest-mark{display:inline-flex;align-items:center;justify-content:center;font-size:10px;margin-left:4px;opacity:.65;cursor:pointer}
-.rest-mark.checked{opacity:1}
-.day.rest-day{opacity:.72}
-
-
-
-
-
-
-
-body.dark .day .check,
-body.dark .day .tick,
-body.dark [data-day] .check,
-body.dark [data-day] .tick,
-
-
-.salary-minimal{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-  margin:0 0 12px;
-}
-.salary-minimal .salary-cell{
-  min-width:0;
-}
-.salary-minimal label{
-  display:block;
-  margin:0 0 6px;
-  font-size:13px;
-  font-weight:600;
-}
-.salary-minimal input{
-  width:100%;
-  box-sizing:border-box;
-  margin:0;
-  text-align:right;
-}
-.salary-minimal .salary-action{
-  width:100%;
-  margin-top:6px;
-  min-height:34px;
-}
-@media(max-width:420px){
-  .salary-minimal{gap:8px}
-  .salary-minimal label{font-size:12px}
-  .salary-minimal .salary-action{font-size:11px;padding:7px 6px}
-}
-
-
-#salaryMinimal~.salary-old,
-.salary-old{display:none !important}
-
-.salary-minimal{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin:0 0 10px;
-}
-.salary-minimal input{
-  width:100%;
-  box-sizing:border-box;
-  margin:0;
-  text-align:right;
-  min-height:42px;
-}
-@media(max-width:420px){
-  .salary-minimal{gap:8px}
-  .salary-minimal input{min-height:40px}
-}
-
-body.dark .day.worked{color:inherit !important;background:inherit}
-body.dark .day.worked b{color:inherit !important}
-body.dark .day.worked .tick{color:#12b76a !important;background:transparent !important}
-
-
-
-
-.salary-input-row{
-  display:flex;
-  align-items:center;
-  gap:7px;
-}
-.salary-input-row input{
-  flex:1 1 auto;
-  min-width:0;
-}
-.salary-save{
-  flex:0 0 auto;
-  height:40px;
-  padding:0 10px;
-  border:0;
-  border-radius:12px;
-  background:#eef2f6;
-  color:#344054;
-  font-size:13px;
-  font-weight:700;
-  cursor:pointer;
-}
-.salary-save:active{transform:scale(.98)}
-body.dark .salary-save{
-  background:#2b3138;
-  color:#f2f4f7;
-}
-
-.dark-toggle{position:fixed!important;right:auto!important;bottom:auto!important;left:calc(100% - 62px);top:calc(100% - 62px);z-index:9999!important;touch-action:none!important;cursor:grab!important}
-.dark-toggle.dragging{cursor:grabbing!important}
-
-.dark-toggle{touch-action:none!important;user-select:none!important;-webkit-user-select:none!important}
-.dark-toggle.dragging{cursor:grabbing!important}
-
-.daily-only-v2{width:100%;margin:-12px 0 18px;text-align:center;font-size:16px;line-height:1.2;font-weight:700;color:#475467}
-body.dark .daily-only-v2{color:#d0d5dd}
-
-
-
-
-
-
-/* Calendar tags: one geometry for both themes */
-.day .tags{
-  display:flex;
-  gap:2px;
-  margin-top:3px;
-  overflow:hidden;
-  align-items:center;
-  justify-content:flex-start;
-  line-height:normal;
-  min-height:0;
-  height:auto;
-}
-.day .tags .tag{
-  display:inline-block;
-  flex:0 0 auto;
-  font-size:7px;
-  padding:2px 4px;
-  border-radius:5px;
-  background:#fff;
-  border:1px solid #d0d5dd;
-  color:#111;
-  white-space:nowrap;
-  line-height:normal;
-  margin:0;
-  position:static;
-  transform:none;
-  vertical-align:baseline;
-  box-sizing:border-box;
-}
-
-/* Final calendar layout: identical vertical geometry in light/dark */
-.day{
-  display:flex !important;
-  flex-direction:column !important;
-  align-items:flex-start !important;
-  justify-content:flex-start !important;
-  gap:0 !important;
-  box-sizing:border-box !important;
-}
-.day b{
-  display:block !important;
-  flex:0 0 auto !important;
-  line-height:14px !important;
-  height:14px !important;
-}
-.day .tick,
-.day .rest-x{
-  display:block !important;
-  flex:0 0 auto !important;
-  height:18px !important;
-  line-height:18px !important;
-  margin:0 !important;
-  padding:0 !important;
-}
-.day .tags{
-  display:flex !important;
-  flex:0 0 16px !important;
-  align-items:center !important;
-  justify-content:flex-start !important;
-  height:16px !important;
-  min-height:16px !important;
-  line-height:16px !important;
-  margin:0 !important;
-  padding:0 !important;
-  gap:2px !important;
-  overflow:hidden !important;
-}
-.day .tags .tag{
-  display:inline-flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  flex:0 0 auto !important;
-  height:14px !important;
-  min-height:14px !important;
-  line-height:12px !important;
-  margin:0 !important;
-  padding:0 4px !important;
-  box-sizing:border-box !important;
-  position:static !important;
-  transform:none !important;
-  vertical-align:middle !important;
-  font-size:7px !important;
-  color:#111 !important;
-  background:#fff !important;
-  border:1px solid #d0d5dd !important;
-  border-radius:5px !important;
-}
-body.dark .day .tags .tag{
-  color:#111 !important;
-  background:#fff !important;
-  border-color:#d0d5dd !important;
-}
-.pie-center{color:#111 !important}
-
-
-</style><style>
-.fund-toggle{border:0;background:transparent;padding:0;cursor:pointer}
-.fund-toggle-track{display:block;width:42px;height:24px;border-radius:999px;background:#d0d5dd;padding:2px;box-sizing:border-box}
-.fund-toggle-knob{display:flex;width:20px;height:20px;border-radius:50%;background:#fff;align-items:center;justify-content:center;font-size:10px;font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,.15);transition:transform .18s}
-.fund-toggle.is-percent .fund-toggle-track{background:#111827}
-.fund-toggle.is-percent .fund-toggle-knob{transform:translateX(18px)}
-</style><style>
-.fund-row-toggle{border:0;background:transparent;padding:0;cursor:pointer;flex:none}
-.fund-row-track{display:block;width:38px;height:22px;border-radius:999px;background:#d0d5dd;padding:2px;box-sizing:border-box}
-.fund-row-knob{display:flex;width:18px;height:18px;border-radius:50%;background:#fff;align-items:center;justify-content:center;font-size:9px;font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,.15);transition:transform .16s}
-.fund-row-toggle.is-percent .fund-row-track{background:#111827}
-.fund-row-toggle.is-percent .fund-row-knob{transform:translateX(16px)}
-</style><style>
-.fund-item,.fund-item *{ -webkit-touch-callout:none; }
-.fund-drag{ -webkit-user-select:none!important; user-select:none!important; }
-</style><style>
-.fund-item,.fund-item *{-webkit-touch-callout:none}
-.fund-item,.fund-item .fund-drag{-webkit-user-select:none!important;user-select:none!important}
-.fund-drag{-webkit-user-drag:none!important;touch-action:none!important}
-body.fund-touch-dragging,body.fund-touch-dragging *{-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important}
-body.fund-touch-dragging{overflow:hidden}
-.fund-item.dragging{opacity:.72}
-</style></head>
+</style>
+</head>
 <body>
 <div class="app">
 <section id="home" class="page active">
@@ -332,74 +49,53 @@ body.fund-touch-dragging{overflow:hidden}
 <div class="card" style="padding:11px 12px"><div class="label">KỲ XEM</div><div class="compact-month"><button class="btn secondary" id="homePrev">‹</button><select class="month-select" id="homeMonthSelect"></select><button class="btn secondary" id="homeNext">›</button><button class="btn secondary range-btn" id="homeRangeBtn">Khoảng</button></div><div class="range-summary" id="homeRangeSummary"></div></div>
 <div class="card hero"><div class="label">TỔNG INCOME</div><div class="big" id="homeIncome">0đ</div><div id="homeIncomeCompare" class="income-compare flat"></div></div>
 <div class="card"><div class="label">INCOME THÊM</div><div class="big" id="homeExtraIncome">0đ</div></div>
-<div class="stats"><div class="stat"><div class="label">Lương</div><div class="big" id="homeBase">0đ</div></div><div class="stat"><div class="label">OT</div><div class="big" id="homeOT">0đ</div></div><div class="stat"><div class="label">Công tác phí</div><div class="big" id="homeCTP">0đ</div></div><div class="stat"><div class="label">Đi lại</div><div class="big" id="homeTravel">0đ</div></div></div><div class="card"><div class="section-head"><b>Cơ cấu Income</b><span id="incomeChange"></span></div><div class="pie-wrap"><div class="pie"><div class="pie-center">Income</div></div><div class="legend" id="incomeLegend"></div></div></div>
+<div class="stats"><div class="stat"><div class="label">Lương</div><div class="big" id="homeBase">0đ</div></div><div class="stat"><div class="label">OT</div><div class="big" id="homeOT">0đ</div></div><div class="stat"><div class="label">Công tác phí</div><div class="big" id="homeCTP">0đ</div></div><div class="stat"><div class="label">Đi lại</div><div class="big" id="homeTravel">0đ</div></div></div>
+<div class="card"><div class="section-head"><b>Cơ cấu Income</b><span id="incomeChange"></span></div><div class="pie-wrap"><div class="pie"><div class="pie-center">Income</div></div><div class="legend" id="incomeLegend"></div></div></div>
 <div class="card"><div class="section-head"><b>Quỹ</b></div><div id="homeFunds"></div></div>
 </section>
 
 <section id="work" class="page">
 <div class="top"><div><div class="title">Chấm công</div><div class="sub">Chọn ngày để ghi nhận</div></div></div>
 <div class="card">
-
 <div class="salary-minimal-v2">
-  <div class="salary-field">
-    <label>Lương tháng (đ)</label>
-    <div class="salary-input-row">
-      <input id="salaryMinimalMonth" type="text" inputmode="numeric" data-money-input placeholder="6.800.000">
-      <button type="button" class="salary-save" id="saveSalaryMonth">Lưu</button>
-    </div>
-  </div>
-  <div class="salary-field">
-    <label>Lương mặc định (đ)</label>
-    <div class="salary-input-row">
-      <input id="salaryMinimalDefault" type="text" inputmode="numeric" data-money-input placeholder="6.800.000">
-      <button type="button" class="salary-save" id="saveSalaryDefault">Lưu</button>
-    </div>
-  </div>
+  <div class="salary-field"><label>Lương tháng (đ)</label><div class="salary-input-row"><input id="salaryMinimalMonth" type="text" inputmode="numeric" data-money-input placeholder="6.800.000"><button type="button" class="salary-save" id="saveSalaryMonth">Lưu</button></div></div>
+  <div class="salary-field"><label>Lương mặc định (đ)</label><div class="salary-input-row"><input id="salaryMinimalDefault" type="text" inputmode="numeric" data-money-input placeholder="6.800.000"><button type="button" class="salary-save" id="saveSalaryDefault">Lưu</button></div></div>
 </div>
-
 <div id="hourlyOnly" class="hourly-only-v2"></div><div id="dailyOnly" class="daily-only-v2"></div>
-
-<div class="monthbar" style="margin-top:14px"><button class="btn secondary" id="prev">‹</button><b id="monthTitle"></b><button class="btn secondary" id="next">›</button></div><div class="calendar" id="calendar"></div></div>
+<div class="monthbar" style="margin-top:14px"><button class="btn secondary" id="prev">‹</button><b id="monthTitle"></b><button class="btn secondary" id="next">›</button></div><div class="calendar" id="calendar"></div>
+</div>
 <div class="card"><div class="section-head"><b id="selectedTitle">Chọn ngày</b></div>
-<div class="grid"><div><label>OT 1.5 (giờ)</label><input id="ot15" type="number" min="0" step=".5"></div><div><label>OT 2 (giờ)</label><input id="ot2" type="number" min="0" step=".5"></div><div><label>Công tác phí (đ)</label><input id="ctp" type="text" inputmode="numeric" data-money-input placeholder="100000" data-money-input></div><div><label>Đi lại (Km)</label><input id="travel" type="number" min="0" step="1" placeholder="10"></div><div class="leave-control">
-  <label><input type="checkbox" id="dayRest"> Nghỉ</label>
-</div></div>
-<div id="dayNoteStatus" class="badge" style="margin:8px 0">Chưa có khoản ngày</div><div class="muted" style="margin-top:7px">Đi lại: 2.000đ/km</div><div class="actions" style="margin-top:10px"><button class="btn primary" id="saveDay">Lưu ngày</button></div></div>
+<div class="grid">
+  <div><label>OT 1.5 (giờ)</label><input id="ot15" type="number" min="0" step=".5"></div>
+  <div><label>OT 2 (giờ)</label><input id="ot2" type="number" min="0" step=".5"></div>
+  <div><label>Công tác phí (đ)</label><input id="ctp" type="text" inputmode="numeric" data-money-input placeholder="100000"></div>
+  <div><label>Đi lại (Km)</label><input id="travel" type="number" min="0" step="1" placeholder="10"></div>
+  <div><label>Nghỉ (giờ)</label><input id="restHours" type="number" min="0" max="8" step=".5" placeholder="0"></div>
+</div>
+<div id="dayNoteStatus" class="badge" style="margin:8px 0">Chưa có khoản ngày</div><div class="muted" style="margin-top:7px">Đi lại: 2.000đ/km</div>
+<div class="actions" style="margin-top:10px"><button class="btn primary" id="saveDay">Lưu ngày</button></div>
+</div>
 </section>
 
 <section id="income" class="page">
 <div class="top"><div><div class="title">Income</div><div class="sub">Chọn 1 tháng hoặc một khoảng tháng</div></div></div>
 <div class="card"><div class="label">KỲ XEM</div><div class="compact-month"><button class="btn secondary" id="incomePrev">‹</button><select class="month-select" id="incomeMonthSelect"></select><button class="btn secondary" id="incomeNext">›</button><button class="btn secondary range-btn" id="incomeRangeBtn">Khoảng</button></div><div class="range-summary" id="incomeSelection"></div><div class="actions" style="margin-top:9px"><button class="btn primary" id="applyMonths">Xem Income</button><button class="btn secondary" id="clearMonths">Bỏ chọn</button></div></div>
-<div class="card"><div class="section-head"><b>Income thêm</b></div><div class="grid"><div><label>Tên khoản</label><input id="extraName" placeholder="Ví dụ: Thưởng"></div><div><label>Số tiền (đ)</label><input id="extraAmount" type="text" inputmode="numeric" data-money-input placeholder="100000" data-money-input></div></div><div class="actions" style="margin-top:9px"><button class="btn secondary" id="addExtra">＋ Thêm khoản</button></div><div id="extraList"></div></div>
+<div class="card"><div class="section-head"><b>Income thêm</b></div><div class="grid"><div><label>Tên khoản</label><input id="extraName" placeholder="Ví dụ: Thưởng"></div><div><label>Số tiền (đ)</label><input id="extraAmount" type="text" inputmode="numeric" data-money-input placeholder="100000"></div></div><div class="actions" style="margin-top:9px"><button class="btn secondary" id="addExtra">＋ Thêm khoản</button></div><div id="extraList"></div></div>
 <div class="card hero"><div class="label">TỔNG INCOME</div><div class="big" id="incomeTotal">0đ</div><div id="incomeTotalCompare" class="income-compare flat"></div></div>
 <div class="stats"><div class="stat"><div class="label">Lương</div><div class="big" id="incomeBase">0đ</div></div><div class="stat"><div class="label">OT</div><div class="big" id="incomeOT">0đ</div></div><div class="stat"><div class="label">CTP</div><div class="big" id="incomeCTP">0đ</div></div><div class="stat"><div class="label">Đi lại</div><div class="big" id="incomeTravel">0đ</div></div></div>
+<div class="card core-total"><div class="label">TỔNG CÁC MỤC</div><div class="big" id="incomeCoreTotal">0đ</div></div>
 </section>
 
 <section id="fund" class="page">
 <div class="top"><div><div class="title">Quỹ</div></div></div>
-
-<div class="card">
-  <div class="section-head"><b>Quỹ</b></div>
-  <div id="fundEditor"></div>
-  <div class="actions">
-    <button class="btn secondary" id="addFund">＋ Thêm quỹ</button>
-    <button class="btn primary" id="allocateFund">Phân bổ</button>
-  </div>
-  <div id="fundRemaining" style="margin-top:10px;text-align:right;font-weight:600"></div>
-</div>
+<div class="card"><div class="section-head"><b>Quỹ</b></div><div id="fundEditor"></div><div class="actions"><button class="btn secondary" id="addFund">＋ Thêm quỹ</button><button class="btn primary" id="allocateFund">Phân bổ</button></div><div id="fundRemaining" style="margin-top:10px;text-align:right;font-weight:600"></div></div>
 </section>
 </div>
 
-<div class="card" style="margin-top:12px">
-  <div class="section-head"><b>Sao lưu dữ liệu</b></div>
-  <div class="muted" style="margin-bottom:9px">Xuất dữ liệu để chuyển sang máy khác hoặc khôi phục khi cần.</div>
-  <div class="actions">
-    <button class="btn primary" id="backupData">Sao lưu</button>
-    <label class="btn secondary" for="restoreData">Khôi phục</label>
-    <input id="restoreData" type="file" accept=".json,application/json" style="display:none">
-  </div>
-</div>
+<div class="card" style="margin:12px 14px 0"><div class="section-head"><b>Sao lưu dữ liệu</b></div><div class="muted" style="margin-bottom:9px">Xuất dữ liệu để chuyển sang máy khác hoặc khôi phục khi cần.</div><div class="actions"><button class="btn primary" id="backupData">Sao lưu</button><label class="btn secondary" for="restoreData">Khôi phục</label><input id="restoreData" type="file" accept=".json,application/json" style="display:none"></div></div>
+
 <nav><button class="active" data-page="home">📊<br>Tổng quan</button><button data-page="work">🕐<br>Chấm công</button><button data-page="income">💰<br>Income</button><button data-page="fund">🏦<br>Quỹ</button></nav>
+
 <script>
 const KEY="cham_cong_finance_v3";
 const $=id=>document.getElementById(id);
@@ -407,764 +103,310 @@ const money=n=>new Intl.NumberFormat("vi-VN").format(Math.round(Number(n)||0))+"
 const parseMoney=v=>Number(String(v??"").replace(/[^\d-]/g,""))||0;
 const pad=n=>String(n).padStart(2,"0"),mkey=(y,m)=>y+"-"+pad(m+1),dkey=(y,m,d)=>y+"-"+pad(m+1)+"-"+pad(d);
 const dim=(y,m)=>new Date(y,m+1,0).getDate();
-let data=JSON.parse(localStorage.getItem(KEY)||"null")||{salary:0,hoursDay:8,days:{},extras:{},funds:[{name:"Sinh hoạt",percent:40,amount:0,balance:0},{name:"Tiết kiệm",percent:30,amount:0,balance:0},{name:"Đầu tư",percent:30,amount:0,balance:0}]};
-data.extras=data.extras||{}; data.funds=data.funds||[]; data.monthSalary=data.monthSalary||{};
-data.fundMode=data.fundMode==="percent"?"percent":"amount";
+
+let data=JSON.parse(localStorage.getItem(KEY)||"null")||{
+ salary:0,hoursDay:8,days:{},extras:{},
+ funds:[{name:"Sinh hoạt",mode:"amount",percent:40,amount:0,balance:0},{name:"Tiết kiệm",mode:"amount",percent:30,amount:0,balance:0},{name:"Đầu tư",mode:"amount",percent:30,amount:0,balance:0}]
+};
+data.extras=data.extras||{};
+data.funds=data.funds||[];
+data.monthSalary=data.monthSalary||{};
 data.funds=data.funds.map(f=>({...f,mode:f.mode==="percent"?"percent":"amount",percent:Number(f.percent)||0,amount:Number(f.amount)||0,balance:Number(f.balance)||0}));
-data.fundsPercent=data.fundsPercent||data.funds||[];
-data.fundsAmount=data.fundsAmount||[];
-let current=new Date();current.setDate(1),selectedKey=null,selectedMonths=[mkey(current.getFullYear(),current.getMonth())],rangeMode=false;
+let current=new Date(); current.setDate(1);
+let selectedKey=null,selectedMonths=[mkey(current.getFullYear(),current.getMonth())],rangeMode=false;
+
 function save(){localStorage.setItem(KEY,JSON.stringify(data))}
-function formatMoneyInput(el){
-  if(!el)return;
-  const n=parseMoney(el.value);
-  el.value=n?new Intl.NumberFormat("vi-VN").format(n)+"đ":"";
-}
-function bindMoneyInput(el){
-  el.addEventListener("input",()=>liveMoneyInput(el));
-  if(!el||el.dataset.moneyBound==="1")return;
-  el.dataset.moneyBound="1";
-  el.addEventListener("focus",()=>{el.value=parseMoney(el.value)||""});
-  el.addEventListener("blur",()=>formatMoneyInput(el));
-}
-
-function liveMoneyInput(el){
-  if(!el)return;
-  const raw=String(el.value||"").replace(/[^\d]/g,"");
-  const n=Number(raw)||0;
-  const formatted=n?new Intl.NumberFormat("vi-VN").format(n)+"đ":"";
-  const pos=el.selectionStart||el.value.length;
-  const digitsBefore=String(el.value).slice(0,pos).replace(/[^\d]/g,"").length;
-  el.value=formatted;
-  let p=0,c=0;
-  while(p<formatted.length && c<digitsBefore){if(/\d/.test(formatted[p]))c++;p++}
-  try{el.setSelectionRange(p,p)}catch(e){}
-}
-function bindAllMoneyInputs(){
-  document.querySelectorAll("#salary,#ctp,#extraAmount,[data-money-input]").forEach(bindMoneyInput);
-}
-
+function formatMoneyInput(el){if(!el)return;const n=parseMoney(el.value);el.value=n?new Intl.NumberFormat("vi-VN").format(n)+"đ":""}
+function liveMoneyInput(el){if(!el)return;const raw=String(el.value||"").replace(/[^\d]/g,""),n=Number(raw)||0,formatted=n?new Intl.NumberFormat("vi-VN").format(n)+"đ":"";const pos=el.selectionStart||el.value.length,digitsBefore=String(el.value).slice(0,pos).replace(/[^\d]/g,"").length;el.value=formatted;let p=0,c=0;while(p<formatted.length&&c<digitsBefore){if(/\d/.test(formatted[p]))c++;p++}try{el.setSelectionRange(p,p)}catch(e){}}
+function bindMoneyInput(el){if(!el||el.dataset.moneyBound==="1")return;el.dataset.moneyBound="1";el.addEventListener("input",()=>liveMoneyInput(el));el.addEventListener("focus",()=>{el.value=parseMoney(el.value)||""});el.addEventListener("blur",()=>formatMoneyInput(el))}
+function bindAllMoneyInputs(){document.querySelectorAll("#ctp,#extraAmount,[data-money-input]").forEach(bindMoneyInput)}
 function setMoneyInput(el,n){if(el)el.value=n?new Intl.NumberFormat("vi-VN").format(Math.round(n)):""}
-function hourly(){return (Number(data.salary)||0)/(25*(Number(data.hoursDay)||8))}
-function salaryForMonth(k){
-  const monthValue=(data.monthSalary||{})[k];
-  if(monthValue!==undefined && monthValue!==null && Number(monthValue)>0){
-    return Number(monthValue);
-  }
-  return Number(data.salary)||0;
-}
-function hourlyForMonth(k){return salaryForMonth(k)/(25*(Number(data.hoursDay)||8))}
 
+function salaryForMonth(k){const v=(data.monthSalary||{})[k];return v!==undefined&&v!==null&&Number(v)>0?Number(v):Number(data.salary)||0}
+function hourlyForMonth(k){return salaryForMonth(k)/(25*(Number(data.hoursDay)||8))}
 function isWorkingSaturday(y,m,d){if(new Date(y,m,d).getDay()!==6)return false;const a=new Date(2026,7,22),dt=new Date(y,m,d);return Math.round((dt-a)/86400000)%14===0}
 function isRegularWorkDay(y,m,d){const w=new Date(y,m,d).getDay();return (w>=1&&w<=5)||isWorkingSaturday(y,m,d)}
-function isDefaultOT2Day(y,m,d){
- const w=new Date(y,m,d).getDay();
- return w===0 || (w===6 && !isWorkingSaturday(y,m,d));
-}
-function cleanLegacyPhantomOT2(){
- const changed=[];
- Object.keys(data.days||{}).forEach(k=>{
-  const p=k.split("-").map(Number); if(p.length!==3)return;
-  const [y,mo,d]=p,x=data.days[k];
-  if(!x || x.worked!==true || x.workedByUser===true)return;
-  if(isDefaultOT2Day(y,mo-1,d)){
-    // Old versions could leave OT2 Saturdays/Sundays as worked even though
-    // the user never ticked them. Clear that phantom state once.
-    x.worked=false;
-    changed.push(k);
-  }
- });
- if(changed.length)save();
-}
+function isDefaultOT2Day(y,m,d){const w=new Date(y,m,d).getDay();return w===0||(w===6&&!isWorkingSaturday(y,m,d))}
+function clampRestHours(v){return Math.max(0,Math.min(8,Number(v)||0))}
+function restHoursOf(x){return x&&x.restHours!==undefined?clampRestHours(x.restHours):(x&&x.rest?8:0)}
+
 function keysRange(a,b){const o=[],d=new Date(a+"-01T00:00:00"),z=new Date(b+"-01T00:00:00");while(d<=z){o.push(mkey(d.getFullYear(),d.getMonth()));d.setMonth(d.getMonth()+1)}return o}
+
 function monthIncome(k){
  const [y,mm]=k.split("-").map(Number),m=mm-1,n=dim(y,m),salary=Number(salaryForMonth(k))||0;
- let worked=0,rest=0,ot=0,ctp=0,travel=0,required=0,ot2Worked=0;
+ let worked=0,rest=0,ot=0,ctp=0,travel=0,required=0,ot2Worked=0,missingEquivalent=0,marked=false;
+
  for(let d=1;d<=n;d++){
   const x=data.days[dkey(y,m,d)]||{};
   const regular=isRegularWorkDay(y,m,d);
   const isWorked=x.worked===true;
+  const rh=restHoursOf(x);
 
   if(regular){
    required++;
    if(isWorked)worked++;
-   if(x.rest===true)rest++;
+   if(rh>0)rest+=rh/8;
+   if(rh>0){missingEquivalent+=rh/8;marked=true}
+   else if(isWorked){marked=true}
+   else missingEquivalent+=1;
   }
 
-  // Only money attached to a day that is actually ticked is counted.
   if(!isWorked)continue;
 
-  if(isDefaultOT2Day(y,m,d) && x.workedByUser===true)ot2Worked++;
-
-  ot+=(Number(x.ot15)||0)*hourlyForMonth(k)*1.5
-     +(Number(x.ot2)||0)*hourlyForMonth(k)*2;
+  if(isDefaultOT2Day(y,m,d)&&x.workedByUser===true&&rh<8)ot2Worked++;
+  ot+=(Number(x.ot15)||0)*hourlyForMonth(k)*1.5+(Number(x.ot2)||0)*hourlyForMonth(k)*2;
   ctp+=parseMoney(x.ctp);
   travel+=(Number(x.travel)||0)*2000;
  }
 
- // Salary/day displayed for this month may vary with actual workdays,
- // but an explicitly marked rest day always deducts salary/25, NOT salary/day.
- // If no day is marked at all, there is no base salary to show for that month.
- const anyWorked=worked>0;
- // Full salary is earned only when every regular workday in the month
- // has been explicitly ticked. Each regular day not worked costs salary/25.
- // The month can have 23, 25, 26... regular workdays; the deduction itself
- // is always based on the fixed 25-day salary rule.
- const missingDays=Math.max(0,required-worked);
- const base=anyWorked?Math.max(0,salary-missingDays*(salary/25)):0;
+ const base=marked?Math.max(0,salary-missingEquivalent*(salary/25)):0;
  const ot2Pay=ot2Worked*8*hourlyForMonth(k)*2;
  const extra=(data.extras[k]||[]).reduce((sum,e)=>sum+parseMoney(e.amount),0);
+ const core=base+ot+ot2Pay+ctp+travel;
 
  return{
-  sum:base+ot+ot2Pay+ctp+travel+extra,
-  base,ot:ot+ot2Pay,ctp,travel,extra,
+  sum:core+extra,core,base,ot:ot+ot2Pay,ctp,travel,extra,
   worked,absent:rest,rest,required,
   dailyPay:required?salary/required:0,
   dailyDeduction:salary/25,
   ot2Worked
  };
 }
-function selectedData(){const ks=selectedMonths.length?selectedMonths:[mkey(current.getFullYear(),current.getMonth())];return ks.map(monthIncome).reduce((a,b)=>({sum:a.sum+b.sum,base:a.base+b.base,ot:a.ot+b.ot,ctp:a.ctp+b.ctp,travel:a.travel+b.travel,extra:a.extra+b.extra,worked:a.worked+b.worked,absent:a.absent+b.absent}),{sum:0,base:0,ot:0,ctp:0,travel:0,extra:0,worked:0,absent:0})}
-function workRender(){
- $("monthTitle").textContent="Tháng "+(current.getMonth()+1)+"/"+current.getFullYear();syncSalaryInputs();syncHourlyOnly();
- const y=current.getFullYear(),m=current.getMonth(),first=(new Date(y,m,1).getDay()+6)%7,n=dim(y,m);
- let h=["T2","T3","T4","T5","T6","T7","CN"].map(x=>`<div class="week">${x}</div>`).join("");for(let i=0;i<first;i++)h+="<div></div>";
- for(let d=1;d<=n;d++){const k=dkey(y,m,d),x=data.days[k]||{},worked=!!x.worked,ot2=isDefaultOT2Day(y,m,d),tags=(x.ot15?'<span class="tag">OT1.5</span>':"")+(x.ot2?'<span class="tag">OT2</span>':"")+(x.ctp?'<span class="tag">CTP</span>':"")+(x.travel?'<span class="tag">KM</span>':"");h+=`<button class="day ${worked?"worked":""} ${x.rest?"rest-day":""} ${tags?"note":""}" data-day="${k}"><b>${d}</b>${x.rest?'<div class="rest-x">×</div>':(worked?'<div class="tick">✓</div>':"")}${!x.rest&&!worked&&ot2?'<div class="tags"><span class="tag">OT×2</span></div>':""}${!x.rest&&worked&&tags?`<div class="tags">${tags}</div>`:""}</button>`}
- $("calendar").innerHTML=h;document.querySelectorAll("[data-day]").forEach(b=>{
-  b.onclick=()=>{
-    const k=b.dataset.day;
-    const x=data.days[k]||{};
-    const nextWorked=!x.worked;
-const p=k.split("-").map(Number), yy=p[0], mm=p[1]-1, dd=p[2];
-data.days[k]={
-  ...x,
-  worked:nextWorked,
-  workedByUser:nextWorked ? true : false,
-  rest:false
-};
-    save();
-    workRender();
-    selectDay(k);
-  };
-});
-}
-function selectDay(k){
-  selectedKey=k;
-  const x=data.days[k]||{};
-  $("selectedTitle").textContent="Ngày "+k.split("-").reverse().join("/");
-  $("ot15").value=x.ot15||"";
-  $("ot2").value=x.ot2||"";
-  setMoneyInput($("ctp"),x.ctp);
-  formatMoneyInput($("ctp"));
-  $("travel").value=x.travel||"";
-  if($("dayRest"))$("dayRest").checked=!!x.rest;
-  $("saveDay").textContent=x.worked?"Đã chấm công ✓":(x.rest?"Đã đánh dấu nghỉ":"Chưa đánh dấu");
-  if(typeof updateDayNoteStatus==="function")updateDayNoteStatus();
 
-  const autoSave=()=>{
-    const old=data.days[k]||{};
-    data.days[k]={
-      ...old,
-      worked:!!old.worked,
-      ot15:+$("ot15").value||0,
-      ot2:+$("ot2").value||0,
-      ctp:parseMoney($("ctp").value),
-      travel:+$("travel").value||0
-    };
-    save();
-    if(typeof updateDayNoteStatus==="function")updateDayNoteStatus();
-  };
-  // Save day-level amounts immediately while typing, so changing the
-  // selected date/month can never discard CTP or travel data.
-  $("ctp").oninput=autoSave;
-  $("ctp").onchange=autoSave;
-  $("travel").oninput=autoSave;
-  $("travel").onchange=autoSave;
-  $("ot15").oninput=autoSave;
-  $("ot15").onchange=autoSave;
-  $("ot2").oninput=autoSave;
-  $("ot2").onchange=autoSave;
-  if($("dayRest"))$("dayRest").onchange=()=>{
-    const old=data.days[k]||{};
-    data.days[k]={...old,rest:$("dayRest").checked,worked:!!old.worked};
-    if(data.days[k].rest)data.days[k].workedByUser=false;
-    save();
-    workRender();
-    selectDay(k);
-  };
+function selectedData(){
+ const ks=selectedMonths.length?selectedMonths:[mkey(current.getFullYear(),current.getMonth())];
+ return ks.map(monthIncome).reduce((a,b)=>({
+  sum:a.sum+b.sum,core:a.core+b.core,base:a.base+b.base,ot:a.ot+b.ot,ctp:a.ctp+b.ctp,travel:a.travel+b.travel,extra:a.extra+b.extra,worked:a.worked+b.worked,absent:a.absent+b.absent
+ }),{sum:0,core:0,base:0,ot:0,ctp:0,travel:0,extra:0,worked:0,absent:0});
 }
+
+function workRender(){
+ $("monthTitle").textContent="Tháng "+(current.getMonth()+1)+"/"+current.getFullYear();
+ syncSalaryInputs();syncHourlyOnly();
+ const y=current.getFullYear(),m=current.getMonth(),first=(new Date(y,m,1).getDay()+6)%7,n=dim(y,m);
+ let h=["T2","T3","T4","T5","T6","T7","CN"].map(x=>`<div class="week">${x}</div>`).join("");
+ for(let i=0;i<first;i++)h+="<div></div>";
+
+ for(let d=1;d<=n;d++){
+  const k=dkey(y,m,d),x=data.days[k]||{},worked=!!x.worked,rh=restHoursOf(x),ot2=isDefaultOT2Day(y,m,d);
+  const tags=(x.ot15?'<span class="tag">OT1.5</span>':"")+(x.ot2?'<span class="tag">OT2</span>':"")+(x.ctp?'<span class="tag">CTP</span>':"")+(x.travel?'<span class="tag">KM</span>':"");
+  h+=`<button class="day ${worked?"worked":""} ${rh>0?"rest-day":""} ${tags?"note":""}" data-day="${k}">
+   <b>${d}</b>
+   ${rh>0?'<div class="rest-x">×</div>':(worked?'<div class="tick">✓</div>':"")}
+   ${!rh&&!worked&&ot2?'<div class="tags"><span class="tag">OT×2</span></div>':""}
+   ${worked&&tags?`<div class="tags">${tags}</div>`:""}
+  </button>`;
+ }
+ $("calendar").innerHTML=h;
+ document.querySelectorAll("[data-day]").forEach(b=>{
+  b.onclick=()=>{
+   const k=b.dataset.day,x=data.days[k]||{},nextWorked=!x.worked;
+   data.days[k]={...x,worked:nextWorked,workedByUser:nextWorked?true:false};
+   save();workRender();selectDay(k);
+  };
+ });
+}
+
+function selectDay(k){
+ selectedKey=k;
+ const x=data.days[k]||{};
+ $("selectedTitle").textContent="Ngày "+k.split("-").reverse().join("/");
+ $("ot15").value=x.ot15||"";
+ $("ot2").value=x.ot2||"";
+ setMoneyInput($("ctp"),x.ctp);formatMoneyInput($("ctp"));
+ $("travel").value=x.travel||"";
+ $("restHours").value=restHoursOf(x)||"";
+ $("saveDay").textContent=x.worked?"Đã chấm công ✓":(restHoursOf(x)>0?"Đã đánh dấu nghỉ":"Chưa đánh dấu");
+ updateDayNoteStatus();
+
+ const autoSave=()=>{
+  const old=data.days[k]||{},rh=clampRestHours($("restHours").value);
+  data.days[k]={
+   ...old,
+   worked:!!old.worked,
+   ot15:+$("ot15").value||0,
+   ot2:+$("ot2").value||0,
+   ctp:parseMoney($("ctp").value),
+   travel:+$("travel").value||0,
+   restHours:rh,
+   rest:rh>0
+  };
+  if(rh>=8)data.days[k].workedByUser=false;
+  save();updateDayNoteStatus();
+ };
+
+ ["ctp","travel","ot15","ot2","restHours"].forEach(id=>{
+  $(id).oninput=autoSave;
+  $(id).onchange=()=>{autoSave();workRender();selectDay(k)};
+ });
+}
+
+function updateDayNoteStatus(){
+ const el=$("dayNoteStatus");if(!el||!selectedKey)return;
+ const x=data.days[selectedKey]||{};
+ const has=!!(parseMoney(x.ctp)||(Number(x.travel)||0)||(Number(x.ot15)||0)||(Number(x.ot2)||0)||restHoursOf(x)>0);
+ el.textContent=has?"Đã lưu khoản trong ngày":"Chưa có khoản ngày";
+}
+
 function fillSelect(id){const s=$(id);if(!s)return;const y=current.getFullYear();s.innerHTML=Array.from({length:12},(_,m)=>`<option value="${mkey(y,m)}">${m+1}/${y}</option>`).join("");s.value=selectedMonths[0]||mkey(y,current.getMonth())}
 function updateSelectors(){fillSelect("homeMonthSelect");fillSelect("incomeMonthSelect");const t=selectedMonths.length>1?selectedMonths[0]+" → "+selectedMonths[selectedMonths.length-1]:(selectedMonths[0]||mkey(current.getFullYear(),current.getMonth()));if($("homeRangeSummary"))$("homeRangeSummary").textContent=selectedMonths.length>1?"Khoảng đang xem: "+t:"Đang xem: "+t;if($("incomeSelection"))$("incomeSelection").textContent=selectedMonths.length>1?"Khoảng: "+t:"Tháng: "+t;if($("homeRangeBtn"))$("homeRangeBtn").classList.toggle("active",rangeMode);if($("incomeRangeBtn"))$("incomeRangeBtn").classList.toggle("active",rangeMode)}
 function chooseMonth(k){if(!rangeMode){selectedMonths=[k];return}if(selectedMonths.length===1&&selectedMonths[0]!==k){const a=selectedMonths[0],lo=a<k?a:k,hi=a<k?k:a;selectedMonths=keysRange(lo,hi)}else selectedMonths=[k]}
-function previousPeriodKeys(){
-  const ks=selectedMonths.length?selectedMonths:[mkey(current.getFullYear(),current.getMonth())];
-  const first=new Date(ks[0]+"-01T00:00:00");
-  const last=new Date(ks[ks.length-1]+"-01T00:00:00");
-  const count=ks.length;
-  const prevLast=new Date(first);
-  prevLast.setMonth(prevLast.getMonth()-1);
-  const prevFirst=new Date(prevLast);
-  prevFirst.setMonth(prevFirst.getMonth()-(count-1));
-  return keysRange(mkey(prevFirst.getFullYear(),prevFirst.getMonth()),mkey(prevLast.getFullYear(),prevLast.getMonth()));
-}
-function periodIncome(keys){
-  return keys.reduce((s,k)=>s+monthIncome(k).sum,0);
-}
-function renderIncomeComparison(id){
-  const el=$(id); if(!el)return;
-  const currentTotal=selectedData().sum;
-  const prevTotal=periodIncome(previousPeriodKeys());
-  if(prevTotal===0){
-    el.className="income-compare flat";
-    el.innerHTML="";
-    el.style.display="none";
-    return;
-  }
-  el.style.display="flex";
-  const pct=((currentTotal-prevTotal)/Math.abs(prevTotal))*100;
-  if(Math.abs(pct)<0.05){
-    el.className="income-compare flat";
-    el.innerHTML=`<span class="compare-icon">→</span><span>0,0% so với kỳ trước</span>`;
-  }else if(pct>0){
-    el.className="income-compare up";
-    el.innerHTML=`<span class="compare-icon">↑</span><span>+${pct.toFixed(1).replace(".",",")}% so với kỳ trước</span>`;
-  }else{
-    el.className="income-compare down";
-    el.innerHTML=`<span class="compare-icon">↓</span><span>${pct.toFixed(1).replace(".",",")}% so với kỳ trước</span>`;
-  }
-}
-function incomeRender(){const r=selectedData();$("incomeTotal").textContent=money(r.sum);$("incomeBase").textContent=money(r.base);$("incomeOT").textContent=money(r.ot);$("incomeCTP").textContent=money(r.ctp);$("incomeTravel").textContent=money(r.travel);renderIncomeComparison("incomeTotalCompare");renderExtraList();updateSelectors()}
-function renderExtraList(){
- const k=selectedMonths.length===1?selectedMonths[0]:mkey(current.getFullYear(),current.getMonth());
- const a=data.extras[k]||[];
- if(!$("extraList"))return;
- $("extraList").innerHTML=a.map((e,i)=>`
-   <div class="extra-item" style="display:flex;align-items:center;gap:7px;padding:8px 0;border-bottom:1px solid var(--border,#e5e7eb)">
-     <input data-extra-name="${i}" value="${esc(e.name||"Khoản")}">
-     <input data-extra-amount="${i}" type="text" inputmode="numeric" value="${money(e.amount)}" style="width:130px">
-     <button type="button" class="btn danger" data-extra-del="${i}">×</button>
-   </div>`).join("");
+function previousPeriodKeys(){const ks=selectedMonths.length?selectedMonths:[mkey(current.getFullYear(),current.getMonth())],first=new Date(ks[0]+"-01T00:00:00"),count=ks.length,prevLast=new Date(first);prevLast.setMonth(prevLast.getMonth()-1);const prevFirst=new Date(prevLast);prevFirst.setMonth(prevFirst.getMonth()-(count-1));return keysRange(mkey(prevFirst.getFullYear(),prevFirst.getMonth()),mkey(prevLast.getFullYear(),prevLast.getMonth()))}
+function periodIncome(keys){return keys.reduce((s,k)=>s+monthIncome(k).sum,0)}
+function renderIncomeComparison(id){const el=$(id);if(!el)return;const cur=selectedData().sum,prev=periodIncome(previousPeriodKeys());if(prev===0){el.innerHTML="";el.style.display="none";return}el.style.display="flex";const pct=((cur-prev)/Math.abs(prev))*100;if(Math.abs(pct)<.05){el.className="income-compare flat";el.innerHTML='<span class="compare-icon">→</span><span>0,0% so với kỳ trước</span>'}else if(pct>0){el.className="income-compare up";el.innerHTML=`<span class="compare-icon">↑</span><span>+${pct.toFixed(1).replace(".",",")}% so với kỳ trước</span>`}else{el.className="income-compare down";el.innerHTML=`<span class="compare-icon">↓</span><span>${pct.toFixed(1).replace(".",",")}% so với kỳ trước</span>`}}
 
- $("extraList").querySelectorAll("[data-extra-name]").forEach(x=>x.onchange=()=>{
-   a[+x.dataset.extraName].name=x.value||"Khoản";
-   save();renderAll();
- });
- $("extraList").querySelectorAll("[data-extra-amount]").forEach(x=>{
-   bindMoneyInput(x);
-   x.onchange=()=>{
-     a[+x.dataset.extraAmount].amount=parseMoney(x.value);
-     save();renderAll();
-   };
- });
- $("extraList").querySelectorAll("[data-extra-del]").forEach(x=>x.onclick=()=>{
-   a.splice(+x.dataset.extraDel,1);
-   save();renderAll();
- });
+function incomeRender(){
+ const r=selectedData();
+ $("incomeTotal").textContent=money(r.sum);
+ $("incomeCoreTotal").textContent=money(r.core);
+ $("incomeBase").textContent=money(r.base);
+ $("incomeOT").textContent=money(r.ot);
+ $("incomeCTP").textContent=money(r.ctp);
+ $("incomeTravel").textContent=money(r.travel);
+ renderIncomeComparison("incomeTotalCompare");
+ renderExtraList();updateSelectors();
+}
+
+function renderExtraList(){
+ const k=selectedMonths.length===1?selectedMonths[0]:mkey(current.getFullYear(),current.getMonth()),a=data.extras[k]||[];
+ if(!$("extraList"))return;
+ $("extraList").innerHTML=a.map((e,i)=>`<div class="extra-item" style="display:flex;align-items:center;gap:7px;padding:8px 0;border-bottom:1px solid #e5e7eb"><input data-extra-name="${i}" value="${esc(e.name||"Khoản")}"><input data-extra-amount="${i}" type="text" inputmode="numeric" value="${money(e.amount)}" style="width:130px"><button type="button" class="btn danger" data-extra-del="${i}">×</button></div>`).join("");
+ $("extraList").querySelectorAll("[data-extra-name]").forEach(x=>x.onchange=()=>{a[+x.dataset.extraName].name=x.value||"Khoản";save();renderAll()});
+ $("extraList").querySelectorAll("[data-extra-amount]").forEach(x=>{bindMoneyInput(x);x.onchange=()=>{a[+x.dataset.extraAmount].amount=parseMoney(x.value);save();renderAll()}});
+ $("extraList").querySelectorAll("[data-extra-del]").forEach(x=>x.onclick=()=>{a.splice(+x.dataset.extraDel,1);save();renderAll()});
 }
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
-function renderChart(r){const vals=[r.base,r.ot,r.ctp,r.travel].map(Number),names=["Lương","OT","Công tác phí","Đi lại"],colors=["#2563eb","#7c3aed","#12b76a","#f79009"],tot=vals.reduce((a,b)=>a+b,0)||0,pie=document.querySelector(".pie");if(pie){if(!tot)pie.style.background="#e5e7eb";else{let a=0;pie.style.background="conic-gradient("+vals.map((v,i)=>{let s=a,e=a+v/tot*100;a=e;return colors[i]+" "+s+"% "+e+"%"}).join(",")+")"}}if($("incomeLegend"))$("incomeLegend").innerHTML=names.map((n,i)=>`<div class="legend-row"><span><span class="dot" style="background:${colors[i]}"></span>${n}</span><b>${tot?(vals[i]/tot*100).toFixed(1):"0.0"}%</b></div>`).join("")}
+
+function renderChart(r){
+ const vals=[r.base,r.ot,r.ctp,r.travel].map(Number),names=["Lương","OT","Công tác phí","Đi lại"],colors=["#2563eb","#7c3aed","#12b76a","#f79009"],tot=vals.reduce((a,b)=>a+b,0)||0,pie=document.querySelector(".pie");
+ if(pie){if(!tot)pie.style.background="#e5e7eb";else{let a=0;pie.style.background="conic-gradient("+vals.map((v,i)=>{let s=a,e=a+v/tot*100;a=e;return colors[i]+" "+s+"% "+e+"%"}).join(",")+")"}}
+ if($("incomeLegend"))$("incomeLegend").innerHTML=names.map((n,i)=>`<div class="legend-row"><span><span class="dot" style="background:${colors[i]}"></span>${n}</span><b>${tot?(vals[i]/tot*100).toFixed(1):"0.0"}%</b></div>`).join("");
+}
+
 function homeRender(){
  const r=selectedData();
- $("homeIncome").textContent=money(r.sum);
- renderIncomeComparison("homeIncomeCompare");
- if($("homeExtraIncome"))$("homeExtraIncome").textContent=money(r.extra);
- $("homeBase").textContent=money(r.base);
- $("homeOT").textContent=money(r.ot);
- $("homeCTP").textContent=money(r.ctp);
- $("homeTravel").textContent=money(r.travel);
- $("homeDays").textContent=r.worked+" ngày";
- const t=selectedMonths.length>1?selectedMonths[0]+" → "+selectedMonths[selectedMonths.length-1]:selectedMonths[0];
- $("homePeriod").textContent=t;
- if($("homePeriod2"))$("homePeriod2").textContent=t;
+ $("homeIncome").textContent=money(r.sum);renderIncomeComparison("homeIncomeCompare");
+ $("homeExtraIncome").textContent=money(r.extra);$("homeBase").textContent=money(r.base);$("homeOT").textContent=money(r.ot);$("homeCTP").textContent=money(r.ctp);$("homeTravel").textContent=money(r.travel);$("homeDays").textContent=r.worked+" ngày";
+ const t=selectedMonths.length>1?selectedMonths[0]+" → "+selectedMonths[selectedMonths.length-1]:selectedMonths[0];$("homePeriod").textContent=t;
 
- // Overview fund list uses the same Income source and each fund's own mode.
- // "Còn lại" appears only when there is still money not allocated.
- const income=Number(r.sum)||0;
- let allocated=0;
- const rows=(data.funds||[]).map(f=>{
-   const amount=f.mode==="percent"
-     ? income*(Number(f.percent)||0)/100
-     : parseMoney(f.amount);
-   allocated+=amount;
-   return `<div class="rowline"><span>${esc(f.name)}</span><b>${money(amount)}</b></div>`;
- }).join("");
+ const income=Number(r.sum)||0;let allocated=0;
+ const rows=(data.funds||[]).map(f=>{const amount=f.mode==="percent"?income*(Number(f.percent)||0)/100:parseMoney(f.amount);allocated+=amount;return `<div class="rowline"><span>${esc(f.name)}</span><b>${money(amount)}</b></div>`}).join("");
  const remaining=Math.max(0,income-allocated);
- const fundTotal=allocated;
-$("homeFunds").innerHTML=rows
-   +(remaining>1?`<div class="rowline"><span>Còn lại</span><b>${money(remaining)}</b></div>`:"")
-   +`<div class="rowline" style="font-weight:700;border-top:1px solid var(--border,#e5e7eb);margin-top:4px;padding-top:10px"><span>Tổng</span><b>${money(fundTotal)}</b></div>`;
-
- updateSelectors();
- renderChart(r);
+ $("homeFunds").innerHTML=rows+(remaining>1?`<div class="rowline"><span>Còn lại</span><b>${money(remaining)}</b></div>`:"")+`<div class="rowline" style="font-weight:700;border-top:1px solid #e5e7eb;margin-top:4px;padding-top:10px"><span>Tổng</span><b>${money(allocated)}</b></div>`;
+ updateSelectors();renderChart(r);
 }
 
 function renderFundEditor(){
- const arr=data.funds||[];
- const editor=$("fundEditor");
- if(!editor)return;
- const income=Number(selectedData().sum)||0;
+ const arr=data.funds||[],editor=$("fundEditor");if(!editor)return;const income=Number(selectedData().sum)||0;
+ editor.innerHTML=arr.map((f,i)=>{const mode=f.mode==="percent"?"percent":"amount",value=mode==="percent"?String(Number(f.percent)||0):(Number(f.amount)>0?money(f.amount):""),amount=mode==="percent"?income*(Number(f.percent)||0)/100:parseMoney(f.amount);return `<div class="fund-item" data-fund-index="${i}" style="padding:10px 0;border-bottom:1px solid #e5e7eb;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:pan-y"><div style="display:flex;align-items:center;gap:7px"><span class="fund-drag" title="Giữ và kéo để sắp xếp" style="cursor:grab;padding:10px 7px;font-size:18px;line-height:1;display:flex;align-items:center">⋮⋮</span><div style="flex:1"><input data-fname="${i}" value="${esc(f.name||"Quỹ")}" style="user-select:text;-webkit-user-select:text"></div><button type="button" class="fund-row-toggle ${mode==="percent"?"is-percent":""}" data-fmode="${i}"><span class="fund-row-track"><span class="fund-row-knob">${mode==="percent"?"%":"đ"}</span></span></button><div style="width:125px"><input data-fval="${i}" type="${mode==="percent"?"number":"text"}" inputmode="${mode==="percent"?"decimal":"numeric"}" ${mode==="percent"?'min="0" max="100" step="0.01"':''} value="${value}" placeholder="${mode==="percent"?"%":"0đ"}" style="user-select:text;-webkit-user-select:text"></div><button type="button" class="btn danger" data-fdel="${i}">×</button></div>${mode==="percent"?`<div style="font-size:13px;margin:4px 0 0 24px;color:#667085">${money(amount)}</div>`:""}</div>`}).join("");
 
- editor.innerHTML=arr.map((f,i)=>{
-   const mode=f.mode==="percent"?"percent":"amount";
-   const value=mode==="percent"?String(Number(f.percent)||0):(Number(f.amount)>0?money(f.amount):"");
-   const amount=mode==="percent"?income*(Number(f.percent)||0)/100:parseMoney(f.amount);
-   return `<div class="fund-item" data-fund-index="${i}" style="padding:10px 0;border-bottom:1px solid var(--border,#e5e7eb);user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:pan-y">
-    <div style="display:flex;align-items:center;gap:7px">
-     <span class="fund-drag" title="Giữ và kéo để sắp xếp" aria-label="Giữ và kéo để sắp xếp"
-       style="cursor:grab;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:none;padding:10px 7px;font-size:18px;line-height:1;display:flex;align-items:center">⋮⋮</span>
-     <div style="flex:1"><input data-fname="${i}" value="${esc(f.name||"Quỹ")}" style="user-select:text;-webkit-user-select:text"></div>
-     <button type="button" class="fund-row-toggle ${mode==="percent"?"is-percent":""}" data-fmode="${i}">
-      <span class="fund-row-track"><span class="fund-row-knob">${mode==="percent"?"%":"đ"}</span></span>
-     </button>
-     <div style="width:125px"><input data-fval="${i}" type="${mode==="percent"?"number":"text"}" inputmode="${mode==="percent"?"decimal":"numeric"}" ${mode==="percent"?'min="0" max="100" step="0.01"':''} value="${value}" placeholder="${mode==="percent"?"%":"0đ"} style="user-select:text;-webkit-user-select:text"></div>
-     <button type="button" class="btn danger" data-fdel="${i}">×</button>
-    </div>
-    ${mode==="percent"?`<div style="font-size:13px;margin:4px 0 0 24px;color:var(--muted,#667085);user-select:none;-webkit-user-select:none">${money(amount)}</div>`:""}
-   </div>`;
- }).join("");
+ editor.querySelectorAll("[data-fname]").forEach(x=>x.onchange=()=>{data.funds[+x.dataset.fname].name=x.value||"Quỹ";save();renderAll()});
+ editor.querySelectorAll("[data-fmode]").forEach(x=>x.onclick=()=>{const f=data.funds[+x.dataset.fmode];f.mode=f.mode==="percent"?"amount":"percent";save();renderAll()});
+ editor.querySelectorAll("[data-fval]").forEach(x=>{const i=+x.dataset.fval;const commit=()=>{const f=data.funds[i];if(!f)return;if(f.mode==="percent")f.percent=Number(x.value)||0;else f.amount=parseMoney(x.value);save()};if(data.funds[i].mode!=="percent")bindMoneyInput(x);x.addEventListener("input",commit);x.addEventListener("change",()=>{commit();renderAll()})});
+ editor.querySelectorAll("[data-fdel]").forEach(x=>x.onclick=()=>{if(data.funds.length<=1)return alert("Phải giữ ít nhất 1 quỹ.");data.funds.splice(+x.dataset.fdel,1);save();renderAll()});
 
- editor.querySelectorAll("[data-fname]").forEach(x=>x.onchange=()=>{data.funds[+x.dataset.fname].name=x.value||"Quỹ";save();renderAll();});
- editor.querySelectorAll("[data-fmode]").forEach(x=>x.onclick=()=>{const f=data.funds[+x.dataset.fmode];f.mode=f.mode==="percent"?"amount":"percent";save();renderAll();});
- editor.querySelectorAll("[data-fval]").forEach(x=>{
-   const i=+x.dataset.fval;
-   const commit=()=>{const f=data.funds[i];if(!f)return;if(f.mode==="percent")f.percent=Number(x.value)||0;else f.amount=parseMoney(x.value);save();};
-   if(data.funds[i].mode!=="percent")bindMoneyInput(x);
-   x.addEventListener("input",commit);
-   x.addEventListener("change",()=>{commit();renderAll();});
- });
- editor.querySelectorAll("[data-fdel]").forEach(x=>x.onclick=()=>{if(data.funds.length<=1)return alert("Phải giữ ít nhất 1 quỹ.");data.funds.splice(+x.dataset.fdel,1);save();renderAll();});
-
- // iPhone/iPad-safe touch sorting. Do not use native HTML5 drag/drop:
- // Safari may select the page during a long press. The drag handle captures
- // touchstart, prevents the browser selection menu, and reorders the array
- // directly while the finger moves.
  editor.querySelectorAll(".fund-item").forEach(row=>{
-   const handle=row.querySelector(".fund-drag");
-   if(!handle)return;
-
-   let dragging=false, from=-1, lastTarget=-1;
-
-   const getY=e => e.touches && e.touches.length ? e.touches[0].clientY : e.clientY;
-
-   const start=e=>{
-     if(e.type==="touchstart")e.preventDefault();
-     dragging=true;
-     from=+row.dataset.fundIndex;
-     lastTarget=from;
-     row.classList.add("dragging");
-     document.body.classList.add("fund-touch-dragging");
-   };
-
-   const move=e=>{
-     if(!dragging)return;
-     e.preventDefault();
-     const y=getY(e);
-     const rows=[...editor.querySelectorAll(".fund-item")];
-     let target=from;
-     for(let i=0;i<rows.length;i++){
-       const r=rows[i];
-       if(r===row)continue;
-       const rect=r.getBoundingClientRect();
-       if(y>rect.top+rect.height/2)target=i;
-     }
-     if(target===from || target===lastTarget)return;
-     const moved=data.funds.splice(from,1)[0];
-     data.funds.splice(target,0,moved);
-     from=target;
-     lastTarget=target;
-     // Move the existing DOM node so the finger does not lose its target.
-     const current=[...editor.querySelectorAll(".fund-item")];
-     const targetRow=current[target];
-     if(targetRow && targetRow!==row){
-       if(target>current.indexOf(row))targetRow.after(row);
-       else targetRow.before(row);
-     }
-   };
-
-   const end=e=>{
-     if(!dragging)return;
-     if(e.cancelable)e.preventDefault();
-     dragging=false;
-     row.classList.remove("dragging");
-     document.body.classList.remove("fund-touch-dragging");
-     save();
-     renderAll();
-   };
-
-   handle.addEventListener("touchstart",start,{passive:false});
-   handle.addEventListener("touchmove",move,{passive:false});
-   handle.addEventListener("touchend",end,{passive:false});
-   handle.addEventListener("touchcancel",end,{passive:false});
-
-   // Mouse/trackpad support on desktop.
-   handle.addEventListener("pointerdown",e=>{
-     if(e.pointerType==="touch")return;
-     start(e);
-   },{passive:false});
-   handle.addEventListener("pointermove",e=>{
-     if(e.pointerType==="touch"||!dragging)return;
-     move(e);
-   },{passive:false});
-   handle.addEventListener("pointerup",e=>{
-     if(e.pointerType==="touch")return;
-     end(e);
-   },{passive:false});
+  const handle=row.querySelector(".fund-drag");if(!handle)return;let dragging=false,from=-1,lastTarget=-1;const getY=e=>e.touches&&e.touches.length?e.touches[0].clientY:e.clientY;
+  const start=e=>{if(e.type==="touchstart")e.preventDefault();dragging=true;from=+row.dataset.fundIndex;lastTarget=from;row.classList.add("dragging");document.body.classList.add("fund-touch-dragging")};
+  const move=e=>{if(!dragging)return;e.preventDefault();const y=getY(e),rows=[...editor.querySelectorAll(".fund-item")];let target=from;for(let i=0;i<rows.length;i++){const r=rows[i];if(r===row)continue;const rect=r.getBoundingClientRect();if(y>rect.top+rect.height/2)target=i}if(target===from||target===lastTarget)return;const moved=data.funds.splice(from,1)[0];data.funds.splice(target,0,moved);from=target;lastTarget=target;const current=[...editor.querySelectorAll(".fund-item")],targetRow=current[target];if(targetRow&&targetRow!==row){if(target>current.indexOf(row))targetRow.after(row);else targetRow.before(row)}};
+  const end=e=>{if(!dragging)return;if(e.cancelable)e.preventDefault();dragging=false;row.classList.remove("dragging");document.body.classList.remove("fund-touch-dragging");save();renderAll()};
+  handle.addEventListener("touchstart",start,{passive:false});handle.addEventListener("touchmove",move,{passive:false});handle.addEventListener("touchend",end,{passive:false});handle.addEventListener("touchcancel",end,{passive:false});
+  handle.addEventListener("pointerdown",e=>{if(e.pointerType==="touch")return;start(e)},{passive:false});handle.addEventListener("pointermove",e=>{if(e.pointerType==="touch"||!dragging)return;move(e)},{passive:false});handle.addEventListener("pointerup",e=>{if(e.pointerType==="touch")return;end(e)},{passive:false});
  });
 }
 
 function fundsRender(){
- const income=Number(selectedData().sum)||0;
- data.funds=data.funds||[];
- renderFundEditor();
- let allocated=0;
- data.funds.forEach(f=>allocated+=f.mode==="percent"?income*(Number(f.percent)||0)/100:parseMoney(f.amount));
- const remaining=Math.max(0,income-allocated);
- const pct=income>0?remaining/income*100:0;
- if($("fundRemaining"))$("fundRemaining").textContent=remaining>1?"Còn lại: "+money(remaining)+" · "+pct.toFixed(2)+"%":"";
- const balances=$("fundBalances");
- if(balances)balances.innerHTML=data.funds.map(f=>{
-   const amount=f.mode==="percent"?income*(Number(f.percent)||0)/100:parseMoney(f.amount);
-   const sub=f.mode==="percent"?`<small style="display:block;margin-top:3px">${Number(f.percent)||0}%</small>`:"";
-   return `<div class="rowline" style="align-items:flex-start"><span>${esc(f.name)}${sub}</span><b>${money(amount)}</b></div>`;
- }).join("");
+ const income=Number(selectedData().sum)||0;renderFundEditor();let allocated=0;data.funds.forEach(f=>allocated+=f.mode==="percent"?income*(Number(f.percent)||0)/100:parseMoney(f.amount));
+ const remaining=Math.max(0,income-allocated),pct=income>0?remaining/income*100:0;
+ $("fundRemaining").textContent=remaining>1?"Còn lại: "+money(remaining)+" · "+pct.toFixed(2)+"%":"";
 }
 
-function updateDayNoteStatus(){
-  const el=$("dayNoteStatus"); if(!el||!selectedKey)return;
-  const x=data.days[selectedKey]||{};
-  const has=!!(parseMoney(x.ctp)||(Number(x.travel)||0)||(Number(x.ot15)||0)||(Number(x.ot2)||0));
-  el.textContent=has?"Đã lưu khoản trong ngày":"Chưa có khoản ngày";
-}
+function syncSalaryInputs(){const k=mkey(current.getFullYear(),current.getMonth());if($("salaryMinimalMonth")){const has=Object.prototype.hasOwnProperty.call(data.monthSalary||{},k);setMoneyInput($("salaryMinimalMonth"),has?data.monthSalary[k]:"")}if($("salaryMinimalDefault"))setMoneyInput($("salaryMinimalDefault"),data.salary||0)}
+function syncHourlyOnly(){const k=mkey(current.getFullYear(),current.getMonth()),v=Number(hourlyForMonth(k))||0,[yy,mm]=k.split("-").map(Number),mi=mm-1;let required=0;for(let d=1;d<=dim(yy,mi);d++)if(isRegularWorkDay(yy,mi,d))required++;const salary=Number(salaryForMonth(k))||0,daily=required?salary/required:0;$("hourlyOnly").textContent=v?money(v)+"/giờ":"0đ/giờ";$("dailyOnly").textContent=daily?money(daily)+"/ngày":"0đ/ngày"}
+
 function downloadBackup(){
-  const payload={
-    app:"ChamCongFinance",
-    version:1,
-    exportedAt:new Date().toISOString(),
-    data:data
-  };
-  const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
-  const a=document.createElement("a");
-  a.href=URL.createObjectURL(blob);
-  a.download="cham-cong-backup-"+new Date().toISOString().slice(0,10)+".json";
-  document.body.appendChild(a);a.click();a.remove();
-  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+ try{
+  const payload={app:"ChamCongFinance",version:2,exportedAt:new Date().toISOString(),data:JSON.parse(JSON.stringify(data))};
+  const text=JSON.stringify(payload,null,2);JSON.parse(text);
+  const blob=new Blob([text],{type:"application/json;charset=utf-8"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="cham-cong-backup-"+new Date().toISOString().slice(0,10)+".json";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+ }catch(e){alert("Không thể tạo file sao lưu.")}
 }
+
 function restoreBackup(file){
-  const reader=new FileReader();
-  reader.onload=()=>{
-    try{
-      const raw=String(reader.result||"");
-      let obj;
-      try{ obj=JSON.parse(raw); }
-      catch(e){ throw new Error("json"); }
-
-      const incoming=(obj&&obj.data&&typeof obj.data==="object")?obj.data:obj;
-      if(!incoming || typeof incoming!=="object"){
-        throw new Error("structure");
-      }
-
-      // Backward-compatible migration. Old v1 backups may not have the
-      // newer fields; missing fields are created without discarding old data.
-      const restored={
-        salary:Number(incoming.salary)||0,
-        hoursDay:Number(incoming.hoursDay)||8,
-        days:(incoming.days&&typeof incoming.days==="object")?incoming.days:{},
-        extras:(incoming.extras&&typeof incoming.extras==="object")?incoming.extras:{},
-        monthSalary:(incoming.monthSalary&&typeof incoming.monthSalary==="object")?incoming.monthSalary:{},
-        funds:Array.isArray(incoming.funds)?incoming.funds:[],
-        fundsAmount:Array.isArray(incoming.fundsAmount)?incoming.fundsAmount:[],
-        fundsPercent:Array.isArray(incoming.fundsPercent)?incoming.fundsPercent:[],
-        fundMode:incoming.fundMode==="percent"?"percent":"amount",
-        darkMode:!!incoming.darkMode
-      };
-
-      // Migrate every old fund to the current single-list structure.
-      if(restored.funds.length){
-        restored.funds=restored.funds.map(f=>({
-          name:f&&f.name?String(f.name):"Quỹ",
-          mode:f&&f.mode==="percent"?"percent":"amount",
-          percent:Number(f&&f.percent)||0,
-          amount:parseMoney(f&&f.amount),
-          balance:Number(f&&f.balance)||0
-        }));
-      }else{
-        const fromPercent=restored.fundsPercent.map(f=>({
-          name:f&&f.name?String(f.name):"Quỹ",
-          mode:"percent",
-          percent:Number(f&&f.percent)||0,
-          amount:0,
-          balance:Number(f&&f.balance)||0
-        }));
-        const fromAmount=restored.fundsAmount.map(f=>({
-          name:f&&f.name?String(f.name):"Quỹ",
-          mode:"amount",
-          percent:0,
-          amount:parseMoney(f&&f.amount),
-          balance:Number(f&&f.balance)||0
-        }));
-        restored.funds=fromPercent.concat(fromAmount);
-      }
-
-      if(!restored.funds.length){
-        restored.funds=[{name:"Quỹ mới",mode:"amount",percent:0,amount:0,balance:0}];
-      }
-
-      // Preserve all day records from old backups, including CTP/KM/OT/rest.
-      Object.keys(restored.days).forEach(k=>{
-        const x=restored.days[k];
-        if(!x || typeof x!=="object")restored.days[k]={worked:false,rest:false};
-        else{
-          x.worked=!!x.worked;
-          x.rest=!!x.rest;
-          if(x.workedByUser===undefined)x.workedByUser=!!x.worked;
-          x.ot15=Number(x.ot15)||0;
-          x.ot2=Number(x.ot2)||0;
-          x.ctp=Number(x.ctp)||0;
-          x.travel=Number(x.travel)||0;
-        }
-      });
-
-      if(!confirm("Khôi phục dữ liệu từ bản sao lưu này?"))return;
-
-      data=restored;
-      save();
-
-      selectedKey=null;
-      if(typeof cleanLegacyPhantomOT2==="function")cleanLegacyPhantomOT2();
-      renderAll();
-
-      const input=$("restoreData");
-      if(input)input.value="";
-      alert("Đã khôi phục dữ liệu thành công.");
-    }catch(err){
-      console.error("Restore error:",err);
-      alert(err.message==="json"
-        ?"File sao lưu bị lỗi hoặc không phải JSON hoàn chỉnh."
-        :"File sao lưu không đúng cấu trúc của ứng dụng.");
+ const reader=new FileReader();
+ reader.onload=()=>{
+  try{
+   const obj=JSON.parse(String(reader.result||"")),incoming=obj&&obj.data&&typeof obj.data==="object"?obj.data:obj;
+   if(!incoming||typeof incoming!=="object")throw new Error("structure");
+   const restored={
+    salary:Number(incoming.salary)||0,hoursDay:Number(incoming.hoursDay)||8,
+    days:incoming.days&&typeof incoming.days==="object"?incoming.days:{},
+    extras:incoming.extras&&typeof incoming.extras==="object"?incoming.extras:{},
+    monthSalary:incoming.monthSalary&&typeof incoming.monthSalary==="object"?incoming.monthSalary:{},
+    funds:Array.isArray(incoming.funds)?incoming.funds:[]
+   };
+   restored.funds=restored.funds.map(f=>({name:f&&f.name?String(f.name):"Quỹ",mode:f&&f.mode==="percent"?"percent":"amount",percent:Number(f&&f.percent)||0,amount:parseMoney(f&&f.amount),balance:Number(f&&f.balance)||0}));
+   if(!restored.funds.length)restored.funds=[{name:"Quỹ mới",mode:"amount",percent:0,amount:0,balance:0}];
+   Object.keys(restored.days).forEach(k=>{
+    const x=restored.days[k];
+    if(!x||typeof x!=="object")restored.days[k]={worked:false,rest:false,restHours:0};
+    else{
+     x.worked=!!x.worked;if(x.workedByUser===undefined)x.workedByUser=!!x.worked;
+     x.ot15=Number(x.ot15)||0;x.ot2=Number(x.ot2)||0;x.ctp=Number(x.ctp)||0;x.travel=Number(x.travel)||0;
+     x.restHours=x.restHours!==undefined?clampRestHours(x.restHours):(x.rest?8:0);x.rest=x.restHours>0;
     }
-  };
-  reader.onerror=()=>alert("Không thể đọc file sao lưu.");
-  reader.readAsText(file);
+   });
+   if(!confirm("Khôi phục dữ liệu từ bản sao lưu này?"))return;
+   data=restored;save();selectedKey=null;renderAll();alert("Đã khôi phục dữ liệu thành công.");
+  }catch(e){alert("File sao lưu bị lỗi hoặc không đúng định dạng của ứng dụng.")}
+ };
+ reader.readAsText(file);
 }
-
-function updateSalaryScope(){
-  const k=mkey(current.getFullYear(),current.getMonth());
-  if($("salaryScope"))$("salaryScope").textContent=
-    Object.prototype.hasOwnProperty.call(data.monthSalary||{},k)
-    ?"Đang dùng lương riêng tháng "+(current.getMonth()+1)+"/"+current.getFullYear()
-    :"Đang dùng lương mặc định";
-}
-
-function syncSalaryControls(){
- const k=mkey(current.getFullYear(),current.getMonth());
- }
-
-
-function syncMinimalSalary(){
-  const k=mkey(current.getFullYear(),current.getMonth());
-  if($("salaryMinimalMonth"))setMoneyInput($("salaryMinimalMonth"),salaryForMonth(k));
-  if($("salaryMinimalDefault"))setMoneyInput($("salaryMinimalDefault"),data.salary);
-}
-
-
-
-
-
-function syncHourlyOnly(){
-  const k=mkey(current.getFullYear(),current.getMonth());
-  const v=Number(hourlyForMonth(k))||0;
-  const [yy,mm]=k.split("-").map(Number), monthIndex=mm-1;
-  let required=0;
-  for(let d=1;d<=dim(yy,monthIndex);d++){
-    if(isRegularWorkDay(yy,monthIndex,d))required++;
-  }
-  const salary=Number(salaryForMonth(k))||0;
-  const daily=required?salary/required:0;
-  if($("hourlyOnly"))$("hourlyOnly").textContent=v?money(v)+"/giờ":"0đ/giờ";
-  if($("dailyOnly"))$("dailyOnly").textContent=daily?money(daily)+"/ngày":"0đ/ngày";
-}
-
-
-
-
-
-function syncSalaryInputs(){
-  const k=mkey(current.getFullYear(),current.getMonth());
-  if($("salaryMinimalMonth")){
-    const has=Object.prototype.hasOwnProperty.call(data.monthSalary||{},k);
-    setMoneyInput($("salaryMinimalMonth"),has?data.monthSalary[k]:"");
-  }
-  if($("salaryMinimalDefault"))setMoneyInput($("salaryMinimalDefault"),data.salary||0);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-if($("saveSalaryMonth"))$("saveSalaryMonth").onclick=function(){
-  const k=mkey(current.getFullYear(),current.getMonth());
-  const v=parseMoney($("salaryMinimalMonth").value);
-  if(v>0){
-    data.monthSalary[k]=v;
-  }else{
-    delete data.monthSalary[k];
-  }
-  save();
-  renderAll();
-};
-
-if($("saveSalaryDefault"))$("saveSalaryDefault").onclick=function(){
-  const v=parseMoney($("salaryMinimalDefault").value);
-  data.salary=v;
-
-  // "Lương mặc định" is the explicitly saved source for the current month
-  // when this button is pressed. Remove that month's previous override so the
-  // current month immediately follows the default salary.
-  const k=mkey(current.getFullYear(),current.getMonth());
-  if(data.monthSalary) delete data.monthSalary[k];
-
-  save();
-  renderAll();
-};
-
-
-
 
 function renderAll(){workRender();incomeRender();fundsRender();homeRender();syncSalaryInputs();syncHourlyOnly();save();bindAllMoneyInputs()}
 
-$("prev").onclick=()=>{current.setMonth(current.getMonth()-1);workRender()};$("next").onclick=()=>{current.setMonth(current.getMonth()+1);workRender()};
-
-
+$("prev").onclick=()=>{current.setMonth(current.getMonth()-1);workRender()};
+$("next").onclick=()=>{current.setMonth(current.getMonth()+1);workRender()};
 $("homePrev").onclick=()=>{current.setMonth(current.getMonth()-1);selectedMonths=[mkey(current.getFullYear(),current.getMonth())];rangeMode=false;renderAll()};
 $("homeNext").onclick=()=>{current.setMonth(current.getMonth()+1);selectedMonths=[mkey(current.getFullYear(),current.getMonth())];rangeMode=false;renderAll()};
 $("incomePrev").onclick=()=>{current.setMonth(current.getMonth()-1);selectedMonths=[mkey(current.getFullYear(),current.getMonth())];rangeMode=false;renderAll()};
 $("incomeNext").onclick=()=>{current.setMonth(current.getMonth()+1);selectedMonths=[mkey(current.getFullYear(),current.getMonth())];rangeMode=false;renderAll()};
-$("homeMonthSelect").onchange=e=>{chooseMonth(e.target.value);renderAll()};$("incomeMonthSelect").onchange=e=>{chooseMonth(e.target.value);renderAll()};
-$("homeRangeBtn").onclick=()=>{rangeMode=!rangeMode;updateSelectors()};$("incomeRangeBtn").onclick=()=>{rangeMode=!rangeMode;updateSelectors()};
-$("applyMonths").onclick=()=>renderAll();$("clearMonths").onclick=()=>{selectedMonths=[mkey(current.getFullYear(),current.getMonth())];rangeMode=false;renderAll()};
-$("addExtra").onclick=()=>{const k=selectedMonths.length===1?selectedMonths[0]:mkey(current.getFullYear(),current.getMonth()),name=$("extraName").value.trim(),amount=parseMoney($("extraAmount").value);if(!name||amount<=0)return alert("Nhập tên khoản và số tiền.");(data.extras[k]||(data.extras[k]=[])).push({name,amount});$("extraName").value="";$("extraAmount").value="";save();renderAll()};
+$("homeMonthSelect").onchange=e=>{chooseMonth(e.target.value);renderAll()};
+$("incomeMonthSelect").onchange=e=>{chooseMonth(e.target.value);renderAll()};
+$("homeRangeBtn").onclick=()=>{rangeMode=!rangeMode;updateSelectors()};
+$("incomeRangeBtn").onclick=()=>{rangeMode=!rangeMode;updateSelectors()};
+$("applyMonths").onclick=()=>renderAll();
+$("clearMonths").onclick=()=>{selectedMonths=[mkey(current.getFullYear(),current.getMonth())];rangeMode=false;renderAll()};
 
-
-
-
-
-
-
-
-if($("addFund"))$("addFund").onclick=()=>{
- data.funds=data.funds||[];
- data.funds.push({name:"Quỹ mới",mode:"amount",percent:0,amount:0,balance:0});
- save();renderAll();
-};
-if($("allocateFund"))$("allocateFund").onclick=()=>{
- const income=Number(selectedData().sum)||0;
- let total=0;
- data.funds.forEach(f=>total+=f.mode==="percent"?income*(Number(f.percent)||0)/100:parseMoney(f.amount));
- if(total>income+1)return alert("Phân bổ quỹ đang vượt quá Income.");
- data.funds.forEach(f=>f.balance=f.mode==="percent"?income*(Number(f.percent)||0)/100:parseMoney(f.amount));
- save();renderAll();
+$("addExtra").onclick=()=>{
+ const k=selectedMonths.length===1?selectedMonths[0]:mkey(current.getFullYear(),current.getMonth()),name=$("extraName").value.trim(),amount=parseMoney($("extraAmount").value);
+ if(!name||amount<=0)return alert("Nhập tên khoản và số tiền.");
+ (data.extras[k]||(data.extras[k]=[])).push({name,amount});$("extraName").value="";$("extraAmount").value="";save();renderAll();
 };
 
+$("addFund").onclick=()=>{data.funds.push({name:"Quỹ mới",mode:"amount",percent:0,amount:0,balance:0});save();renderAll()};
+$("allocateFund").onclick=()=>{const income=Number(selectedData().sum)||0;let total=0;data.funds.forEach(f=>total+=f.mode==="percent"?income*(Number(f.percent)||0)/100:parseMoney(f.amount));if(total>income+1)return alert("Phân bổ quỹ đang vượt quá Income.");data.funds.forEach(f=>f.balance=f.mode==="percent"?income*(Number(f.percent)||0)/100:parseMoney(f.amount));save();renderAll()};
 
-if($("addExtra"))$("addExtra").onclick=()=>{
- const name=($("extraName").value||"").trim();
- const amount=parseMoney($("extraAmount").value);
- if(!name)return alert("Vui lòng nhập tên khoản.");
- if(!amount)return alert("Vui lòng nhập số tiền.");
- const k=selectedMonths.length===1?selectedMonths[0]:mkey(current.getFullYear(),current.getMonth());
- data.extras[k]=data.extras[k]||[];
- data.extras[k].push({name,amount});
- $("extraName").value="";
- $("extraAmount").value="";
- save();renderAll();
-};
+$("saveSalaryMonth").onclick=()=>{const k=mkey(current.getFullYear(),current.getMonth()),v=parseMoney($("salaryMinimalMonth").value);if(v>0)data.monthSalary[k]=v;else delete data.monthSalary[k];save();renderAll()};
+$("saveSalaryDefault").onclick=()=>{data.salary=parseMoney($("salaryMinimalDefault").value);const k=mkey(current.getFullYear(),current.getMonth());delete data.monthSalary[k];save();renderAll()};
 
 document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));$(b.dataset.page).classList.add("active");renderAll()});
+$("backupData").onclick=downloadBackup;
+$("restoreData").onchange=e=>{const f=e.target.files&&e.target.files[0];if(f)restoreBackup(f);e.target.value=""};
 
-if($("backupData"))$("backupData").onclick=downloadBackup;
-if($("restoreData"))$("restoreData").onchange=e=>{const f=e.target.files&&e.target.files[0];if(f)restoreBackup(f);e.target.value=""};
-
-
-
-
-function applyDarkMode(){
- const on=localStorage.getItem("cham_cong_dark")==="1";
- document.body.classList.toggle("dark",on);
- if($("darkToggle"))$("darkToggle").textContent=on?"☀":"☾";
-}
-function initDarkToggle(){
- const btn=$("darkToggle");
- if(!btn)return;
- applyDarkMode();
- btn.onclick=()=>{
-   const on=!document.body.classList.contains("dark");
-   document.body.classList.toggle("dark",on);
-   localStorage.setItem("cham_cong_dark",on?"1":"0");
-   btn.textContent=on?"☀":"☾";
- };
-}
-if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initDarkToggle);
-else initDarkToggle();
-
-cleanLegacyPhantomOT2();
-renderAll();bindAllMoneyInputs();
+function applyDarkMode(){const on=localStorage.getItem("cham_cong_dark")==="1";document.body.classList.toggle("dark",on);$("darkToggle").textContent=on?"☀":"☾"}
+function initDarkToggle(){const btn=$("darkToggle");applyDarkMode();btn.onclick=()=>{const on=!document.body.classList.contains("dark");document.body.classList.toggle("dark",on);localStorage.setItem("cham_cong_dark",on?"1":"0");btn.textContent=on?"☀":"☾"}}
 function initDarkToggleDrag(){
- const btn=$("darkToggle"); if(!btn)return;
- let dragging=false,moved=false,sx=0,sy=0,sl=0,st=0;
- const down=e=>{
-   const r=btn.getBoundingClientRect();
-   dragging=true;moved=false;sx=e.clientX;sy=e.clientY;sl=r.left;st=r.top;
-   btn.classList.add("dragging");
-   btn.setPointerCapture?.(e.pointerId);
-   e.preventDefault();
- };
- const move=e=>{
-   if(!dragging)return;
-   const dx=e.clientX-sx,dy=e.clientY-sy;
-   if(Math.abs(dx)+Math.abs(dy)>5)moved=true;
-   let l=sl+dx,t=st+dy;
-   l=Math.max(4,Math.min(window.innerWidth-btn.offsetWidth-4,l));
-   t=Math.max(4,Math.min(window.innerHeight-btn.offsetHeight-4,t));
-   btn.style.left=l+"px";btn.style.top=t+"px";
-   btn.style.right="auto";btn.style.bottom="auto";
-   e.preventDefault();
- };
- const up=e=>{
-   if(!dragging)return;
-   dragging=false;btn.classList.remove("dragging");
-   try{btn.releasePointerCapture?.(e.pointerId)}catch{}
-   localStorage.setItem("dark_toggle_pos",JSON.stringify({left:btn.offsetLeft,top:btn.offsetTop}));
- };
- btn.addEventListener("pointerdown",down);
- btn.addEventListener("pointermove",move);
- btn.addEventListener("pointerup",up);
- btn.addEventListener("pointercancel",up);
- btn.addEventListener("click",e=>{
-   if(moved){e.preventDefault();e.stopImmediatePropagation();moved=false;}
- });
- try{
-   const p=JSON.parse(localStorage.getItem("dark_toggle_pos")||"null");
-   if(p){btn.style.left=p.left+"px";btn.style.top=p.top+"px";btn.style.right="auto";btn.style.bottom="auto";}
- }catch{}
+ const btn=$("darkToggle");let dragging=false,moved=false,sx=0,sy=0,sl=0,st=0;
+ const down=e=>{const r=btn.getBoundingClientRect();dragging=true;moved=false;sx=e.clientX;sy=e.clientY;sl=r.left;st=r.top;btn.classList.add("dragging");btn.setPointerCapture?.(e.pointerId);e.preventDefault()};
+ const move=e=>{if(!dragging)return;const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>5)moved=true;let l=Math.max(4,Math.min(innerWidth-btn.offsetWidth-4,sl+dx)),t=Math.max(4,Math.min(innerHeight-btn.offsetHeight-4,st+dy));btn.style.left=l+"px";btn.style.top=t+"px";e.preventDefault()};
+ const up=e=>{if(!dragging)return;dragging=false;btn.classList.remove("dragging");try{btn.releasePointerCapture?.(e.pointerId)}catch{}localStorage.setItem("dark_toggle_pos",JSON.stringify({left:btn.offsetLeft,top:btn.offsetTop}))};
+ btn.addEventListener("pointerdown",down);btn.addEventListener("pointermove",move);btn.addEventListener("pointerup",up);btn.addEventListener("pointercancel",up);btn.addEventListener("click",e=>{if(moved){e.preventDefault();e.stopImmediatePropagation();moved=false}});
+ try{const p=JSON.parse(localStorage.getItem("dark_toggle_pos")||"null");if(p){btn.style.left=p.left+"px";btn.style.top=p.top+"px"}}catch{}
 }
 
-if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initDarkToggleDrag);else initDarkToggleDrag();
+renderAll();bindAllMoneyInputs();initDarkToggle();initDarkToggleDrag();
 </script>
-<button id="darkToggle" class="dark-toggle" aria-label="Đổi chế độ sáng tối">☾</button></body>
+<button id="darkToggle" class="dark-toggle" aria-label="Đổi chế độ sáng tối">☾</button>
+</body>
 </html>
